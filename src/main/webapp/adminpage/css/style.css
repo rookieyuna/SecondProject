@@ -1,0 +1,160 @@
+li {
+  list-style: none;
+}
+
+.bg-gradient-primary {
+  background: #fff;
+}
+
+.sidebar-dark .sidebar-brand {
+  color: #333;
+}
+
+.sidebar-dark .nav-item.active .nav-link {
+  color: #333;
+}
+
+.sidebar-dark .nav-item.active .nav-link i {
+  color: #333;
+}
+
+.sidebar-dark .nav-item .nav-link {
+  color: #333;
+}
+
+.sidebar-dark .nav-item .nav-link i {
+  color: #333;
+}
+
+.sidebar-dark .sidebar-heading {
+  color: #333;
+}
+
+.sidebar-dark .nav-item .nav-link[data-toggle=collapse]::after {
+  color: #333;
+}
+
+.sidebar-dark #sidebarToggle {
+  background-color: #fff;
+  border: 1px solid #333 !important;
+}
+
+.sidebar-dark #sidebarToggle::after {
+  color: #333;
+}
+
+.sidebar-dark #sidebarToggle:hover {
+  color: #c74f2b;
+  border: 1px solid #c74f2b !important;
+}
+
+.sidebar-dark #sidebarToggle:hover::after {
+  color: #c74f2b;
+}
+
+.sidebar-dark.toggled #sidebarToggle::after {
+  color: #333;
+}
+
+.sidebar-dark.toggled #sidebarToggle:hover {
+  color: #c74f2b;
+  border: 1px solid #c74f2b !important;
+}
+
+.sidebar-dark.toggled #sidebarToggle:hover::after {
+  color: #c74f2b;
+}
+
+.sidebar-dark .nav-item .nav-link:active, .sidebar-dark .nav-item .nav-link:focus, .sidebar-dark .nav-item .nav-link:hover {
+  color: #c74f2b;
+}
+
+.sidebar-dark .nav-item .nav-link:active i, .sidebar-dark .nav-item .nav-link:focus i, .sidebar-dark .nav-item .nav-link:hover i {
+  color: #c74f2b;
+}
+
+.sidebar-dark .nav-item .nav-link:active[data-toggle=collapse]::after, .sidebar-dark .nav-item .nav-link:focus[data-toggle=collapse]::after, .sidebar-dark .nav-item .nav-link:hover[data-toggle=collapse]::after {
+  color: #c74f2b;
+}
+
+.sidebar .sidebar-heading {
+  font-size: 1rem;
+}
+
+.welcome_text {
+  margin-top: 19px;
+}
+
+.upfile {
+  width: 50px;
+  color: #0fc73d;
+}
+
+table th {
+  text-align: center;
+}
+
+table th.boardCheckbox {
+  width: 50px;
+}
+
+table th.numbering {
+  width: 60px;
+}
+
+table th.boardtitle {
+  width: auto;
+}
+
+table th.boardphoto {
+  width: 50%;
+}
+
+table th.boardwriter {
+  width: 15%;
+}
+
+table th.boarddate {
+  width: 15%;
+}
+
+table td {
+  text-align: center;
+  vertical-align: middle !important;
+}
+
+table td:hover {
+  cursor: pointer;
+}
+
+table td.boardtitle {
+  text-align: left;
+}
+
+table td.boardphoto img {
+  display: block;
+  height: 100px;
+  border: 1px solid #d9d9d9;
+  text-align: center;
+}
+
+.board-btn-group01 {
+  margin-right: 20px;
+}
+
+.board-btn-group01 li {
+  list-style: none;
+  margin-left: 10px;
+}
+
+.container-fluid .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+  width: 110px;
+}
+
+.admin-table-bottom-tool .bootstrap-select > select.selectpicker {
+  width: auto !important;
+}
+
+.admin-table-bottom-tool .bootstrap-select > .dropdown-toggle.btn-light {
+  width: 90px;
+}
