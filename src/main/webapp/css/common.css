@@ -1,0 +1,14 @@
+body {margin:0; padding:0; font-family:dotum, "돋움"; font-size:12px; line-height:1.6em;color:#777777; text-align:center; background:url(../images/body_bg.gif) top repeat-x;}
+/* body {margin:0; padding:0; font-family:Gulim, "굴림"; font-size:75%; line-height:1.6em; color:#777777;} em 단위의 폰트 */
+*{margin:0; padding:0;}
+table, div { border-collapse:collapse; line-height:1.5em;font-size:12px;}
+select, textarea { border:1px solid #B7B6B6;background:#FFF; vertical-align:middle;}
+strong,b { font-weight:bold;}
+form,ul,ol,dl,table,div,h1,h2,h3,li,dt,dd {margin:0;padding:0;}
+img, fieldset, input { border:0; vertical-align:middle;}
+select, input, li img { vertical-align:middle;}
+ul, li, ol { list-style-type : none;}
+legend, hr, caption {display:none;}
+a {color:#666; text-decoration:none;}
+a:hover{text-decoration:underline}
+a:link, a:visited, a:active, a:hover {color:#666}
