@@ -32,12 +32,12 @@
 						</colgroup>
 						<tr>
 							<th><img src="../images/login_tit01.gif" alt="아이디" /></th>
-							<td><input type="text" name="" value="" class="login_input" /></td>
+							<td><input type="text" name="user_id" value="" class="login_input" /></td>
 							<td rowspan="2"><input type="image" src="../images/login_btn01.gif" alt="로그인" /></td>
 						</tr>
 						<tr>
 							<th><img src="../images/login_tit02.gif" alt="패스워드" /></th>
-							<td><input type="text" name="" value="" class="login_input" /></td>
+							<td><input type="text" name="user_pw" value="" class="login_input" /></td>
 						</tr>
 					</table>
 					<p>

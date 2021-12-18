@@ -3,14 +3,21 @@
 <div id="top" style="border:0px solid #000;"> 
 	<a href="../main/main.jsp"><img src="../images/logo.gif" alt="마포구립장애인 직업재활센터" id="top_logo" /></a>
 	<ul id="lnb">
-		<!-- 로그인전 -->
+	
+		<%
+		if (session.getAttribute("UserId")== null){//로그아웃 상태 
+		%>
 		<li><a href="../member/login.jsp"><img src="../images/lnb01.gif" alt="LOGIN" /></a></li>
 		<li><a href="../member/join01.jsp"><img src="../images/lnb02.gif" alt="JOIN" /></a></li>
-		
+		<%	
+		} else { //로그인 된 상태
+		%>
 		<!-- 로그인후 -->
-		<!-- <li><a href="../center/sub07.jsp"><img src="../images/lnb05.gif" alt="LOG OUT" /></a></li>
-		<li><a href="../center/sub07.jsp"><img src="../images/lnb06.gif" alt="MODIFY" /></a></li> -->
-		
+		<li><a href="../member/logout.jsp"><img src="../images/lnb05.gif" alt="LOG OUT" /></a></li>
+		<li><a href="../center/sub07.jsp"><img src="../images/lnb06.gif" alt="MODIFY" /></a></li>
+		<%	
+		}
+		%>
 		<li><a href="../member/sitemap.jsp"><img src="../images/lnb03.gif" alt="SITEMAP" /></a></li>
 		<li><a href="../center/sub06.jsp"><img src="../images/lnb04.gif" alt="CONTACT US" /></a></li>
 		
