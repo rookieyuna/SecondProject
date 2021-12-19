@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+.custom_board{
+    border:1px solid #e3e6f0;
+    border-radius: 4px;
+    padding:25px;
+    *{
+        font-size: 1rem;
+        color: #858796;
+    }
+    .boardTable{
+        width:100%;
+        border:1px solid #e3e6f0;
+        padding: 25px;
+
+        tr{
+            border-bottom: 1px solid #e3e6f0;
+            th,td{
+                padding:15px;
+                text-align: center;
+            }
+        }
+        
+
+        thead{
+            tr{
+                th{
+                    border-right: 1px solid #e3e6f0;
+                }
+            }
+        }
+        tbody{
+            tr{
+                td{
+                    border-right: 1px solid #e3e6f0;
+                }
+                &:hover{
+                    color: #858796;
+                    background-color: rgba(0,0,0,.075);
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+

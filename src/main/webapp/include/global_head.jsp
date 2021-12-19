@@ -14,5 +14,5 @@
 <link href="../bootstrap3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <script src="../bootstrap3.3.7/jquery/jquery-3.2.1.min.js"></script>				
 <script src="../bootstrap3.3.7/js/bootstrap.min.js"></script>
-
+<link href="../css/tableStyle.css" rel="stylesheet">
 </head>

@@ -1,5 +1,8 @@
 package membership;
 
+import java.util.List;
+import java.util.Map;
+
 import common.JDBConnect;
 /*
 DAO(Data Access Object)
@@ -34,6 +37,7 @@ public class MemberDAO extends JDBConnect {
 		}
 		return dto;
 	}
+
 }
 	
 /*	//이름으로 아이디/비번 찾기
