@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <div id="quick" style="position: absolute; top: 60px; right:0px;">
 <ul>
-	<li><a href="../market/sub01.jsp"><img src="../images/quick01.gif" alt="열린장터" border="0" /></a></li>
+	<li><a href="../market/sub01.do"><img src="../images/quick01.gif" alt="열린장터" border="0" /></a></li>
 	<li><a href="../center/sub05.jsp"><img src="../images/quick02.gif" alt="입소안내" border="0" /></a></li>
 	<li><a href="../volunteer/sub01.jsp"><img src="../images/quick03.gif" alt="후원,자원봉사" border="0" /></a></li>
 	<li><a href="../center/sub06.jsp"><img src="../images/quick04.gif" alt="오시는 길" border="0" /></a></li>

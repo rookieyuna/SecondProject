@@ -1,7 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
 
+<!-- 
+1. 사진 억지로 늘리니까 화질이............ 
+2. 돋보기 어뜨케 처리해
+3. 주문정보 뭐쓰라는거지
+4. 바로구매버튼, 장바구니버튼 나중에 구현되면 연결
+5. 
+ -->
 
  <body>
 	<center>
@@ -23,21 +37,23 @@
 				</div>
 				<div class="market_view_box">
 					<div class="market_left">
-						<img src="../images/market/p_img.jpg" />
+					
+					
+						<img src="../images/market/${boardList.product_sfile }" width="300px" height="200px"/>
 						<p class="plus_btn"><a href=""><img src="../images/market/plus_btn.gif" /></a></p>
 					</div>
 					<div class="market_right">
-						<p class="m_title">녹차 쌀 무스케잌
-						<p>- 녹차 쌀 무스케잌</p>
+						<p class="m_title">${ boardList.product_name }
+						<p>- ${ boardList.product_info }</p>
 						<ul class="m_list">
 							<li>
 								<dl>
 									<dt>가격</dt>
-									<dd class="p_style">30,000</dd>
+									<dd class="p_style">${ boardList.price}</dd>
 								</dl>
 								<dl>
 									<dt>적립금</dt>
-									<dd>300</dd>
+									<dd>${ boardList.milage }</dd>
 								</dl>
 								<dl>
 									<dt>수량</dt>
@@ -53,7 +69,7 @@
 						<p class="btn_box"><a href=""><img src="../images/market/m_btn01.gif" alt="바로구매" /></a>&nbsp;&nbsp;<a href="basket.jsp"><img src="../images/market/m_btn02.gif" alt="장바구니" /></a></p>
 					</div>
 				</div>
-				<img src="../images/market/cake_img.JPG" />
+				<img src="../images/market/${boardList.product_sfile }" width="640px" height="426px"/>
 
 			</div>
 		</div>
