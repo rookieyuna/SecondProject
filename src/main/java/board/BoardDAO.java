@@ -16,7 +16,7 @@ public class BoardDAO extends JDBConnect{
 	public int selectCount(Map<String, Object> map, String cate) {
 		String category = cate;
 		int totalCount = 0;
-		System.out.println("category : " + category);
+
 		String query = " SELECT COUNT(*) FROM board ";
 			if(category == "notB") {
 				query += " WHERE CATEGORY LIKE 'notB' ";  
@@ -33,7 +33,7 @@ public class BoardDAO extends JDBConnect{
 			}else if(category == "guardB") {
 				query += " WHERE CATEGORY LIKE 'guardB' ";
 			}else { }
-			System.out.println(query);
+
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
@@ -54,20 +54,20 @@ public class BoardDAO extends JDBConnect{
 		try {
 			String query = " SELECT * FROM board ";
 				if(category == "notB") {
-				  
+					query += " WHERE CATEGORY LIKE 'notB' ";  
 				}else if(category == "proB") {
-				  
+					query += " WHERE CATEGORY LIKE 'proB' ";
 				}else if(category == "freeB") {
-				   query += " where category like 'freeB' ";
+					query += " WHERE CATEGORY LIKE 'freeB' ";
 				}else if(category == "photoB") {
-				   
+					query += " WHERE CATEGORY LIKE 'photoB' ";
 				}else if(category == "infoB") {
-				   
+					query += " WHERE CATEGORY LIKE 'infoB' ";
 				}else if(category == "stafB") {
-				  
+					query += " WHERE CATEGORY LIKE 'stafB' ";
 				}else if(category == "guardB") {
-				   
-				}
+					query += " WHERE CATEGORY LIKE 'guardB' ";
+				}else { }
 				query += " ORDER BY num DESC ";
 				
 			stmt = con.createStatement();
