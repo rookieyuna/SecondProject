@@ -15,9 +15,6 @@
 	String cate = request.getParameter("cate");	
 	String cateUrl = request.getRequestURI() + "?cate=" + cate;
 	
-	System.out.println(cate);
-	System.out.println(cateUrl);
-	
 	BoardDAO dao = new BoardDAO();
 	Map<String, Object> param = new HashMap<String, Object>();
 	
@@ -27,6 +24,7 @@
 	if(searchWord != null){
 		param.put("searchField", searchField);
 		param.put("searchWord", searchWord);
+		param.put("cate", cate);
 	}
 	
 	int totalCount = dao.selectCount(param, cate);
@@ -36,8 +34,6 @@
 	int pageNum = 1;
 	
 	String pageTemp = request.getParameter("pageNum");
-	System.out.println("pageNum : " + pageNum);
-	System.out.println("pageTemp : " + pageTemp);
 	
 	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
 	
@@ -97,7 +93,7 @@
 									for(BoardDTO dto : boardLists){
 										virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
 								%>
-								<tr onclick="location.href='sub03_view.jsp?num=<%= dto.getNum() %>'">
+								<tr onclick="location.href='board_view.jsp?cate=freeB&num=<%= dto.getNum() %>'">
 									<td><%= virtualNum %></td>
 									<td><%= dto.getTitle() %></td>
 									<td><%= dto.getId() %></td>
@@ -114,18 +110,19 @@
 						<div class="boardTool">
 							<div class="tool_Paging">
 								<ul>
-									<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, cateUrl) %>
+									<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, cateUrl, searchField, searchWord) %>
 								</ul>
 							</div>
 							
 							<div class="tool_edit">
 								<ul>
-									<li><button type="button" class="btn btn-primary" onclick="location.href='sub03_write.jsp'">글쓰기</button></li>
+									<li><button type="button" class="btn btn-primary" onclick="location.href='board_write.jsp?cate=<%= cate %>'">글쓰기</button></li>
 								</ul>
 							</div>
 							
 							<div class="tool_Search">
-								<form action="" method="get">  
+								<form method="get" action="../space/board_list.jsp?cate=freeB">  
+									<input type="hidden" name="cate" value="<%= cate %>"/>
 									<select name="searchField">
 										<option value="title">제목</option>
 										<option value="id">작성자</option>

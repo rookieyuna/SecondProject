@@ -4,7 +4,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
 <%
-	pageContext.setAttribute("cate", "freeB");
+	String cate = request.getParameter("cate");	
 
     String num = request.getParameter("num");
     BoardDAO dao = new BoardDAO();
@@ -69,7 +69,7 @@
 		<th class="text-center" 
 			style="vertical-align:middle;">제목</th>
 		<td colspan="3">
-			<%= dto.getTitle() %>.
+			<%= dto.getTitle() %>
 		</td>
 	</tr>
 	<tr>
@@ -94,7 +94,7 @@
 	<button type="button" class="btn btn-primary">수정하기</button>
 	<button type="button" class="btn btn-success">삭제하기</button>	
 	<button type="button" class="btn btn-warning" 
-		onclick="location.href='sub03.jsp';">리스트보기</button>
+		onclick="location.href='board_list.jsp?cate=<%= cate %>';">리스트보기</button>
 </div>
 </form> 
 

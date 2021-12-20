@@ -6,10 +6,11 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
 <% 
-	request.setAttribute("cate", "freeB");
-
 	String UserId = session.getAttribute("UserId").toString();
 	String UserPwd = session.getAttribute("UserPwd").toString();
+	
+	String cate = request.getParameter("cate");
+	
 	MemberDAO mDao = new MemberDAO();
 	MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
 %>
@@ -111,11 +112,11 @@ function validateForm(form){
 
 <div class="row text-center" style="">
 	<!-- 각종 버튼 부분 -->
-	
+	<input type="hidden" name="cate" value="<%= cate %>"/>
 	<button type="submit" class="btn btn-danger">전송하기</button>
 	<button type="reset" class="btn">다시작성</button>
 	<button type="button" class="btn btn-warning" 
-		onclick="location.href='sub03.jsp';">리스트보기</button>
+		onclick="location.href='board_list.jsp?cate=<%= cate %>';">리스트보기</button>
 </div>
 </form> 
 

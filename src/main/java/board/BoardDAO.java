@@ -18,7 +18,7 @@ public class BoardDAO extends JDBConnect{
 	public int selectCount(Map<String, Object> map, String cate) {
 		String category = cate;
 		int totalCount = 0;
-		System.out.println("category : " + category);
+
 		String query = " SELECT COUNT(*) FROM (select * from board where category like";
 			
 			query += " '" + category + "' )";
@@ -29,7 +29,6 @@ public class BoardDAO extends JDBConnect{
 					+ " LIKE '%" + map.get("searchWord") + "%' ";
 			}
 			
-			System.out.println("개수 : " + query);
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
@@ -69,7 +68,6 @@ public class BoardDAO extends JDBConnect{
 						+ " ) "
 						+ " WHERE rNum BETWEEN ? AND ?";
 				
-				System.out.println("목록 : " + query);
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, map.get("start").toString());
 			psmt.setString(2, map.get("end").toString());
@@ -153,17 +151,14 @@ public class BoardDAO extends JDBConnect{
 	
 	// 게시판 - 글쓰기 기능
 	public int insertWrite(BoardDTO dto) {
-		// 입력결과 확인용 변수
 		int result=0;
 		try {
-			// 인파라메터가 있는 쿼리문 작성(동적쿼리문)
 			String query = "INSERT INTO board ( "
 					+ " num, id, pass, title, content, visitcount, category) "
 					+ " VALUES ( "
 					+ " seq_board_num.NEXTVAL, ?, ?, ?, ?, 0, ?)";
-			// 동적쿼리문 실행을 위한 prepareStatement 객체 생성
+
 			psmt = con.prepareStatement(query);
-			// 순서대로 인파라미터 설정
 			System.out.println("아이디 : "+ dto.getId());
 			System.out.println("비밀번호 : "+ dto.getPass());
 			System.out.println("제목 : "+ dto.getTitle());
@@ -175,7 +170,7 @@ public class BoardDAO extends JDBConnect{
 			psmt.setString(3, dto.getTitle());
 			psmt.setString(4, dto.getContent());
 			psmt.setString(5, dto.getCategory());
-			// 쿼리문 실행 : 입력에 성공되면 1반환 / 실패시 0반환.
+
 			result = psmt.executeUpdate();
 		} catch (Exception e) {
 			System.out.println("게시물 입력 중 예외 발생");
