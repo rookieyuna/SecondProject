@@ -11,35 +11,8 @@ DAO(Data Access Object)
 //DB연결을 위한 클래스 상속
 public class MemberDAO extends JDBConnect {
 
-	//로그인 메서드
-	public MemberDTO getMemberDTO(String uid, String upass) {
-		MemberDTO dto = new MemberDTO();
-		//회원로그인을 위한 쿼리문 작성
-		String query = "SELECT * FROM member WHERE id=? AND pass=?";
-		
-		try {
-			psmt = con.prepareStatement(query);
-			//쿼리문에 사용자가 입력한 아이디, 패스워드를 설정
-			psmt.setString(1, uid);
-			psmt.setString(2, upass);
-			//쿼리 실행
-			rs = psmt.executeQuery();
-			
-			//회원정보가 존재한다면 DTO객체에 정보를 저장
-			if(rs.next()) {
-				dto.setId(rs.getString(1));
-				dto.setPass(rs.getString(2));
-				dto.setName(rs.getString(3));
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		return dto;
-	}
-	
-	
 	// BOK ADD(21.12.20) 전체 데이터를 가져오기위한 기능
+	//로그인 메서드 (21.12.20) JYA 한개로 통일
 	public MemberDTO allMemberDTO(String uid, String upass) {
 		MemberDTO dto = new MemberDTO();
 		//회원로그인을 위한 쿼리문 작성
