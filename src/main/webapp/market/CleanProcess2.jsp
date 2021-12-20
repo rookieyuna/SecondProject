@@ -12,16 +12,16 @@ emailInfo.put("from", request.getParameter("from")); 			//보내는 사람
 emailInfo.put("to", request.getParameter("to")); 				//받는 사람
 emailInfo.put("subject", request.getParameter("subject")); 		//제목
 
-String content = request.getParameter("name") + "연락처 :"
+String content = "이름 :"+request.getParameter("name") + "연락처 :"
 				+request.getParameter("cel1")
 				+request.getParameter("cel2") + request.getParameter("cel3")
-				+"휴대폰 "+ request.getParameter("eCel1") + request.getParameter("eCel2") + request.getParameter("eCel3")
-				+"이메일 "+ request.getParameter("email1") + request.getParameter("email2") 
-				+"청소종류 " + request.getParameter("clean_type")
+				+"휴대폰 :"+ request.getParameter("eCel1") + request.getParameter("eCel2") + request.getParameter("eCel3")
+				+"이메일 :"+ request.getParameter("email1") + request.getParameter("email2") 
+				+"청소종류 :" + request.getParameter("clean_type")
 				+"평수 :" +request.getParameter("area")
-				+"희망 날짜 " +request.getParameter("date")
-				+"접수 종류 " +request.getParameter("type")
-				+"기타 " +request.getParameter("others");
+				+"희망 날짜 :" +request.getParameter("date")
+				+"접수 종류 :" +request.getParameter("type")
+				+"기타 :" +request.getParameter("others");
 
 
 //내용은 메일 포멧에 따라 다르게 처리
@@ -31,10 +31,10 @@ String format = request.getParameter("format"); //메일 포멧(text 혹은 html
 
 
 if(format.equals("text")){
-	out.print("text포맷");
+	/* out.print("text포맷"); */
 	//텍스트 포맷일 경우 그대로 저장
-	/* emailInfo.put("content", content);
-	emailInfo.put("format", "text/plain;charset=UTF-8"); */
+	emailInfo.put("content", content);
+	emailInfo.put("format", "text/plain;charset=UTF-8"); 
 }
 else if(format.equals("html")){
 	//HTML태그일 경우 HTML 형태로 변환하여 저장
@@ -67,6 +67,7 @@ try{
 	NaverSMTP smtpServer = new NaverSMTP(); //메일 전송 클래스 생성
 	smtpServer.emailSending(emailInfo); //전송
 	out.print("이메일 전송 성공");
+	
 }
 catch(Exception e){
 	out.print("이메일 전송 실패");

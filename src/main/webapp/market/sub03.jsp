@@ -4,6 +4,13 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
+
+<!-- 
+1. 로그인이 확인되면 폼 작성할 수 있게
+2. 주소가 아직 구현잉 안댐 ㅠ
+3. alert창이 안뜸
+ -->
 <script>
 function validateForm(form) {
 	if(!form.user_name.value){
@@ -97,7 +104,7 @@ $(function() {
 				</div>
 				
 				
-				<form name="claenFrm" method="post" onsubmit="return validateForm(this);">
+				<form name="claenFrm" method="post" onsubmit="return validateForm(this);" action="CleanProcess2.jsp">
 					<input type="hidden" name="to" value="secondpj@naver.com" />
 					<input type="hidden" name="format" value="text" />	
 					<input type="hidden" name="subject" value="블루클리닝" />
@@ -200,8 +207,14 @@ $(function() {
 						</tr>
 					</tbody>
 				</table>
-				</form>
-				<p style="text-align:center; margin-bottom:40px"><a href="CleanProcess2.jsp"><img src="../images/btn01.gif" /></a>&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
+				
+				<p style="text-align:center; margin-bottom:40px">
+					<!-- <a href="CleanProcess2.jsp"><img src="../images/btn01.gif" /></a> -->
+					<input type="image" src="../images/btn01.gif" />
+					&nbsp;&nbsp;
+					<a href="#"><img src="../images/btn02.gif" /></a>
+				</p>
+			</form>
 			</div>
 		</div>
 		<%@ include file="../include/quick.jsp" %>
