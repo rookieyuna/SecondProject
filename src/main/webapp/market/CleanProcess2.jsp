@@ -31,7 +31,7 @@ dto.setDate(date);
 dto.setSubmit_type(submit_type);
 dto.setClean_type(clean_type);
 dto.setClean_area(clean_area);
-
+dto.setOthers(others);
 
 marketApplicationDAO dao = new marketApplicationDAO();
  

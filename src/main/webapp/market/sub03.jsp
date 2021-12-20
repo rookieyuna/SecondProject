@@ -9,8 +9,8 @@
 <!-- 
 1. 로그인이 확인되면 폼 작성할 수 있게
 2. 주소가 아직 구현잉 안댐 ㅠ
-4. 데이터에 저장 (관리자모드에서 볼수있게)
 5. 이메일 보내는거 디자인? 레이아웃
+6. 관리자모드에서 테이블 select하기
  -->
  <%-- <%
 	if (session.getAttribute("UserId") == null) {
@@ -18,13 +18,11 @@
 		response.sendRedirect("../main/main.jsp");
 	}
 	
-	&& (request.getAttribute("InsertSuccess") != null)
  %> --%>
 <script>
 
 $(function(){
 	
-	alert("asdf");
 	<%
 	if((request.getAttribute("EmailSuccess") != null) && (request.getAttribute("InsertSuccess") != null) ){
 	 %> 		

@@ -17,9 +17,9 @@ public class marketApplicationDAO extends DBConnPool{
         try {
             String query = "INSERT INTO marketApplication ( "
                          + " idx, name, address, phone1, phone2, email, date1, submit_type, app_type"
-                         + ", clean_type, clean_area) "
+                         + ", clean_type, clean_area, others) "
                          + " VALUES ( "
-                         + " seq_board_num.NEXTVAL,?,?,?,?,?,?,?,'cleaning',?,?)";
+                         + " seq_board_num.NEXTVAL,?,?,?,?,?,?,?,'cleaning',?,?,?)";
             psmt = con.prepareStatement(query);
             psmt.setString(1, dto.getName());
             psmt.setString(2, dto.getAddress());
@@ -30,6 +30,7 @@ public class marketApplicationDAO extends DBConnPool{
             psmt.setString(7, dto.getSubmit_type());
             psmt.setString(8, dto.getClean_type());
             psmt.setString(9, dto.getClean_area());
+            psmt.setString(10, dto.getOthers());
             result = psmt.executeUpdate();
         }
         catch (Exception e) {
