@@ -35,7 +35,7 @@ public class NaverSMTP
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
 				//네이버 아이디와 비밀번호
-				return new PasswordAuthentication("secondpj", "kosmo99");
+				return new PasswordAuthentication("secondpj", "kosmo99!");
 			}
 		};
 	}
