@@ -149,7 +149,6 @@ $(function() {
 				<form name="expFrm" method="post" onsubmit="return validateForm(this);" action="ExProcess.jsp">
 					<!-- 숨김처리하여 폼값으로 전송할 메일 수신자(관리자 메일), 출력방식, 메일 제목 -->
 					<input type="hidden" name="to" value="secondpj@naver.com" />
-					<!-- <input type="hidden" name="format" value="html" /> -->	
 					<input type="hidden" name="subject" value="체험 학습 신청" />
 				<table class="con_table" style="width:100%; padding:0; border-spacing:0; border-collapse: separate;">
 					<colgroup>
@@ -222,7 +221,6 @@ $(function() {
 			                        <option value="hanmail.net">hanmail.net</option>
 			                        <option value="직접입력">직접입력</option>
 	                    		</select>
-	                    		<input type="hidden" name="from" value="secondpj@naver.com"/>
 							</td>
 						</tr>
 						<tr>

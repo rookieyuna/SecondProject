@@ -18,6 +18,8 @@ public class marketApplicationDTO {
 	private String ex_typeofdisability;
 	private String ex_helpingtool;
 	private String ex_nameoftool;
+	private String ex_type;
+	
 	
 	
 	public String getIdx() {
@@ -117,6 +119,13 @@ public class marketApplicationDTO {
 	public void setEx_nameoftool(String ex_nameoftool) {
 		this.ex_nameoftool = ex_nameoftool;
 	}
-	
+	public String getEx_type()
+	{
+		return ex_type;
+	}
+	public void setEx_type(String ex_type)
+	{
+		this.ex_type = ex_type;
+	}
 	
 }

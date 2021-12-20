@@ -1,3 +1,5 @@
+<%@page import="market.marketApplicationDAO"%>
+<%@page import="market.marketApplicationDTO"%>
 <%@page import="utils.NaverSMTP"%>
 <%@page import="java.io.FileReader"%>
 <%@page import="java.io.BufferedReader"%>
@@ -6,12 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-//폼값(이메일 내용) 저장
-Map<String, String> emailInfo = new HashMap<String, String>();
-emailInfo.put("from", request.getParameter("from")); 			//보내는 사람
-emailInfo.put("to", request.getParameter("to")); 				//받는 사람
-emailInfo.put("subject", request.getParameter("subject")); 		//제목
-
+//폼값(이메일 내용) 가져오기
 String name = request.getParameter("name"); 					//고객명/회사명
 String disabled = request.getParameter("disabled"); 			//장애유무
 String typeOfDisability = request.getParameter("typeOfDisability"); //주요장애유형
@@ -27,6 +24,29 @@ String date = request.getParameter("date"); 					//체험 희망 날짜
 String type = request.getParameter("type"); 					//접수 종류
 String others = request.getParameter("others"); 				//기타 사항
 
+//폼값 DTO 속성 저장
+marketApplicationDTO dto = new marketApplicationDTO();
+dto.setName(name);
+dto.setEx_disabled(disabled);
+dto.setEx_typeofdisability(typeOfDisability);
+dto.setEx_helpingtool(helpingTool);
+dto.setEx_nameoftool(nameOfTool);
+dto.setPhone1(cel);
+dto.setPhone2(eCel);
+dto.setEmail(email);
+dto.setEx_type(exp_sel);
+dto.setDate(date);
+dto.setSubmit_type(type);
+dto.setOthers(others);
+
+//DAO 객체에 저장
+marketApplicationDAO dao = new marketApplicationDAO();
+int iResult = dao.insertClean(dto); 
+dao.close();
+
+if (iResult == 1) {
+	request.setAttribute("InsertSuccess", "데이터 입력 성공"); 
+}
 
 
 String htmlContent = ""; //HTML용으로 변환된 내용을 담을 변수
@@ -62,9 +82,15 @@ htmlContent = htmlContent.replace("__type__", type);
 htmlContent = htmlContent.replace("__others__", others);
 
 
-//변환된 내용을 저장
-emailInfo.put("content", htmlContent);
+//제목, 발신/수신메일과 변환된 메일 내용을 저장
+Map<String, String> emailInfo = new HashMap<String, String>();
+
+emailInfo.put("subject", request.getParameter("subject")); 	//제목
+emailInfo.put("to", request.getParameter("to")); 			//받는 사람
+
+emailInfo.put("content", htmlContent);						//내용
 emailInfo.put("format", "text/html;charset=UTF-8");
+emailInfo.put("from", "secondpj@naver.com");				//보내는 사람
 
 try{
 	NaverSMTP smtpServer = new NaverSMTP(); //메일 전송 클래스 생성
