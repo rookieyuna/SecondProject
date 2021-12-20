@@ -1,4 +1,6 @@
 <%@page import="market.marketApplicationDTO"%>
+<%@page import="market.marketApplicationDAO"%>
+
 <%@page import="utils.NaverSMTP"%>
 <%@page import="java.io.FileReader"%>
 <%@page import="java.io.BufferedReader"%>
@@ -20,13 +22,25 @@ String others = request.getParameter("others");
 
 
 marketApplicationDTO dto = new marketApplicationDTO();
-dto.set
+dto.setName(name);
+dto.setAddress(address);
+dto.setPhone1(phone1);
+dto.setPhone2(phone2);
+dto.setEmail(email);
+dto.setDate(date); 
+dto.setSubmit_type(submit_type);
+dto.setClean_type(clean_type);
+dto.setClean_area(clean_area);
 
-marketApplicationDAO dao = new marketApplicationDAO(application);
 
-int iResult = dao.insertClean(dto);
+marketApplicationDAO dao = new marketApplicationDAO();
+ 
+int iResult = dao.insertClean(dto); 
+dao.close();
 
-
+if (iResult == 1) {
+	request.setAttribute("InsertSuccess", "데이터 입력 성공"); 
+}
 
 
 //폼값(이메일 내용) 저장
@@ -89,7 +103,9 @@ else if(format.equals("html")){
 try{
 	NaverSMTP smtpServer = new NaverSMTP(); //메일 전송 클래스 생성
 	smtpServer.emailSending(emailInfo); //전송
-	out.print("이메일 전송 성공");
+	/* out.print("이메일 전송 성공");  */
+	 request.setAttribute("EmailSuccess", "이메일 전송 성공"); 
+	 request.getRequestDispatcher("sub03.jsp").forward(request, response);
 	
 }
 catch(Exception e){

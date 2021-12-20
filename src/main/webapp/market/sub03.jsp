@@ -17,8 +17,24 @@
 		alert("로그인 하세요");
 		response.sendRedirect("../main/main.jsp");
 	}
+	
+	&& (request.getAttribute("InsertSuccess") != null)
  %> --%>
 <script>
+
+$(function(){
+	
+	alert("asdf");
+	<%
+	if((request.getAttribute("EmailSuccess") != null) && (request.getAttribute("InsertSuccess") != null) ){
+	 %> 		
+		alert("신청 완료");
+	
+	<%
+	}
+	%>
+});
+
 function validateForm(form) {
 	
 	if(form.name.value ==""){
@@ -92,8 +108,13 @@ $(function() {
 	$('#date').datepicker("option", "dateFormat", "yy-mm-dd");
 });
 
+
+
+
+
 </script>
  <body>
+
 	<!-- <center> -->
 	<div id="wrap">
 		<%@ include file="../include/top.jsp" %>

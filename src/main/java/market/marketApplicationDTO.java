@@ -8,7 +8,7 @@ public class marketApplicationDTO {
 	private String phone1;
 	private String phone2;
 	private String email;
-	private java.sql.Date date;
+	private String date1;
 	private String submit_type;
 	private String others;
 	private String app_type;
@@ -56,11 +56,12 @@ public class marketApplicationDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public java.sql.Date getDate() {
-		return date;
+	
+	public String getDate() {
+		return date1;
 	}
-	public void setDate(java.sql.Date date) {
-		this.date = date;
+	public void setDate(String date) {
+		this.date1 = date;
 	}
 	public String getSubmit_type() {
 		return submit_type;
