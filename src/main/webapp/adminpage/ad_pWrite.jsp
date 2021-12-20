@@ -5,15 +5,15 @@
 <%@page import="java.util.Calendar"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
     
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
@@ -33,81 +33,20 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-   
-   
-<script type="text/javascript">
-	var today = new Date();
-	
-	function buildCalendar(){
-		var row = null
-		var cnt = 0;
-		var calendarTable = document.getElementById("calendar");
-		var calendarTableTitle = document.getElementById("calendarTitle");
-		calendarTableTitle.innerHTML = today.getFullYear()+"년"+(today.getMonth()+1)+"월";
-		 
-		var firstDate = new Date(today.getFullYear(), today.getMonth(), 1);
-		var lastDate = new Date(today.getFullYear(), today.getMonth()+1, 0);
-		while(calendarTable.rows.length > 2){
-		 	calendarTable.deleteRow(calendarTable.rows.length -1);
-	  	}
-		
-		/* 달의 첫 날 빈셀로 만들기 */
-		row = calendarTable.insertRow();
-		
-		for(i = 0; i < firstDate.getDay(); i++){
-		 	cell = row.insertCell();
-		 	cnt += 1;
-		}
-		
-		/* 요일 채워넣기 */
-		for(i = 1; i <= lastDate.getDate(); i++){
-			cell = row.insertCell();
-			cnt += 1;
-		
-		  	cell.setAttribute('id', i);
-			cell.innerHTML = i;
-			cell.align = "center";
-		
-		 	cell.onclick = function(){
-			  	clickedYear = today.getFullYear();
-			  	clickedMonth = ( 1 + today.getMonth() );
-			  	clickedDate = this.getAttribute('id');
-			
-			  	clickedDate = clickedDate >= 10 ? clickedDate : '0' + clickedDate;
-			  	clickedMonth = clickedMonth >= 10 ? clickedMonth : '0' + clickedMonth;
-			  	clickedYMD = clickedYear + "-" + clickedMonth + "-" + clickedDate;
-			
-			  	opener.document.getElementById("date").value = clickedYMD;
-			  	self.close();
-			}
-		
-			if (cnt % 7 == 1) {
-			   cell.innerHTML = "<font color=#F79DC2>" + i + "</font>";
-			}
-		
-			if (cnt % 7 == 0){
-			   cell.innerHTML = "<font color=skyblue>" + i + "</font>";
-			   row = calendar.insertRow();
-			}
-		}
-		
-		if(cnt % 7 != 0){
-			for(i = 0; i < 7 - (cnt % 7); i++){
-				cell = row.insertCell();
-			}
-		}
-	}
-	/* 이전달 */
-	function prevCalendar(){
-		today = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
-		buildCalendar();
-	}
-	/* 다음달 */
-	function nextCalendar(){
-		today = new Date(today.getFullYear(), today.getMonth()+1, today.getDate());
-		buildCalendar();
-	}
-</script>
+    
+    <!-- datepicker CDN과 함수 -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script>
+    $(function() {
+        $("#datepicker").datepicker();
+        //대한민국에서 사용하는 날짜포맷으로 옵션 변경
+        $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
+    });
+    </script>
+    
 </head>
 
 <body id="page-top">
@@ -416,52 +355,43 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="calendar" align="center" 
-                                	style="width: 770px; height: 400px;">
-									<tr>
-										<td align="center"><label onclick="prevCalendar()"> ◀ </label></td>
-										<td colspan="5" align="center" id="calendarTitle">yyyy년 m월</td>
-										<td align="center"><label onclick="nextCalendar()"> ▶ </label></td>
+                                <table class="table table-bordered table-hover">
+                                    
+                                    <!--프로그램 일정 작성하기 폼-->
+                                    <tr>
+										<td>작성자</td>
+										<td><input type="text" name="id"  size="10" style="width: 90%;"/></td>
 									</tr>
 									<tr>
-										<td align="center"><font color ="#F79DC2">일</td>
-										<td align="center">월</td>
-										<td align="center">화</td>
-										<td align="center">수</td>
-										<td align="center">목</td>
-										<td align="center">금</td>
-										<td align="center"><font color ="skyblue">토</td>
+										<td>제목</td>
+										<td><input type="text" name="title" size="10" style="width: 90%;"/></td>
 									</tr>
-									<script type="text/javascript">buildCalendar();</script>
-								</table>
+									<tr>
+										<td>작성일</td>
+										<td><input type="text" id="datepicker" size="10"></td>
+									</tr>
+									<tr>
+										<td>내용</td>
+										<td>
+											<textarea name="content" style="width:90%; height: 100px;"></textarea>
+										</td>
+									</tr>
+									</table>
+									 <!-- 각종버튼 -->
+								    <div class="row mb-3">
+								        <div class="col d-flex justify-content-end">
+								            <button type="button" class="btn btn-warning" onclick="location.href='ad_program.jsp';">목록보기</button>
+								            <button type="submit" class="btn btn-danger">전송하기</button>
+								            <button type="reset" class="btn btn-dark">다시쓰기</button>
+								        </div>
+								    </div>
+                                   
+									          
+                                </table>
                                 <br />
-                                <!-- 검색 -->
-                                <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
-                                    <select class="selectpicker admin-search">
-                                        <option>제목</option>
-                                        <option>작성자</option>
-                                        <option>작성일</option>
-                                      </select>
-                                      
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                                
                             </div>
                         </div>
-                    </div>
-
-                    <!-- 버튼 -->
-                    <div class="board-btn-group01">
-                        <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_pWrite.jsp';" >등록</button></li>
-                        </ul>
                     </div>
                 </div>
                 <!-- /.container-fluid -->
