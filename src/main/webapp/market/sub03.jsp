@@ -9,16 +9,24 @@
 <!-- 
 1. 로그인이 확인되면 폼 작성할 수 있게
 2. 주소가 아직 구현잉 안댐 ㅠ
-3. alert창이 안뜸
+4. 데이터에 저장 (관리자모드에서 볼수있게)
+5. 이메일 보내는거 디자인? 레이아웃
  -->
+ <%-- <%
+	if (session.getAttribute("UserId") == null) {
+		alert("로그인 하세요");
+		response.sendRedirect("../main/main.jsp");
+	}
+ %> --%>
 <script>
 function validateForm(form) {
-	if(!form.user_name.value){
+	
+	if(form.name.value ==""){
 		alert("고객명 또는 회사명을 입력하세요.");
 		form.name.focus();
 		return false;
 	}
-	if(!form.addr1.value){
+	if(form.addr1.value ==""){
 		alert("주소를 입력하세요.");
 		form.addr1.focus();
 		return false;
@@ -104,7 +112,7 @@ $(function() {
 				</div>
 				
 				
-				<form name="claenFrm" method="post" onsubmit="return validateForm(this);" action="CleanProcess2.jsp">
+				<form name="cleanFrm" method="post" onsubmit="return validateForm(this);"  action="CleanProcess2.jsp">
 					<input type="hidden" name="to" value="secondpj@naver.com" />
 					<input type="hidden" name="format" value="text" />	
 					<input type="hidden" name="subject" value="블루클리닝" />
@@ -117,7 +125,7 @@ $(function() {
 					<tbody>
 						<tr>
 							<th>고객명/회사명</th>
-							<td style="text-align:left;"><input type="text" name="name"  value="" class="join_input" /></td>
+							<td style="text-align:left;"><input type="text" name="name"   class="join_input" /></td>
 						</tr>
 						<tr>
 							<th>청소할 곳 주소</th>

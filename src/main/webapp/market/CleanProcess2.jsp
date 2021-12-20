@@ -1,3 +1,4 @@
+<%@page import="market.marketApplicationDTO"%>
 <%@page import="utils.NaverSMTP"%>
 <%@page import="java.io.FileReader"%>
 <%@page import="java.io.BufferedReader"%>
@@ -6,6 +7,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+String name = request.getParameter("name");
+String address = request.getParameter("zip1");
+String phone1 = request.getParameter("cel1")+request.getParameter("cel2") + request.getParameter("cel3") ;
+String phone2 = request.getParameter("eCel1") + request.getParameter("eCel2") + request.getParameter("eCel3");
+String email =  request.getParameter("email1") + request.getParameter("email2");
+String date = request.getParameter("date");
+String submit_type = request.getParameter("type");
+String clean_type = request.getParameter("clean_type");
+String clean_area = request.getParameter("area");
+String others = request.getParameter("others");
+
+
+marketApplicationDTO dto = new marketApplicationDTO();
+dto.set
+
+marketApplicationDAO dao = new marketApplicationDAO(application);
+
+int iResult = dao.insertClean(dto);
+
+
+
+
 //폼값(이메일 내용) 저장
 Map<String, String> emailInfo = new HashMap<String, String>();
 emailInfo.put("from", request.getParameter("from")); 			//보내는 사람
@@ -73,4 +96,11 @@ catch(Exception e){
 	out.print("이메일 전송 실패");
 	e.printStackTrace();
 }
+
+
+
+
+
+
+
 %>
