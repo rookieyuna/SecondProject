@@ -1,5 +1,7 @@
 @charset "utf-8";
-
+li{
+    list-style: none;
+}
 .custom_board{
     border:1px solid #e3e6f0;
     border-radius: 4px;
@@ -39,6 +41,24 @@
                     background-color: rgba(0,0,0,.075);
                     cursor: pointer;
                 }
+            }
+        }
+    }
+
+    .boardTool{
+        .tool_Paging{
+            ul{
+                display: flex;
+                justify-content: center;
+                li{
+                    margin: 0 5px;
+                }
+            }
+        }
+        .tool_Search{
+            form{
+                display: flex;
+                justify-content: center;
             }
         }
     }

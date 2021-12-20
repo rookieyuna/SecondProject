@@ -1,3 +1,7 @@
+li {
+  list-style: none;
+}
+
 .custom_board {
   border: 1px solid #e3e6f0;
   border-radius: 4px;
@@ -36,4 +40,26 @@
   color: #858796;
   background-color: rgba(0, 0, 0, 0.075);
   cursor: pointer;
+}
+
+.custom_board .boardTool .tool_Paging ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.custom_board .boardTool .tool_Paging ul li {
+  margin: 0 5px;
+}
+
+.custom_board .boardTool .tool_Search form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
