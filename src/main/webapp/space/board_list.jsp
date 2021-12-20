@@ -11,13 +11,13 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
 <%
-	// 각 게시판 페이지는 category를 구분하기위해
-	// pageContext영역에 category를 저장하고
-	// 이를 변수에 담아 dao.selectList에 전달하여 
-	// if문을 통해 category를 확인하여 query를 작성하도록 구현.
-	pageContext.setAttribute("cate", "freeB");
-	String cate = pageContext.getAttribute("cate").toString();
-
+	
+	String cate = request.getParameter("cate");	
+	String cateUrl = request.getRequestURI() + "?cate=" + cate;
+	
+	System.out.println(cate);
+	System.out.println(cateUrl);
+	
 	BoardDAO dao = new BoardDAO();
 	Map<String, Object> param = new HashMap<String, Object>();
 	
@@ -34,7 +34,11 @@
 	int blockPage = 5;
 	int totalPage = (int)Math.ceil((double)totalCount / pageSize);
 	int pageNum = 1;
+	
 	String pageTemp = request.getParameter("pageNum");
+	System.out.println("pageNum : " + pageNum);
+	System.out.println("pageTemp : " + pageTemp);
+	
 	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
 	
 	int start = (pageNum - 1) * pageSize + 1;
@@ -84,7 +88,7 @@
 								if(boardLists.isEmpty()){
 								%>
 								<tr>
-									<td colspan="4" align="center">등록된 게시물이 없습니다.</td>
+									<td colspan="5" align="center">등록된 게시물이 없습니다.</td>
 								<tr>
 								<%
 								}else{
@@ -110,7 +114,7 @@
 						<div class="boardTool">
 							<div class="tool_Paging">
 								<ul>
-									<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI()) %>
+									<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, cateUrl) %>
 								</ul>
 							</div>
 							

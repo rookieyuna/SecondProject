@@ -22,6 +22,8 @@ public class BoardDTO {
 											직원자료실 : stafB
 											보호자자료실 : guardB
 									 */
+	private String name;
+	private String email;
 	
 	// getter & setter 생성
 	public String getNum() {
@@ -89,6 +91,18 @@ public class BoardDTO {
 	}
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	

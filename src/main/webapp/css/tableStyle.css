@@ -6,7 +6,8 @@ li {
   border: 1px solid #e3e6f0;
   border-radius: 4px;
   padding: 25px;
-}
+  position: relation;
+  }
 
 .custom_board * {
   font-size: 1rem;
