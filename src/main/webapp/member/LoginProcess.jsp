@@ -12,7 +12,7 @@ String userPwd = request.getParameter("user_pw");
 //데이터베이스 연결
 MemberDAO dao = new MemberDAO();
 //회원인증시도
-MemberDTO memberDTO = dao.getMemberDTO(userId, userPwd);
+MemberDTO memberDTO = dao.allMemberDTO(userId, userPwd);
 //자원반납
 dao.close();
 
