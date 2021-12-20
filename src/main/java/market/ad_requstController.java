@@ -24,10 +24,11 @@ public class ad_requstController extends HttpServlet{
     	marketApplicationDAO dao = new marketApplicationDAO();
 
     	//파라미터 및 View로 전달할 데이터 저장용 Map컬렉션 생성
+    	
         Map<String, Object> map = new HashMap<String, Object>();
         
         //게시물 갯수 카운트
-        int totalCount = dao.selectCount(map);   
+        int totalCount = dao.selectCountCleaning(map);   
 
         /* 페이지 처리 start */
         //web.xml에 접근하기 위해 서블릿에서 application 내장객체를 얻어옴.
@@ -51,14 +52,14 @@ public class ad_requstController extends HttpServlet{
         map.put("start", start);
         map.put("end", end);
         /* 페이지 처리 end */
-        //현재 페이지에 출력할 게시물을 얻어옴.
-        List<marketApplicationDAO> boardLists = dao.selectListPage(map);
+        //현재 페이지에 출력할 게시물을 얻어옴. 
+        List<marketApplicationDTO> boardLists = dao.selectListCleaning(map);
         //커넥션풀에 자원 반납
-        dao.close();  
+        dao.close();     
 
         //페이지 번호를 생성하기 위해 메서드 호출
         String pagingImg = BoardPage.pagingStr(totalCount, pageSize,
-                blockPage, pageNum, "../market/sub01.do");
+                blockPage, pageNum, "../market/ad_requst.do");
         //View로 전달할 데이터를 Map컬렉션에 저장
         map.put("pagingImg", pagingImg);//페이지 번호
         map.put("totalCount", totalCount);//전체 게시물의 갯수

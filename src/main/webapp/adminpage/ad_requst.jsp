@@ -355,9 +355,9 @@
                                 <c:choose>
                                 	<c:when test='${ empty marketApplication }'>
                                 		<tbody>
-                                			<td colspan="5" align="center">등록된 게시물이 없습니다^^*</td>
+                                			<td colspan="6" align="center">등록된 게시물이 없습니다^^*</td>
                                 		</tbody>
-									</c:when> 
+									</c:when>  
 									<c:otherwise>
 										<tbody>
 											<c:forEach items='${marketApplication }' var = "row" varStatus="loop">
@@ -380,9 +380,8 @@
                                 <!-- 검색 -->
                                 <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
                                     <select class="selectpicker admin-search">
-                                        <option>제목</option>
-                                        <option>작성자</option>
-                                        <option>작성일</option>
+                                        <option>청소종류</option>
+                                        <option>분양평수</option>
                                       </select>
                                       
                                     <div class="input-group">

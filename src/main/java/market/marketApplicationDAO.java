@@ -16,7 +16,7 @@ public class marketApplicationDAO extends DBConnPool{
 		super();
 	} 
 	//게시물의 개수 카운트
-	public int selectCount(Map<String, Object> map) {
+	public int selectCountCleaning(Map<String, Object> map) {
     	
         int totalCount = 0;
         String query = "SELECT COUNT(*) FROM marketApplication";
@@ -24,7 +24,7 @@ public class marketApplicationDAO extends DBConnPool{
             query += " WHERE " + map.get("searchField") + " "
                    + " LIKE '%" + map.get("searchWord") + "%'";
         }
-       
+        query += "   AND  app_type LIKE 'cleaning'";
         try {
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
@@ -41,12 +41,12 @@ public class marketApplicationDAO extends DBConnPool{
 	
 	
 	
-	 public List<marketApplicationDTO> selectListPage(Map<String,Object> map) {
+	 public List<marketApplicationDTO> selectListCleaning(Map<String,Object> map) {
 	        List<marketApplicationDTO> board = new Vector<marketApplicationDTO>();
 	        String query = " "
-	                     + "SELECT * FROM ( "
+	                     + "SELECT clean_type, clean_area, name, date1 FROM ( "
 	                     + "    SELECT Tb.*, ROWNUM rNum FROM ( "
-	                     + "        SELECT * FROM mvcboard ";
+	                     + "        SELECT * FROM marketApplication ";
 
 	        if (map.get("searchWord") != null)
 	        {
@@ -57,7 +57,8 @@ public class marketApplicationDAO extends DBConnPool{
 	        query += "        ORDER BY idx DESC "
 	               + "    ) Tb "
 	               + " ) "
-	               + " WHERE rNum BETWEEN ? AND ?";
+	               + " WHERE (rNum BETWEEN ? AND ? )";
+	        query += "   AND ( app_type LIKE 'cleaning')";
 
 	        try {
 	            psmt = con.prepareStatement(query);
@@ -68,16 +69,10 @@ public class marketApplicationDAO extends DBConnPool{
 	            while (rs.next()) {
 	            	marketApplicationDTO dto = new marketApplicationDTO();
 
-	                dto.setIdx(rs.getString(1));
-	                dto.setName(rs.getString(2));
-	                dto.setTitle(rs.getString(3));
-	                dto.setContent(rs.getString(4));
-	                dto.setPostdate(rs.getDate(5));
-	                dto.setOfile(rs.getString(6));
-	                dto.setSfile(rs.getString(7));
-	                dto.setDowncount(rs.getInt(8));
-	                dto.setPass(rs.getString(9));
-	                dto.setVisitcount(rs.getInt(10));
+	                dto.setClean_type(rs.getString(1));
+	                dto.setClean_area(rs.getString(2));
+	                dto.setName(rs.getString(3));
+	                dto.setDate(rs.getString(4));
 
 	                board.add(dto);
 	            }
