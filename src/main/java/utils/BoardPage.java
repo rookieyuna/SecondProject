@@ -3,7 +3,7 @@ package utils;
 public class BoardPage {
 	
 	 public static String pagingStr(int totalCount, int pageSize, int blockPage,
-	            int pageNum, String reqUrl) {
+	        int pageNum, String reqUrl, String searchField, String searchWord) {
 	        String pagingStr = "";
 
 	        // 단계 3 : 전체 페이지 수 계산
@@ -25,8 +25,11 @@ public class BoardPage {
 	                // 현재 페이지는 링크를 걸지 않음
 	                pagingStr += "&nbsp;" + pageTemp + "&nbsp;";
 	            } else {
-	                pagingStr += "&nbsp;<a href='" + reqUrl + "?pageNum=" + pageTemp
-	                             + "'>" + pageTemp + "</a>&nbsp;";
+	                pagingStr += "&nbsp;<a href='" + reqUrl; 
+	                		if(searchField != null && searchWord != null){
+	                			pagingStr += "&searchField=" + searchField + "&searchWord=" + searchWord;
+	                		}
+	                pagingStr += "&pageNum=" + pageTemp + "'>" + pageTemp + "</a>&nbsp;";
 	            }
 	            pageTemp++;
 	            blockCount++;
@@ -34,10 +37,10 @@ public class BoardPage {
 
 	        // 단계 6 : '다음 페이지 블록 바로가기' 출력
 	        if (pageTemp <= totalPages) {
-	            pagingStr += "<a href='" + reqUrl + "?pageNum=" + pageTemp
+	            pagingStr += "<a href='" + reqUrl + "&pageNum=" + pageTemp
 	                         + "'>[다음 블록]</a>";
 	            pagingStr += "&nbsp;";
-	            pagingStr += "<a href='" + reqUrl + "?pageNum=" + totalPages
+	            pagingStr += "<a href='" + reqUrl + "&pageNum=" + totalPages
 	                         + "'>[마지막 페이지]</a>";
 	        }
 

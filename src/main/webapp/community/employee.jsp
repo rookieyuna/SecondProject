@@ -1,28 +1,15 @@
+<%@page import="utils.BoardPage"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../include/global_head.jsp" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
 
-
- <body>
-	
-	<div id="wrap">
-		<%@ include file="../include/top.jsp" %>
-
-		<img src="../images/community/sub_image.jpg" id="main_visual" />
-
-		<div class="contents_box">
-			<div class="left_contents">
-				
-				<%@ include file = "../include/community_leftmenu.jsp" %>
-			</div>
-			<div class="right_contents">
-				<div class="top_title">
-					<img src="../images/community/sub01_title.gif" alt="직원자료실" class="con_title" />
-					<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;커뮤니티&nbsp;>&nbsp;직원자료실<p>
-						
-				<%@ include file = "../community/List.jsp" %>
-				
-				<div class="custom_board">
+<div class="custom_board">
 	<div class="custom_board_wrap">
 			
 		<table class="boardTable freeboard">
@@ -51,7 +38,7 @@
 			<div class="tool_Paging">
 				<ul>
 					<!-- 테이블 리스트 paging -->
-					<%-- <%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI()) %> --%>
+					<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI()) %>
 				</ul>
 			</div>
 			
@@ -72,16 +59,5 @@
 		</div>			
 	</div>
 </div>
-
-
-				</div>
-			</div>
-		</div>
-		<%@ include file="../include/quick.jsp" %>
-	</div>
-	
-
-	<%@ include file="../include/footer.jsp" %>
-	
- </body>
+</body>
 </html>

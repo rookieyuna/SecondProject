@@ -1,20 +1,17 @@
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.text.DateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="java.util.Calendar"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
     <!-- Custom fonts for this template -->
@@ -33,81 +30,8 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-   
-   
-<script type="text/javascript">
-	var today = new Date();
-	
-	function buildCalendar(){
-		var row = null
-		var cnt = 0;
-		var calendarTable = document.getElementById("calendar");
-		var calendarTableTitle = document.getElementById("calendarTitle");
-		calendarTableTitle.innerHTML = today.getFullYear()+"년"+(today.getMonth()+1)+"월";
-		 
-		var firstDate = new Date(today.getFullYear(), today.getMonth(), 1);
-		var lastDate = new Date(today.getFullYear(), today.getMonth()+1, 0);
-		while(calendarTable.rows.length > 2){
-		 	calendarTable.deleteRow(calendarTable.rows.length -1);
-	  	}
-		
-		/* 달의 첫 날 빈셀로 만들기 */
-		row = calendarTable.insertRow();
-		
-		for(i = 0; i < firstDate.getDay(); i++){
-		 	cell = row.insertCell();
-		 	cnt += 1;
-		}
-		
-		/* 요일 채워넣기 */
-		for(i = 1; i <= lastDate.getDate(); i++){
-			cell = row.insertCell();
-			cnt += 1;
-		
-		  	cell.setAttribute('id', i);
-			cell.innerHTML = i;
-			cell.align = "center";
-		
-		 	cell.onclick = function(){
-			  	clickedYear = today.getFullYear();
-			  	clickedMonth = ( 1 + today.getMonth() );
-			  	clickedDate = this.getAttribute('id');
-			
-			  	clickedDate = clickedDate >= 10 ? clickedDate : '0' + clickedDate;
-			  	clickedMonth = clickedMonth >= 10 ? clickedMonth : '0' + clickedMonth;
-			  	clickedYMD = clickedYear + "-" + clickedMonth + "-" + clickedDate;
-			
-			  	opener.document.getElementById("date").value = clickedYMD;
-			  	self.close();
-			}
-		
-			if (cnt % 7 == 1) {
-			   cell.innerHTML = "<font color=#F79DC2>" + i + "</font>";
-			}
-		
-			if (cnt % 7 == 0){
-			   cell.innerHTML = "<font color=skyblue>" + i + "</font>";
-			   row = calendar.insertRow();
-			}
-		}
-		
-		if(cnt % 7 != 0){
-			for(i = 0; i < 7 - (cnt % 7); i++){
-				cell = row.insertCell();
-			}
-		}
-	}
-	/* 이전달 */
-	function prevCalendar(){
-		today = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
-		buildCalendar();
-	}
-	/* 다음달 */
-	function nextCalendar(){
-		today = new Date(today.getFullYear(), today.getMonth()+1, today.getDate());
-		buildCalendar();
-	}
-</script>
+
+
 </head>
 
 <body id="page-top">
@@ -203,7 +127,6 @@
                     </div>
                 </div>
             </li>
-
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -406,41 +329,59 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">프로그램일정 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - PROGRAM</p>
+                    <h1 class="h3 mb-2 text-gray-800">블루클리닝 관리</h1>
+                    <p class="mb-4">BOARD MANAGEMENT - MarketCleaning</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">프로그램일정 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">블루클리닝 신청정보</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="calendar" align="center" 
-                                	style="width: 770px; height: 400px;">
-									<tr>
-										<td align="center"><label onclick="prevCalendar()"> ◀ </label></td>
-										<td colspan="5" align="center" id="calendarTitle">yyyy년 m월</td>
-										<td align="center"><label onclick="nextCalendar()"> ▶ </label></td>
-									</tr>
-									<tr>
-										<td align="center"><font color ="#F79DC2">일</td>
-										<td align="center">월</td>
-										<td align="center">화</td>
-										<td align="center">수</td>
-										<td align="center">목</td>
-										<td align="center">금</td>
-										<td align="center"><font color ="skyblue">토</td>
-									</tr>
-									<script type="text/javascript">buildCalendar();</script>
-								</table>
-                                <br />
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="boardCheckbox">
+                                                <input type="checkbox" id="checkedAll">
+                                            </th>
+                                            <th class="numbering">번호</th>
+                                            <th class="boardtitle">청소종류</th>
+                                            <th class="boardtitle">분양평수</th>
+                                            <th class="boardwriter">고객명</th>
+                                            <th class="boarddate">희망날짜</th>
+                                        </tr>
+                                        
+                                <c:choose>
+                                	<c:when test='${ empty marketApplication }'>
+                                		<tbody>
+                                			<td colspan="6" align="center">등록된 게시물이 없습니다^^*</td>
+                                		</tbody>
+									</c:when>  
+									<c:otherwise>
+										<tbody>
+											<c:forEach items='${marketApplication }' var = "row" varStatus="loop">
+										     <tr>
+	                                            <td><input type="checkbox"></td>
+	                                            <td class="numbering">${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
+	                                            <td>${row.clean_type }</td>
+	                                            <td>${row.clean_area }</td>
+	                                            <td>${row.name }</td>
+	                                            <td>${row.date1 }</td>
+                                      		  </tr>   
+                                      		  </c:forEach> 
+										</tbody>          
+									</c:otherwise>                	
+                                </c:choose>
+                                    </thead>
+                  
+                                </table>
+
                                 <!-- 검색 -->
                                 <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
                                     <select class="selectpicker admin-search">
-                                        <option>제목</option>
-                                        <option>작성자</option>
-                                        <option>작성일</option>
+                                        <option>청소종류</option>
+                                        <option>분양평수</option>
                                       </select>
                                       
                                     <div class="input-group">
@@ -460,7 +401,7 @@
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
                             <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_pWrite.jsp';" >등록</button></li>
+                            <li><button type="button" class="btn btn-outline-primary">등록</button></li>
                         </ul>
                     </div>
                 </div>
@@ -534,7 +475,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
-
 </body>
+
 
 </html>

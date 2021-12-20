@@ -30,12 +30,15 @@ public class NaverSMTP
 		serverInfo.put("mail.smtp.docketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		serverInfo.put("mail.smtp.socketFactory.fallback", "false");
 		
+		serverInfo.put("mail.smtp.ssl.enable", "true");
+		serverInfo.put("mail.smtp.ssl.trust", "smtp.naver.com");
+		
 		//사용자 인증 정보
 		auth = new Authenticator() {
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
 				//네이버 아이디와 비밀번호
-				return new PasswordAuthentication("secondpj", "kosmo99");
+				return new PasswordAuthentication("secondpj", "kosmo99!");
 			}
 		};
 	}

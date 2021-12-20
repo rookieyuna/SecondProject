@@ -32,7 +32,41 @@ public class JDBConnect {
 		}
 	}
 	
+	//두번째 생성자
+	public JDBConnect(String driver, String url, String id, String pwd) {
+		try {
+			// JDBC 드라이버 로드
+			Class.forName(driver);
+			// DB에 연결
+			con = DriverManager.getConnection(url,id,pwd);
+			System.out.println("DB 연결 성공(인자 생성자1)");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
+	//세번째 생성자 
+	public JDBConnect(ServletContext application) {
+		
+		//web.xml에 저장된 오라클 접속정보를 얻어온다. 
+		String driver = application.getInitParameter("OracleDriver");
+		String url = application.getInitParameter("OracleURL");
+		String id = application.getInitParameter("OracleId");
+		String pwd = application.getInitParameter("OraclePwd");
+		try {
+			// JDBC 드라이버 로드
+			Class.forName(driver);
+			// DB에 연결
+			con = DriverManager.getConnection(url,id,pwd);
+			System.out.println("DB 연결 성공(인자 생성자2)");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+		
 	public void close() {
 		try {
 			if (rs != null) rs.close();

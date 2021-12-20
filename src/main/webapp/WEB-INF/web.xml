@@ -10,7 +10,12 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
     
-    
+   
+   <!-- 해당 프로젝트(웹애플리케이션) 전체에서 사용할 수 있는 컨텍스트 초기화 파라미터 -->
+	<context-param>
+		<param-name>INIT_PARAM</param-name>
+		<param-value>web.xml에 저장한 초기화 매개변수</param-value>
+	</context-param>
     
   <!-- 한글깨짐에 대한 필터 설정: 현재 제작중인 웹 애플리케이션 전체 적용 -->
   <filter>
