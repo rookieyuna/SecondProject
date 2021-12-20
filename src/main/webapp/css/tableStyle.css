@@ -58,6 +58,7 @@ li {
 .custom_board .boardTool .tool_Search form {
   display: -webkit-box;
   display: -ms-flexbox;
+  
   display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
