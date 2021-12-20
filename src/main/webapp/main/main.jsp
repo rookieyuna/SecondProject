@@ -10,6 +10,20 @@
 @import url("../css/main.css");
 @import url("../css/sub.css");
 </style>
+<script>
+function validateForm(form) {
+	if(!form.user_id.value){
+		alert("아이디를 입력하세요.");
+		form.user_id.focus();
+		return false;
+	}
+	if(form.user_pw.value==""){
+		alert("패스워드를 입력하세요.");
+		form.user_pw.focus();
+		return false;
+	}
+}
+</script>
 </head>
 <body>
 <center>
@@ -22,8 +36,13 @@
 
 		<div class="main_contents">
 			<div class="main_con_left">
+				
 				<p class="main_title" style="border:0px; margin-bottom:0px;"><img src="../images/main_title01.gif" alt="로그인 LOGIN" /></p>
+				<form name="loginFrm" action="../member/LoginProcess.jsp" method="post" onsubmit="return validateForm(this);">
 				<div class="login_box">
+					<%
+					if (session.getAttribute("UserId")== null){//로그아웃 상태 
+					%>
 					<table cellpadding="0" cellspacing="0" border="0">
 						<colgroup>
 							<col width="45px" />
@@ -45,15 +64,20 @@
 						<a href="../member/id_pw.jsp"><img src="../images/login_btn02.gif" alt="아이디/패스워드찾기" /></a>
 						<a href="../member/join01.jsp"><img src="../images/login_btn03.gif" alt="회원가입" /></a>
 					</p>
-					 
+					<%	
+					} else { //로그인 된 상태
+					%>
 					<!-- 로그인 후 -->
-					<!-- <p style="padding:10px 0px 10px 10px"><span style="font-weight:bold; color:#333;">000님,</span> 반갑습니다.<br />로그인 하셨습니다.</p>
+					<p style="padding:10px 0px 10px 10px"><span style="font-weight:bold; color:#333;">${UserName } 님</span> 반갑습니다.<br />로그인 하셨습니다.</p>
 					<p style="text-align:right; padding-right:10px;">
 						<a href=""><img src="../images/login_btn04.gif" /></a>
-						<a href=""><img src="../images/login_btn05.gif" /></a>
-					</p> -->
-			 
+						<a href="../member/logout.jsp"><img src="../images/login_btn05.gif" /></a>
+					</p>
+				 	<%	
+					}
+					%>
 				</div>
+				</form>
 			</div>
 			<div class="main_con_center">
 				<p class="main_title"><img src="../images/main_title02.gif" alt="공지사항 NOTICE" /><a href="/space/sub01.jsp"><img src="../images/more.gif" alt="more" class="more_btn" /></a></p>

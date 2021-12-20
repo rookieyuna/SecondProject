@@ -3,12 +3,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-//로그인 폼에서 사용자가 입력한 아이디, 패스워드 받기
+/** 로그인 프로세스 - JYA 12/20 수정 **/
+
 String userId = request.getParameter("user_id");
 String userPwd = request.getParameter("user_pw");
 
 
-//데이터베이스 연결(오라클 접속)
+//데이터베이스 연결
 MemberDAO dao = new MemberDAO();
 //회원인증시도
 MemberDTO memberDTO = dao.getMemberDTO(userId, userPwd);
@@ -19,6 +20,9 @@ if(memberDTO.getId() != null){
 	//회원인증(로그인)에 성공한 경우 세션에 저장 후 
 	session.setAttribute("UserId", memberDTO.getId());
 	session.setAttribute("UserPwd", memberDTO.getPass());
+	session.setAttribute("UserName", memberDTO.getName());
+	session.setAttribute("UserEmail", memberDTO.getEmail());
+	session.setAttribute("UserIdentify", memberDTO.getIdentity());
 	//메인 페이지로 이동
 	response.sendRedirect("../main/main.jsp");
 }

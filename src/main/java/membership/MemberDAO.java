@@ -37,7 +37,43 @@ public class MemberDAO extends JDBConnect {
 		}
 		return dto;
 	}
-
+	
+	
+	// BOK ADD(21.12.20) 전체 데이터를 가져오기위한 기능
+	public MemberDTO allMemberDTO(String uid, String upass) {
+		MemberDTO dto = new MemberDTO();
+		//회원로그인을 위한 쿼리문 작성
+		String query = "SELECT * FROM member WHERE id=? AND pass=?";
+		
+		try {
+			psmt = con.prepareStatement(query);
+			//쿼리문에 사용자가 입력한 아이디, 패스워드를 설정
+			psmt.setString(1, uid);
+			psmt.setString(2, upass);
+			//쿼리 실행
+			rs = psmt.executeQuery();
+			
+			//회원정보가 존재한다면 DTO객체에 정보를 저장
+			if(rs.next()) {
+				
+				dto.setId(rs.getString(1));
+				dto.setPass(rs.getString(2));
+				dto.setName(rs.getString(3));
+				dto.setEmail(rs.getString(4));
+				dto.setPostcode(rs.getString(5));
+				dto.setAddr1(rs.getString(6));
+				dto.setAddr2(rs.getString(7));
+				dto.setPhone1(rs.getString(8));
+				dto.setPhone2(rs.getString(9));
+				dto.setIdentity(rs.getString(10));
+				dto.setRegidate(rs.getString(11));
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
 }
 	
 /*	//이름으로 아이디/비번 찾기
@@ -80,4 +116,3 @@ public class MemberDAO extends JDBConnect {
 		}
 		return dto;
 	}*/
-

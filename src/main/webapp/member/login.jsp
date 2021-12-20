@@ -16,7 +16,6 @@ function validateForm(form) {
 	}
 }
 </script>
-</script>
  <body>
 	<center>
 	<div id="wrap">
