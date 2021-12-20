@@ -12,9 +12,10 @@ public class marketApplicationDAO extends DBConnPool{
 	} 
 	
 	public int insertClean(marketApplicationDTO dto) {
-//		others입력하는거 해야되는데... 
+
         int result = 0;
         try {
+        	//쿼리문에서 app_type 부분 cleaning 으로되어있는데 이 value바꿔야됩니다! 체험학습할때
             String query = "INSERT INTO marketApplication ( "
                          + " idx, name, address, phone1, phone2, email, date1, submit_type, app_type"
                          + ", clean_type, clean_area, others) "
@@ -39,5 +40,7 @@ public class marketApplicationDAO extends DBConnPool{
         }
         return result;
     }
+	
+	
 	
 }
