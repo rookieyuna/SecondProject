@@ -6,21 +6,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-marketApplicationDAO dao= new marketApplicationDAO();
-Map<String, Object> param = new HashMap<String, Object>();
-String searchField = request.getParameter("searchField");
-String searchWord = request.getParameter("searchWord");
-if(searchWord != null){
-	param.put("searchField", searchField);
-	param.put("searchWord", searchWord);
-}
-
-int totalCount = dao.selectCountExp(param);
-List<marketApplicationDTO> boardLists = dao.selectListExp(param);
-dao.close();
-%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -368,44 +353,41 @@ dao.close();
                                             </th>
                                             <th class="numbering">번호</th>
                                             <th class="boardtitle">체험 내용</th>
-                                            <th class="boardtitle">장애 유무</th>
                                             <th class="boardtitle">고객명/회사명</th>
                                             <th class="boardwriter">체험 희망 날짜</th>
+                                            <th class="boardtitle">장애 유무</th>
                                         </tr>
                                     </thead>
                                     <!-- 테이블 가공 (정보자료실) -->
                                     <tbody>
-                                    <%
-                                    	//게시물이 하나도 없을 때
-                                    	if(boardLists.isEmpty()){
-                                    %>
-                                    	<tr>
-                                            <td colspan="6" align="center">등록된 게시물이 없습니다!</td>
-                                        </tr>
-                                    <%
-                                    	}
-                                    	else {
-                                    	//게시물이 있을 때
-                                    	int virtualNum = 0; //화면 상에서 게시물 번호
-	                                    	for(marketApplicationDTO dto : boardLists){
-	                                    		virtualNum = totalCount--; //전체 게시물 수에서 시작해 1씩 감소
-                                    	
-                                    %>
-                                    	<tr>
-                                            <td><input type="checkbox"></td>
-                                            <td class="numbering"><%= virtualNum %></td>
-                                            <td class="boardtitle">
-                                            	<a href="#"><%= dto.getEx_type()%></a>
-                                            </td>
-                                            <td><%= dto.getEx_disabled()%></td>
-                                            <td><%= dto.getEx_type()%></td>
-                                            <td><%= dto.getDate()%></td>
-                                        </tr>
-                                    	
-                                    <%
-                                    		}
-                                    	}
-                                    %>
+                                    <c:choose>
+										<c:when test="${empty boardLists }">
+											<tr>
+												<td colspan="6" align="center">등록된 게시물이 없습니다!</td>
+											</tr>
+										</c:when>
+										<c:otherwise> 
+											<!-- 게시물이 있을때 -->
+											<c:forEach items="${boardLists }" var="row" varStatus="loop">
+												<tr align="center">
+													<td><input type="checkbox"></td>
+													<td>
+													<!-- 가상번호 계산하기
+														=> 전체게시물수 - (((페이지번호-1) * 페이지당 게시물수)+ 해당루프의 index)
+														index는 0부터 시작한다. -->
+														${map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}
+													</td>
+										            <td  class="boardtitle"><!-- 제목 -->
+										            	<a href="../mvcboard/view.do?idx=${row.idx }">
+										            		${row.ex_type }</a>
+									            	</td>
+									            	<td>${row.name }</td><!-- 작성자 -->
+									            	<td>${row.date }</td><!-- 희망일자 -->
+									            	<td>${row.ex_disabled }</td><!-- 장애유무 -->
+									        	</tr>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
                                     </tbody>
                                 </table>
 
@@ -438,7 +420,20 @@ dao.close();
                     </div>
                 </div>
                 <!-- /.container-fluid -->
-
+			
+			
+				<!-- 페이지번호 출력 -->
+			    <table width="90%">
+			        <tr align="center">
+			        <!-- 페이징 처리 -->
+			        	<td>
+			        		${map.pagingImg }
+			        	</td>
+			        </tr>
+			    </table>
+			
+			
+			
             </div>
             <!-- End of Main Content -->
 
