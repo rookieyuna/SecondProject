@@ -1,4 +1,4 @@
-package market;
+package market.admin;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import market.marketApplicationDAO;
+import market.marketApplicationDTO;
 import utils.BoardPage;
 import utils.BoardPage1;
 

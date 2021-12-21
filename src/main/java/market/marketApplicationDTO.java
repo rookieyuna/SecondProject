@@ -23,7 +23,7 @@ public class marketApplicationDTO {
 	
 	
 	public String getIdx() {
-		return idx;
+		return idx;  
 	}
 	public void setIdx(String idx) {
 		this.idx = idx;

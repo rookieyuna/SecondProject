@@ -164,9 +164,10 @@
                 <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Market Management:</h6>
+                        <a class="collapse-item" href="ad_suaRegist.jsp">상품 등록 관리</a>
                         <a class="collapse-item" href="ad_order.jsp">주문내역 관리</a>
                         <a class="collapse-item" href="ad_requst.jsp">견적의뢰 관리</a>
-                        <a class="collapse-item" href="ad_experience.jsp">체험학습 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
                     </div>
                 </div>
             </li>

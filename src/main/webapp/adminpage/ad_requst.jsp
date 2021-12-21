@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,10 +32,25 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-
-
 </head>
+<script>
 
+	$(function(){
+		$('#deletebtn').click(function(){
+			$('#cleanlist').attr("action","../adminpage/ad_requstDelete.do").submit();			
+		})  		
+	});
+
+	function allCk(objCheck){ //전체 선택 checkbox 클릭
+		  var checks = document.getElementsByName('chk');
+		  for( var i = 0; i < checks.length; i++ ){
+		   checks[i].checked = objCheck;
+		// name이 'chk' 인 checkbox는  id가 allck인 checkbox의 checked 상태와 같게 된다. 
+		  }	
+	}
+
+	
+</script>
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -121,9 +138,10 @@
                 <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Market Management:</h6>
+                        <a class="collapse-item" href="ad_suaRegist.jsp">상품 등록 관리</a>
                         <a class="collapse-item" href="ad_order.jsp">주문내역 관리</a>
                         <a class="collapse-item" href="ad_requst.jsp">견적의뢰 관리</a>
-                        <a class="collapse-item" href="ad_experience.jsp">체험학습 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
                     </div>
                 </div>
             </li>
@@ -339,6 +357,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                            	<form action="" id="cleanlist"><!-- 삭제처리할때 form -->
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
@@ -360,9 +379,10 @@
 									</c:when>  
 									<c:otherwise>
 										<tbody>
+											
 											<c:forEach items='${boardLists }' var = "row" varStatus="loop">
 										     	<tr>
-		                                            <td><input type="checkbox"></td>
+		                                            <td><input type="checkbox" name="chk" value="${row.idx }"></td>
 		                                            <td class="numbering">${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
 		                                            <td>${row.clean_type }</td>
 		                                            <td>${row.clean_area }</td>
@@ -370,13 +390,14 @@
 		                                            <td>${row.date }</td>
                                       		 	 </tr>   
                                       		  </c:forEach> 
+                                      		  
 										</tbody>          
 									</c:otherwise>                	
-                                </c:choose>
+                               	 </c:choose>
                                     </thead>
                   
                                 </table>
-
+							</form>
 
                             
                                 <form action="../adminpage/ad_requst.do"
@@ -412,7 +433,9 @@
                     <div class="board-btn-group01">
                         <ul>
                         	<li align="center">${ map.pagingImg }</li>
-                            <li class="d-flex justify-content-end"><button type="button" class="btn btn-outline-secondary">삭제</button></li>
+                            <li class="d-flex justify-content-end">
+                            	<button type="button" class="btn btn-outline-secondary" id="deletebtn" >삭제</button>
+                            </li>
                         </ul>
                     </div>
                 </div>

@@ -6,21 +6,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-marketApplicationDAO dao= new marketApplicationDAO();
-Map<String, Object> param = new HashMap<String, Object>();
-String searchField = request.getParameter("searchField");
-String searchWord = request.getParameter("searchWord");
-if(searchWord != null){
-	param.put("searchField", searchField);
-	param.put("searchWord", searchWord);
-}
-
-int totalCount = dao.selectCountExp(param);
-List<marketApplicationDTO> boardLists = dao.selectListExp(param);
-dao.close();
-%>
-
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,7 +40,21 @@ dao.close();
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     
 </head>
-
+<script>
+	$(function(){
+		$('#deletebtn').click(function(){
+			$('#explist').attr("action","../adminpage/ad_requstDelete.do").submit();			
+		})  		
+	});
+	function allCk(objCheck){ //전체 선택 checkbox 클릭
+		  var checks = document.getElementsByName('chk');
+		  for( var i = 0; i < checks.length; i++ ){
+		   checks[i].checked = objCheck;
+		// name이 'chk' 인 checkbox는  id가 allck인 checkbox의 checked 상태와 같게 된다. 
+		  }	
+	}
+	
+</script>
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -141,9 +142,10 @@ dao.close();
                 <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Market Management:</h6>
+                        <a class="collapse-item" href="ad_suaRegist.jsp">상품 등록 관리</a>
                         <a class="collapse-item" href="ad_order.jsp">주문내역 관리</a>
                         <a class="collapse-item" href="ad_requst.jsp">견적의뢰 관리</a>
-                        <a class="collapse-item" href="ad_experience.jsp">체험학습 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
                     </div>
                 </div>
             </li>
@@ -360,6 +362,8 @@ dao.close();
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                            	<form action="" id="explist"><!-- 삭제처리할때 form -->
+                                <input type="hidden" name="experience"><!-- 삭제 처리시 블루클리닝/체험학습 구분용 -->
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
@@ -367,60 +371,64 @@ dao.close();
                                                 <input type="checkbox" id="checkedAll">
                                             </th>
                                             <th class="numbering">번호</th>
-                                            <th class="boardtitle">체험 내용</th>
-                                            <th class="boardtitle">장애 유무</th>
-                                            <th class="boardtitle">고객명/회사명</th>
+                                            <th class="boardwriter">고객명/회사명</th>
+                                            <th class="numbering">장애 유무</th>
+                                            <th class="numbering">보장구 사용 유무</th>
+                                            <th class="boardwriter">연락처</th>
+                                            <th class="boardwriter">담당자 연락처</th>
+                                            <th class="boardwriter">이메일</th>
+                                            <th class="boardwriter">체험 내용</th>
                                             <th class="boardwriter">체험 희망 날짜</th>
+                                            <th class="boardwriter">접수 종류</th>
                                         </tr>
                                     </thead>
                                     <!-- 테이블 가공 (정보자료실) -->
                                     <tbody>
-                                    <%
-                                    	//게시물이 하나도 없을 때
-                                    	if(boardLists.isEmpty()){
-                                    %>
-                                    	<tr>
-                                            <td colspan="6" align="center">등록된 게시물이 없습니다!</td>
-                                        </tr>
-                                    <%
-                                    	}
-                                    	else {
-                                    	//게시물이 있을 때
-                                    	int virtualNum = 0; //화면 상에서 게시물 번호
-	                                    	for(marketApplicationDTO dto : boardLists){
-	                                    		virtualNum = totalCount--; //전체 게시물 수에서 시작해 1씩 감소
-                                    	
-                                    %>
-                                    	<tr>
-                                            <td><input type="checkbox"></td>
-                                            <td class="numbering"><%= virtualNum %></td>
-                                            <td class="boardtitle">
-                                            	<a href="#"><%= dto.getEx_type()%></a>
-                                            </td>
-                                            <td><%= dto.getEx_disabled()%></td>
-                                            <td><%= dto.getEx_type()%></td>
-                                            <td><%= dto.getDate()%></td>
-                                        </tr>
-                                    	
-                                    <%
-                                    		}
-                                    	}
-                                    %>
+                                    <c:choose>
+										<c:when test="${empty boardLists }">
+											<tr>
+												<td colspan="6" align="center">등록된 게시물이 없습니다!</td>
+											</tr>
+										</c:when>
+										<c:otherwise> 
+											<!-- 게시물이 있을때 -->
+											<c:forEach items="${boardLists }" var="row" varStatus="loop">
+												<tr align="center">
+													<td><input type="checkbox" name="chk" value="${row.idx }"></td>
+													<td>
+													<!-- 가상번호 계산하기
+														=> 전체게시물수 - (((페이지번호-1) * 페이지당 게시물수)+ 해당루프의 index)
+														index는 0부터 시작한다. -->
+														${map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
+									            	<td  class="boardtitle">${row.name }</td><!-- 작성자 -->
+									            	<td>${row.ex_disabled }</td><!-- 장애 유무 -->
+									            	<td>${row.ex_helpingtool }</td><!-- 보장구 유무 -->
+									            	<td>${row.phone1 }</td><!-- 연락처 -->
+									            	<td>${row.phone2 }</td><!-- 담장자연락처 -->
+									            	<td>${row.email }</td><!-- 이메일 -->
+									            	<td>${row.ex_type }</td><!-- 체험 학습 종류 -->
+									            	<td>${row.date }</td><!-- 희망일자 -->
+									            	<td>${row.submit_type }</td><!-- 접수 종류 -->
+									        	</tr>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
                                     </tbody>
                                 </table>
+                                </form>
 
                                 <!-- 검색 -->
-                                <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
-                                    <select class="selectpicker admin-search">
-                                        <option>제목</option>
-                                        <option>작성자</option>
-                                        <option>작성일</option>
+                                <form method="get" class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
+                                    <select class="selectpicker admin-search" name="searchField">
+                                        <option value="ex_type">체험 내용</option>
+                                        <option value="name">고객명/회사명</option>
+                                        <option value="date">체험 희망 날짜</option>
                                       </select>
                                       
                                     <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2" name="searchWord">
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
+                                            <button class="btn btn-primary" type="submit">
                                                 <i class="fas fa-search fa-sm"></i>
                                             </button>
                                         </div>
@@ -433,12 +441,25 @@ dao.close();
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
+                            <li><button type="button" class="btn btn-outline-secondary" id="deletebtn" >삭제</button></li>
                         </ul>
                     </div>
                 </div>
                 <!-- /.container-fluid -->
-
+			
+			
+				<!-- 페이지번호 출력 -->
+			    <table width="90%">
+			        <tr align="center">
+			        <!-- 페이징 처리 -->
+			        	<td>
+			        		${map.pagingImg }
+			        	</td>
+			        </tr>
+			    </table>
+			
+			
+			
             </div>
             <!-- End of Main Content -->
 
