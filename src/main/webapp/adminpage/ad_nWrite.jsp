@@ -1,3 +1,5 @@
+<%@page import="membership.MemberDTO"%>
+<%@page import="membership.MemberDAO"%>
 <%@page import="board.BoardDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
@@ -116,8 +118,8 @@ function validateForm(form) {
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Board Management:</h6>
-                        <a class="collapse-item" href="ad_notice.jsp">공지사항 관리</a>
-                        <a class="collapse-item" href="ad_program.jsp">프로그램일정 관리</a>
+                        <a class="collapse-item" href="ad_notice.jsp?cate=notB">공지사항 관리</a>
+                        <a class="collapse-item" href="ad_program.jsp?cate=proB">프로그램일정 관리</a>
                         <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
                         <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
                         <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>
@@ -149,9 +151,10 @@ function validateForm(form) {
                 <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Market Management:</h6>
+                        <a class="collapse-item" href="ad_suaRegist.jsp">상품 등록 관리</a>
                         <a class="collapse-item" href="ad_order.jsp">주문내역 관리</a>
                         <a class="collapse-item" href="ad_requst.jsp">견적의뢰 관리</a>
-                        <a class="collapse-item" href="ad_experience.jsp">체험학습 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
                     </div>
                 </div>
             </li>
@@ -374,7 +377,7 @@ function validateForm(form) {
                                     
                                     <!-- 테이블 가공 (공지사항 작성하기) -->
                                		<form name="writeFrm" method="post" enctype="multipart/form-data"
-									action="ad_nwriteProcess.jsp" onsubmit="return validateForm(this);">
+									action="ad_nWriteProcess.jsp" onsubmit="return validateForm(this);">
 									<table border="1" width="90%">
 										<tr>
 											<td>작성자</td>
@@ -394,12 +397,12 @@ function validateForm(form) {
 												<textarea name="content" style="width:90%; height: 100px;"></textarea>
 											</td>
 										</tr>
-										<tr>
+										<!-- <tr>
 											<td>첨부파일</td>
 											<td>
 												<input type="file" name="ofile" />
 											</td>
-										</tr>
+										</tr> -->
 										<tr>
 											<td>비밀번호</td>
 											<td>

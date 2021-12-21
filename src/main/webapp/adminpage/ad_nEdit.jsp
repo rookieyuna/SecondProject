@@ -1,4 +1,3 @@
-<%@page import="utils.BoardPage"%>
 <%@page import="board.BoardDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
@@ -6,40 +5,30 @@
 <%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	String cate = request.getParameter("cate");	
-	String cateUrl = request.getRequestURI() + "?cate=" + cate;
-	
-	BoardDAO dao = new BoardDAO();
-	Map<String, Object> param = new HashMap<String, Object>();
-	
-	String searchField = request.getParameter("searchField");
-	String searchWord = request.getParameter("searchWord");
-	
-	if(searchWord != null){
-		param.put("searchField", searchField);
-		param.put("searchWord", searchWord);
-		param.put("cate", cate);
+<script>
+function validateForm(form) {
+	if(form.id.value == ""){
+		alert("작성자를 입력하세요.");
+		form.id.focus();
+		return false;
 	}
-	
-	int totalCount = dao.selectCount(param, cate);
-	int pageSize = 10;
-	int blockPage = 5;
-	int totalPage = (int)Math.ceil((double)totalCount / pageSize);
-	int pageNum = 1;
-	
-	String pageTemp = request.getParameter("pageNum");
-	
-	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
-	
-	int start = (pageNum - 1) * pageSize + 1;
-	int end = pageNum * pageSize;
-	param.put("start", start);
-	param.put("end", end);
-	
-	List<BoardDTO> boardLists = dao.selectList(param, cate);
-	dao.close();
-%>
+	if(form.title.value == ""){
+		alert("제목을 입력하세요.");
+		form.title.focus();
+		return false;
+	}
+	if(form.content.value == "") {
+		alert("내용을 입력하세요.");
+		form.content.focus();
+		return false;
+	}
+	if(form.pass.value == "") {
+		alert("비밀번호를 입력하세요.");
+		form.pass.focus();
+		return false;
+	}
+}
+</script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -160,10 +149,9 @@
                 <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Market Management:</h6>
-                        <a class="collapse-item" href="ad_suaRegist.jsp">상품 등록 관리</a>
                         <a class="collapse-item" href="ad_order.jsp">주문내역 관리</a>
                         <a class="collapse-item" href="ad_requst.jsp">견적의뢰 관리</a>
-                        <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
+                        <a class="collapse-item" href="ad_experience.jsp">체험학습 관리</a>
                     </div>
                 </div>
             </li>
@@ -383,65 +371,59 @@
                                     <colgroup>
 
                                     </colgroup>
-                                    <thead>
-                                        <tr>
-                                            <th class="boardCheckbox">
-                                                <input type="checkbox" id="checkedAll">
-                                            </th>
-                                            <th class="numbering">번호</th>
-                                            <th class="boardtitle">제목</th>
-                                            <th class="boardwriter">작성자</th>
-                                            <th class="boarddate">작성일</th>
-                                            <th>첨부파일</th>
-                                        </tr>
-                                    </thead>
-                                    <!-- 테이블 가공 (공지사항) -->
-                               		<tbody>
-										<%
-										if(boardLists.isEmpty()){
-										%>
+                                    
+                                    <!-- 테이블 가공 (공지사항 수정하기) -->
+                               		<form name="writeFrm" method="post" enctype="multipart/form-data"
+									action="ad_nEditProcess.jsp" onsubmit="return validateForm(this);">
+									<table border="1" width="90%">
 										<tr>
-											<td colspan="6" align="center">등록된 게시물이 없습니다.</td>
-										<tr>
-										<%
-										}else{
-											int virtualNum = 0;
-											int countNum = 0;
-											for(BoardDTO dto : boardLists){
-												virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
-										%>
-										<tr onclick="location.href='board_view.jsp?cate=freeB&num=<%= dto.getNum() %>'">
-											<td><%= virtualNum %></td>
-											<td><%= dto.getTitle() %></td>
-											<td><%= dto.getId() %></td>
-											<td><%= dto.getPostdate() %></td>
-											<td><%= dto.getVisitcount() %></td>
+											<td>작성자</td>
+											<td>
+												<input type="text" name="id" style="width: 150px;"/>
+											</td>
 										</tr>
-										<%
-											}
-										}
-										%>
-									</tbody>
-                                </table>
-                                <div class="boardTool">
-									<div class="tool_Paging">
-										<ul>
-											<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, cateUrl, searchField, searchWord) %>
-										</ul>
-									</div>
-									
-								</div>
+										<tr>
+											<td>제목</td>
+											<td>
+												<input type="text" name="title" style="width: 90%;"/>
+											</td>
+										</tr>
+										<tr>
+											<td>내용</td>
+											<td>
+												<textarea name="content" style="width:90%; height: 100px;"></textarea>
+											</td>
+										</tr>
+										<tr>
+											<td>첨부파일</td>
+											<td>
+												<input type="file" name="ofile" />
+											</td>
+										</tr>
+										<tr>
+											<td>비밀번호</td>
+											<td>
+												<input type="password" name="pass" style="width: 100px;"/>
+											</td>
+										</tr>
+										
+									</table>
+									<br />
+									<br />
+									 <!-- 각종버튼 -->
+								    <div class="row mb-3">
+								        <div class="col d-flex justify-content-end">
+								            <button type="button" class="btn btn-warning" onclick="location.href='ad_notice.jsp';">목록보기</button>
+								            <button type="submit" class="btn btn-danger">전송하기</button>
+								            <button type="reset" class="btn btn-dark">다시쓰기</button>
+								        </div>
+								    </div>
+								</form>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 버튼 -->
-                    <div class="board-btn-group01">
-                        <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_nWrite.jsp';">작성</button></li>
-                        </ul>
-                    </div>
+                    
                 </div>
                 <!-- /.container-fluid -->
 
