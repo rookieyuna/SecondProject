@@ -2,7 +2,10 @@
 <%@page import="java.text.DateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="java.util.Calendar"%>
+<%@ page import="java.util.*" %>
+<%
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,80 +37,7 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
    
-   
-<script type="text/javascript">
-	var today = new Date();
-	
-	function buildCalendar(){
-		var row = null
-		var cnt = 0;
-		var calendarTable = document.getElementById("calendar");
-		var calendarTableTitle = document.getElementById("calendarTitle");
-		calendarTableTitle.innerHTML = today.getFullYear()+"년"+(today.getMonth()+1)+"월";
-		 
-		var firstDate = new Date(today.getFullYear(), today.getMonth(), 1);
-		var lastDate = new Date(today.getFullYear(), today.getMonth()+1, 0);
-		while(calendarTable.rows.length > 2){
-		 	calendarTable.deleteRow(calendarTable.rows.length -1);
-	  	}
-		
-		/* 달의 첫 날 빈셀로 만들기 */
-		row = calendarTable.insertRow();
-		
-		for(i = 0; i < firstDate.getDay(); i++){
-		 	cell = row.insertCell();
-		 	cnt += 1;
-		}
-		
-		/* 요일 채워넣기 */
-		for(i = 1; i <= lastDate.getDate(); i++){
-			cell = row.insertCell();
-			cnt += 1;
-		
-		  	cell.setAttribute('id', i);
-			cell.innerHTML = i;
-			cell.align = "center";
-		
-		 	cell.onclick = function(){
-			  	clickedYear = today.getFullYear();
-			  	clickedMonth = ( 1 + today.getMonth() );
-			  	clickedDate = this.getAttribute('id');
-			
-			  	clickedDate = clickedDate >= 10 ? clickedDate : '0' + clickedDate;
-			  	clickedMonth = clickedMonth >= 10 ? clickedMonth : '0' + clickedMonth;
-			  	clickedYMD = clickedYear + "-" + clickedMonth + "-" + clickedDate;
-			
-			  	opener.document.getElementById("date").value = clickedYMD;
-			  	self.close();
-			}
-		
-			if (cnt % 7 == 1) {
-			   cell.innerHTML = "<font color=#F79DC2>" + i + "</font>";
-			}
-		
-			if (cnt % 7 == 0){
-			   cell.innerHTML = "<font color=skyblue>" + i + "</font>";
-			   row = calendar.insertRow();
-			}
-		}
-		
-		if(cnt % 7 != 0){
-			for(i = 0; i < 7 - (cnt % 7); i++){
-				cell = row.insertCell();
-			}
-		}
-	}
-	/* 이전달 */
-	function prevCalendar(){
-		today = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
-		buildCalendar();
-	}
-	/* 다음달 */
-	function nextCalendar(){
-		today = new Date(today.getFullYear(), today.getMonth()+1, today.getDate());
-		buildCalendar();
-	}
-</script>
+
 </head>
 
 <body id="page-top">
@@ -164,8 +94,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Board Management:</h6>
-                        <a class="collapse-item" href="ad_notice.jsp">공지사항 관리</a>
-                        <a class="collapse-item" href="ad_program.jsp">프로그램일정 관리</a>
+                        <a class="collapse-item" href="ad_notice.jsp?cate=notB">공지사항 관리</a>
+                        <a class="collapse-item" href="ad_program.jsp?cate=proB">프로그램일정 관리</a>
                         <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
                         <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
                         <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>
@@ -416,42 +346,86 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="calendar" align="center" 
-                                	style="width: 770px; height: 400px;">
-									<tr>
-										<td align="center"><label onclick="prevCalendar()"> ◀ </label></td>
-										<td colspan="5" align="center" id="calendarTitle">yyyy년 m월</td>
-										<td align="center"><label onclick="nextCalendar()"> ▶ </label></td>
-									</tr>
-									<tr>
-										<td align="center"><font color ="#F79DC2">일</td>
-										<td align="center">월</td>
-										<td align="center">화</td>
-										<td align="center">수</td>
-										<td align="center">목</td>
-										<td align="center">금</td>
-										<td align="center"><font color ="skyblue">토</td>
-									</tr>
-									<script type="text/javascript">buildCalendar();</script>
+                                <!-- 달력 테이블 나오는 부분 -->
+                                <%
+								    Calendar cal = Calendar.getInstance();
+								    int year = request.getParameter("y") == null ? 
+								    		cal.get(Calendar.YEAR) : Integer.parseInt(request.getParameter("y"));
+								    int month = request.getParameter("m") == null ? 
+								    		cal.get(Calendar.MONTH) : (Integer.parseInt(request.getParameter("m")) - 1);
+								
+								    // 시작요일 확인
+								    cal.set(year, month, 1);
+								    int bgnWeek = cal.get(Calendar.DAY_OF_WEEK);
+								
+								    // 다음/이전월 계산
+								    int prevYear = year;
+								    int prevMonth = (month + 1) - 1;
+								    int nextYear = year;
+								    int nextMonth = (month  + 1) + 1;
+								
+								    // 1월인 경우 이전년 12월로 지정
+								    if (prevMonth < 1) {
+								        prevYear--;
+								        prevMonth = 12;
+								    }
+								
+								    // 12월인 경우 다음년 1월로 지정
+								    if (nextMonth > 12) {
+								        nextYear++;
+								        nextMonth = 1;
+								    }
+								%>
+								<table border="0" cellpadding="0" cellspacing="0">
+								<tr>
+								    <td align="center"><a href="./ad_program.jsp?y=<%=prevYear%>&m=<%=prevMonth%>">◁</a> <%=year%>년 <%=month+1%>월 <a href="./ad_program.jsp?y=<%=nextYear%>&m=<%=nextMonth%>">▷</a></td>
+								</tr>
+								<tr>
+								    <td>
+								
+								        <table border="1" style="width: 700px; height: 300px;">
+								        <tr>
+								            <td align="center"><font color ="red">일</td>
+								            <td align="center">월</td>
+								            <td align="center">화</td>
+								            <td align="center">수</td>
+								            <td align="center">목</td>
+								            <td align="center">금</td>
+								            <td align="center"><font color ="skyblue">토</td>
+								        </tr>
+								        <tr>
+										<%
+										    // 시작요일까지 이동
+										    for (int i=1; i<bgnWeek; i++) out.println("<td>&nbsp;</td>");
+										
+										    // 첫날~마지막날까지 처리
+										    // - 날짜를 하루씩 이동하여 월이 바뀔때까지 그린다
+										    while (cal.get(Calendar.MONTH) == month) {
+										        out.println("<td>" + cal.get(Calendar.DATE) + "</td>");
+										
+										        // 토요일인 경우 다음줄로 생성
+										        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY){
+										        	out.println("</tr><tr>");
+										        }
+										
+										        // 날짜 증가시키기
+										        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 
+										        		cal.get(Calendar.DATE)+1);
+										    }
+										
+										    // 끝날부터 토요일까지 빈칸으로 처리
+										    for (int i=cal.get(Calendar.DAY_OF_WEEK); i<=7; i++) 
+										    	out.println("<td>&nbsp;</td>");
+										%>
+								        </tr>
+								        </table>
+								
+								    </td>
+								</tr>
 								</table>
-                                <br />
-                                <!-- 검색 -->
-                                <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
-                                    <select class="selectpicker admin-search">
-                                        <option>제목</option>
-                                        <option>작성자</option>
-                                        <option>작성일</option>
-                                      </select>
-                                      
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+								<br />
+								<br />
+                                
                             </div>
                         </div>
                     </div>

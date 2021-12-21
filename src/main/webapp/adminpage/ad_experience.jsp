@@ -108,8 +108,8 @@ dao.close();
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Board Management:</h6>
-                        <a class="collapse-item" href="ad_notice.jsp">공지사항 관리</a>
-                        <a class="collapse-item" href="ad_program.jsp">프로그램일정 관리</a>
+                        <a class="collapse-item" href="ad_notice.jsp?cate=notB">공지사항 관리</a>
+                        <a class="collapse-item" href="ad_program.jsp?cate=proB">프로그램일정 관리</a>
                         <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
                         <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
                         <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>

@@ -1,5 +1,34 @@
+<%@page import="board.BoardDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script>
+function validateForm(form) {
+	if(form.id.value == ""){
+		alert("작성자를 입력하세요.");
+		form.id.focus();
+		return false;
+	}
+	if(form.title.value == ""){
+		alert("제목을 입력하세요.");
+		form.title.focus();
+		return false;
+	}
+	if(form.content.value == "") {
+		alert("내용을 입력하세요.");
+		form.content.focus();
+		return false;
+	}
+	if(form.pass.value == "") {
+		alert("비밀번호를 입력하세요.");
+		form.pass.focus();
+		return false;
+	}
+}
+</script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +39,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+	
+	</script>
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
     <!-- Custom fonts for this template -->
@@ -25,13 +55,11 @@
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-    
-     <!-- 211218 KBS ADD -->
-     <link rel="stylesheet" href="css/style.css">
-     <!-- Latest compiled and minified CSS -->
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    
+    <!-- 211218 KBS ADD -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 
 <body id="page-top">
@@ -127,7 +155,6 @@
                     </div>
                 </div>
             </li>
-
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -330,70 +357,73 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">보호자게시판 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - GUARDIAN</p>
+                    <h1 class="h3 mb-2 text-gray-800">공지사항 관리</h1>
+                    <p class="mb-4">BOARD MANAGEMENT - NOTICE</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">보호자게시판 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">공지사항 정보</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="boardCheckbox">
-                                                <input type="checkbox" id="checkedAll">
-                                            </th>
-                                            <th class="numbering">번호</th>
-                                            <th class="boardtitle">제목</th>
-                                            <th class="boardwriter">작성자</th>
-                                            <th class="boarddate">작성일</th>
-                                            <th>첨부파일</th>
-                                        </tr>
-                                    </thead>
-                                    <!-- 테이블 가공 (정보자료실) -->
-                                    <tbody>
-                                        <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td class="numbering">Num</td>
-                                            <td class="boardtitle">Dummy Title</td>
-                                            <td>Dummy Id</td>
-                                            <td>Dummy Postdate</td>
-                                            <td><i class="bi bi-file-check upfile fa-lg"></i></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                    <colgroup>
 
-                                <!-- 검색 -->
-                                <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
-                                    <select class="selectpicker admin-search">
-                                        <option>제목</option>
-                                        <option>작성자</option>
-                                        <option>작성일</option>
-                                      </select>
-                                      
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </colgroup>
+                                    
+                                    <!-- 테이블 가공 (공지사항 수정하기) -->
+                               		<form name="writeFrm" method="post" enctype="multipart/form-data"
+									action="ad_nEditProcess.jsp" onsubmit="return validateForm(this);">
+									<table border="1" width="90%">
+										<tr>
+											<td>작성자</td>
+											<td>
+												<input type="text" name="id" style="width: 150px;"/>
+											</td>
+										</tr>
+										<tr>
+											<td>제목</td>
+											<td>
+												<input type="text" name="title" style="width: 90%;"/>
+											</td>
+										</tr>
+										<tr>
+											<td>내용</td>
+											<td>
+												<textarea name="content" style="width:90%; height: 100px;"></textarea>
+											</td>
+										</tr>
+										<tr>
+											<td>첨부파일</td>
+											<td>
+												<input type="file" name="ofile" />
+											</td>
+										</tr>
+										<tr>
+											<td>비밀번호</td>
+											<td>
+												<input type="password" name="pass" style="width: 100px;"/>
+											</td>
+										</tr>
+										
+									</table>
+									<br />
+									<br />
+									 <!-- 각종버튼 -->
+								    <div class="row mb-3">
+								        <div class="col d-flex justify-content-end">
+								            <button type="button" class="btn btn-warning" onclick="location.href='ad_notice.jsp';">목록보기</button>
+								            <button type="submit" class="btn btn-danger">전송하기</button>
+								            <button type="reset" class="btn btn-dark">다시쓰기</button>
+								        </div>
+								    </div>
+								</form>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 버튼 -->
-                    <div class="board-btn-group01">
-                        <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary">등록</button></li>
-                        </ul>
-                    </div>
+                    
                 </div>
                 <!-- /.container-fluid -->
 
@@ -458,14 +488,12 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
-
     <!-- BOK table first checkbox - All checked -->
     <script src="js/motion.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
-
 </body>
 
 </html>

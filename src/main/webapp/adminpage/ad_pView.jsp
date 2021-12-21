@@ -1,8 +1,21 @@
+<%@page import="board.BoardDTO"%>
+<%@page import="board.BoardDAO"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Calendar"%>
+<%
+
+String cate = request.getParameter("cate");	
+
+String num = request.getParameter("num");
+BoardDAO dao = new BoardDAO();
+dao.updateVisitCount(num);
+BoardDTO dto = dao.selectView(num);
+
+dao.close();
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,8 +105,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Board Management:</h6>
-                        <a class="collapse-item" href="ad_notice.jsp">공지사항 관리</a>
-                        <a class="collapse-item" href="ad_program.jsp">프로그램일정 관리</a>
+                        <a class="collapse-item" href="ad_notice.jsp?cate=notB">공지사항 관리</a>
+                        <a class="collapse-item" href="ad_program.jsp?cate=proB">프로그램일정 관리</a>
                         <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
                         <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
                         <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>
@@ -345,40 +358,43 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                           <!--  <th class="boardCheckbox">
-                                                <input type="checkbox" id="checkedAll">
-                                            </th>
-                                            <th class="numbering">번호</th>
-                                            <th class="boardtitle">제목</th>
-                                            <th class="boardwriter">작성자</th>
-                                            <th class="boarddate">작성일</th>
-                                            <th>첨부파일</th> -->
-                                        </tr>
-                                    </thead>
+                                   
                                     <!-- 일정 상세보기 추가할 부분 -->
-                                    
-                                    
+                                    <tbody>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">작성자</th>
+											<td colspan="3">
+												<%= dto.getName() %>
+											</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">작성일</th>
+											<td>
+												<%= dto.getPostdate() %>
+											</td>
+										</tr>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">제목</th>
+											<td colspan="3">
+												<%= dto.getTitle() %>
+											</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">조회수</th>
+											<td>
+												<%= dto.getVisitcount() %>
+											</td>
+										</tr>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">내용</th>
+											<td colspan="5">
+												<%= dto.getContent() %>
+											</td>
+										</tr>
+									</tbody>
 								</table>
                                 <br />
-                                <!-- 검색 -->
-                                <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
-                                    <select class="selectpicker admin-search">
-                                        <option>제목</option>
-                                        <option>작성자</option>
-                                        <option>작성일</option>
-                                      </select>
-                                      
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -387,7 +403,7 @@
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
                             <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_pwrite.jsp';" >등록</button></li>
+                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_program.jsp';">목록보기</button></li>
                         </ul>
                     </div>
                 </div>
