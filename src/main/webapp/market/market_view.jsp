@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,9 +18,19 @@
 4. 바로구매버튼, 장바구니버튼 나중에 구현되면 연결
 5. 수량이 입력되면 가격이랑, 적립금 계속 수정되게 함수로
  -->
+<script>
 
+    $(function(){
+		$('#cartbtn').click(function(){
+			$('#market_view').attr("action","../market/basketIns.do").submit();			
+		})  		
+	});
+
+   
+    
+</script>
  <body>
-	<center>
+<%-- 	<center> --%>
 	<div id="wrap">
 		<%@ include file="../include/top.jsp" %>
 
@@ -36,20 +48,25 @@
 					<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린장터&nbsp;>&nbsp;수아밀 제품 주문<p>
 				</div>
 				<div class="market_view_box">
-					<div class="market_left">
-					
+				
+				<form action="" id="market_view">
+					<div class="market_left">	
 					
 						<img src="../images/market/${boardList.product_sfile }" width="300px" height="200px"/>
 						<p class="plus_btn"><a href=""><img src="../images/market/plus_btn.gif" /></a></p>
 					</div>
 					<div class="market_right">
+					
+						<input type="hidden" name="product_no" value="${boardList.product_no}"/>
+						<input type="hidden" name="price" value="${boardList.price}"/>
+						
 						<p class="m_title">${ boardList.product_name }
 						<p>- ${ boardList.product_info }</p>
 						<ul class="m_list">
 							<li>
 								<dl>
 									<dt>가격</dt>
-									<dd class="p_style">${ boardList.price}</dd>
+									<dd class="p_style" >${ boardList.price}</dd>
 								</dl>
 								<dl>
 									<dt>적립금</dt>
@@ -57,7 +74,7 @@
 								</dl>
 								<dl>
 									<dt>수량</dt>
-									<dd><input type="text" name="" value="1" class="n_box" /></dd>
+									<dd><input type="text" id="count_num" name="count_num" value="1" class="n_box" /></dd>
 								</dl>
 								<dl style="border-bottom:0px;">
 									<dt>주문정보</dt>
@@ -66,8 +83,12 @@
 								<div style="clear:both;"></div>
 							</li>
 						</ul>
-						<p class="btn_box"><a href=""><img src="../images/market/m_btn01.gif" alt="바로구매" /></a>&nbsp;&nbsp;<a href="basket.jsp"><img src="../images/market/m_btn02.gif" alt="장바구니" /></a></p>
-					</div>
+						
+						<p class="btn_box"><a href=""><img src="../images/market/m_btn01.gif" alt="바로구매" /></a>&nbsp;&nbsp;
+						<!-- <img id="cartbtn" src="../images/market/m_btn02.gif" alt="장바구니" /> -->
+						<input type="image"  src="../images/market/m_btn02.gif" alt="장바구니" id="cartbtn" ></input> </p>
+					</div> 
+					</form>
 				</div>
 				<img src="../images/market/${boardList.product_sfile }" width="640px" height="426px"/>
 
@@ -78,6 +99,6 @@
 	
 
 	<%@ include file="../include/footer.jsp" %>
-	</center>
+	<%-- </center> --%>
  </body>
 </html>
