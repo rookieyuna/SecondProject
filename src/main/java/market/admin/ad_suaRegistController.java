@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import market.MKProductDAO;
 import market.MKProductDTO;
-import utils.BoardPage1;
+import utils.BoardPage;
 
 @WebServlet("/adminpage/ad_suaRegist.do")
 public class ad_suaRegistController extends HttpServlet
@@ -75,7 +75,7 @@ public class ad_suaRegistController extends HttpServlet
 		dao.close();
 		
 		//페이지 번호를 생성하기 위해 메서드 호출
-		String pagingImg = BoardPage1.pagingStr(totalCount, pageSize,
+		String pagingImg = BoardPage.pagingStr(totalCount, pageSize,
 				blockPage, pageNum, "../adminpage/ad_suaRegist.do");
 		//View로 전달할 데이터를 Map컬렉션에 저장
 		map.put("pagingImg", pagingImg); //페이지 번호

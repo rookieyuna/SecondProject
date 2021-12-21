@@ -215,7 +215,6 @@ public class BoardDAO extends JDBConnect{
 		return result;
 	}
 	
-<<<<<<< HEAD
 	// 게시판 - 수정 기능
 	public int updateEdit(BoardDTO dto) {
 		int result = 0;
@@ -292,35 +291,8 @@ public class BoardDAO extends JDBConnect{
 			e.printStackTrace();
 		}
 		return applyResult;
-=======
-	//게시물 수정 : 수정할 내용을 DTO객체에 저장 후 매개변수로 전달
-	public int updateEdit(BoardDTO dto) {
-		int results = 0;
-		
-		try {
-			//update를 위한 쿼리문
-			String query = "UPDATE board SET "
-					+ " title=?, content=? "
-					+ " WHERE num=?";
-			
-			//prepared 객체 생성
-			psmt = con.prepareStatement(query);
-			//인파라미터 설정
-			psmt.setString(1, dto.getTitle());
-			psmt.setString(2, dto.getContent());
-			psmt.setString(3, dto.getNum());
-			//쿼리 실행
-			results = psmt.executeUpdate();
-		}
-		catch (Exception e) {
-			System.out.println("게시물 수정 중 예외 발생");
-			e.printStackTrace();
-		}
-		
-		return results;
->>>>>>> refs/remotes/origin/main
 	}
-	
+
 	// 프로그램 일정 추가하기
 	public int pinsertWrite(BoardDTO dto) {
 		int result=0;
