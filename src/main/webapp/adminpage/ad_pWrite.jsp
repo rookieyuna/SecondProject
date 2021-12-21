@@ -6,6 +6,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Calendar"%>
 <%
+String cate = request.getParameter("cate");
 
 %>
 <!DOCTYPE html>
@@ -388,7 +389,8 @@
                             	onsubmit="return validateForm(this);">
                                 <table class="table table-bordered table-hover">
                                     
-                                    <!--프로그램 일정 작성하기 폼-->
+                                    
+                                    <!-----------프로그램 일정 작성하기 폼------------------>
                                     <tr>
 										<td>작성자</td>
 										<td><input type="text" name="id"  style="width: 30%;" /></td>

@@ -7,38 +7,38 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String cate = request.getParameter("cate");	
-	String cateUrl = request.getRequestURI() + "?cate=" + cate;
-	
-	BoardDAO dao = new BoardDAO();
-	Map<String, Object> param = new HashMap<String, Object>();
-	
-	String searchField = request.getParameter("searchField");
-	String searchWord = request.getParameter("searchWord");
-	
-	if(searchWord != null){
-		param.put("searchField", searchField);
-		param.put("searchWord", searchWord);
-		param.put("cate", cate);
-	}
-	
-	int totalCount = dao.selectCount(param, cate);
-	int pageSize = 10;
-	int blockPage = 5;
-	int totalPage = (int)Math.ceil((double)totalCount / pageSize);
-	int pageNum = 1;
-	
-	String pageTemp = request.getParameter("pageNum");
-	
-	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
-	
-	int start = (pageNum - 1) * pageSize + 1;
-	int end = pageNum * pageSize;
-	param.put("start", start);
-	param.put("end", end);
-	
-	List<BoardDTO> boardLists = dao.selectList(param, cate);
-	dao.close();
+String cate = request.getParameter("cate");	
+String cateUrl = request.getRequestURI() + "?cate=" + cate;
+
+BoardDAO dao = new BoardDAO();
+Map<String, Object> param = new HashMap<String, Object>();
+
+String searchField = request.getParameter("searchField");
+String searchWord = request.getParameter("searchWord");
+
+if(searchWord != null){
+	param.put("searchField", searchField);
+	param.put("searchWord", searchWord);
+	param.put("cate", cate);
+}
+
+int totalCount = dao.selectCount(param, cate);
+int pageSize = 10;
+int blockPage = 5;
+int totalPage = (int)Math.ceil((double)totalCount / pageSize);
+int pageNum = 1;
+
+String pageTemp = request.getParameter("pageNum");
+
+if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
+
+int start = (pageNum - 1) * pageSize + 1;
+int end = pageNum * pageSize;
+param.put("start", start);
+param.put("end", end);
+
+List<BoardDTO> boardLists = dao.selectList(param, cate);
+dao.close();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -385,14 +385,14 @@
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th class="boardCheckbox">
+                                           <!--  <th class="boardCheckbox">
                                                 <input type="checkbox" id="checkedAll">
-                                            </th>
-                                            <th class="numbering">번호</th>
-                                            <th class="boardtitle">제목</th>
-                                            <th class="boardwriter">작성자</th>
-                                            <th class="boarddate">작성일</th>
-                                            <th>첨부파일</th>
+                                            </th> -->
+                                            <th>번호</th>
+											<th>제목</th>
+											<th>작성자</th>
+											<th>작성일</th>
+											<th>조회수</th>
                                         </tr>
                                     </thead>
                                     <!-- 테이블 가공 (공지사항) -->
@@ -410,7 +410,7 @@
 											for(BoardDTO dto : boardLists){
 												virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
 										%>
-										<tr onclick="location.href='board_view.jsp?cate=freeB&num=<%= dto.getNum() %>'">
+										<tr onclick="location.href='ad_nView.jsp?cate=notB&num=<%= dto.getNum() %>'">
 											<td><%= virtualNum %></td>
 											<td><%= dto.getTitle() %></td>
 											<td><%= dto.getId() %></td>
@@ -436,12 +436,14 @@
                     </div>
 
                     <!-- 버튼 -->
+                   
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
                             <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_nWrite.jsp';">작성</button></li>
+                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_nWrite.jsp?cate=<%= cate %>'">작성</button></li>
                         </ul>
                     </div>
+                    
                 </div>
                 <!-- /.container-fluid -->
 
