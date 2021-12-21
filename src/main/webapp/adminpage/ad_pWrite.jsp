@@ -1,3 +1,5 @@
+<%@page import="membership.MemberDTO"%>
+<%@page import="membership.MemberDAO"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -6,9 +8,38 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Calendar"%>
 <%
+String UserId = session.getAttribute("UserId").toString();
+String UserPwd = session.getAttribute("UserPwd").toString();
+
 String cate = request.getParameter("cate");
 
+MemberDAO mDao = new MemberDAO();
+MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
 %>
+<script type="text/javascript">
+	function validateForm(form) {
+		if(form.id.value == ""){
+			alert("아이디를 입력하세요.");
+			form.id.focus();
+			return false;
+		}
+		if(form.title.value == ""){
+			alert("제목을 입력하세요.");
+			form.title.focus();
+			return false;
+		}
+		if(form.content.value == "") {
+			alert("내용을 입력하세요.");
+			form.content.focus();
+			return false;
+		}
+		if(form.postdate.value == "") {
+			alert("날짜를 입력하세요.");
+			form.postdate.focus();
+			return false;
+		}
+	}
+</script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,30 +83,6 @@ String cate = request.getParameter("cate");
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
-    <script type="text/javascript">
-	function validateForm(form) {
-		if(form.id.value == ""){
-			alert("아이디를 입력하세요.");
-			form.id.focus();
-			return false;
-		}
-		if(form.title.value == ""){
-			alert("제목을 입력하세요.");
-			form.title.focus();
-			return false;
-		}
-		if(form.content.value == "") {
-			alert("내용을 입력하세요.");
-			form.content.focus();
-			return false;
-		}
-		if(form.postdate.value == "") {
-			alert("날짜를 입력하세요.");
-			form.postdate.focus();
-			return false;
-		}
-	}
-	</script>
 </head>
 
 <body id="page-top">
@@ -385,7 +392,7 @@ String cate = request.getParameter("cate");
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            <form  method="post" action="ad_pWriteProcess.jsp"
+                            <form name="writeFrm" method="post" action="ad_pWriteProcess.jsp"
                             	onsubmit="return validateForm(this);">
                                 <table class="table table-bordered table-hover">
                                     
@@ -393,7 +400,7 @@ String cate = request.getParameter("cate");
                                     <!-----------프로그램 일정 작성하기 폼------------------>
                                     <tr>
 										<td>작성자</td>
-										<td><input type="text" name="id"  style="width: 30%;" /></td>
+										<td><input type="text" name="id"  style="width: 30%;" value="<%= mDto.getId() %>" /></td>
 									</tr>
 									<tr>
 										<td>제목</td>
@@ -414,7 +421,8 @@ String cate = request.getParameter("cate");
 								<!-- 각종버튼 -->
 							    <div class="row mb-3">
 							        <div class="col d-flex justify-content-end">
-							            <button type="button" class="btn btn-warning" onclick="location.href='ad_program.jsp';">목록보기</button>
+							        <input type="hidden" name="cate" value="<%= cate %>"/>
+							            <button type="button" class="btn btn-warning" onclick="location.href='ad_program.jsp?cate=<%= cate %>'">목록보기</button>
 							            <button type="submit" class="btn btn-danger">전송하기</button>
 							            <button type="reset" class="btn btn-dark">다시쓰기</button>
 							        </div>
