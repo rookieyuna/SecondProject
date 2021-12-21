@@ -5,30 +5,7 @@
 <%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<script>
-function validateForm(form) {
-	if(form.id.value == ""){
-		alert("작성자를 입력하세요.");
-		form.id.focus();
-		return false;
-	}
-	if(form.title.value == ""){
-		alert("제목을 입력하세요.");
-		form.title.focus();
-		return false;
-	}
-	if(form.content.value == "") {
-		alert("내용을 입력하세요.");
-		form.content.focus();
-		return false;
-	}
-	if(form.pass.value == "") {
-		alert("비밀번호를 입력하세요.");
-		form.pass.focus();
-		return false;
-	}
-}
-</script>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -149,7 +126,7 @@ function validateForm(form) {
                 <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Market Management:</h6>
-                        <a class="collapse-item" href="ad_suaRegist.jsp">상품 등록 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_suaRegist.do">상품 등록 관리</a>
                         <a class="collapse-item" href="ad_order.jsp">주문내역 관리</a>
                         <a class="collapse-item" href="ad_requst.jsp">견적의뢰 관리</a>
                         <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
@@ -358,76 +335,105 @@ function validateForm(form) {
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">공지사항 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - NOTICE</p>
+                    <h1 class="h3 mb-2 text-gray-800">상품 등록 관리</h1>
+                    <p class="mb-4">BOARD MANAGEMENT - REGIST PRODUCT</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">공지사항 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">상품 목록</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                            <form action="" id="explist"><!-- 삭제처리할때 form -->
                                 <table class="table table-bordered table-hover">
-                                    <colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th class="boardCheckbox">
+                                                <input type="checkbox" id="checkedAll">
+                                            </th>
+                                            <th class="numbering">번호</th>
+                                            <th class="boardwriter">상품번호</th>
+                                            <th class="boardwriter">상품 이미지</th>
+                                            <th class="boardtitle">상품명</th>
+                                            <th class="boardwriter">가격</th>
+                                            <th class="boardwriter">적립금</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- 테이블 가공 (공지사항 상세보기) -->
+                               
+                                    <tbody>
+                                     <c:choose>
+										<c:when test="${empty productLists }">
+											<tr>
+												<td colspan="6" align="center">등록된 게시물이 없습니다!</td>
+											</tr>
+										</c:when>
+										<c:otherwise> 
+											<!-- 게시물이 있을때 -->
+											<c:forEach items="${productLists }" var="row" varStatus="loop">
+												<tr align="center">
+													<td><input type="checkbox" name="chk" value="${row.product_no }"></td>
+													<td class="numbering">
+														<!-- 가상번호 계산하기
+														=> 전체게시물수 - (((페이지번호-1) * 페이지당 게시물수)+ 해당루프의 index)
+														index는 0부터 시작한다. -->
+														${map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
+									            	<td class="numbering">${row.product_no }</td><!-- 상품 번호 -->
+									            	<td class="boardwriter"><!-- 상품 이미지 -->
+									            		<img src="../images/market/${row.product_sfile }" width="100px" height="80px"/>
+									            	</td>
+									            	<td class="boardtitle">${row.product_name }</td><!-- 상품명 -->
+									            	<td>${row.price }</td><!-- 가격 -->
+									            	<td>${row.milage }</td><!-- 적립금 -->
+									        	</tr>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
+                                    </tbody>
+                                </table>
+                                </form>
 
-                                    </colgroup>
-                                    
-                                    <!-- 테이블 가공 (공지사항 작성하기) -->
-                               		<form name="writeFrm" method="post" enctype="multipart/form-data"
-									action="ad_nwriteProcess.jsp" onsubmit="return validateForm(this);">
-									<table border="1" width="90%">
-										<tr>
-											<td>작성자</td>
-											<td>
-												<input type="text" name="id" style="width: 150px;"/>
-											</td>
-										</tr>
-										<tr>
-											<td>제목</td>
-											<td>
-												<input type="text" name="title" style="width: 90%;"/>
-											</td>
-										</tr>
-										<tr>
-											<td>내용</td>
-											<td>
-												<textarea name="content" style="width:90%; height: 100px;"></textarea>
-											</td>
-										</tr>
-										<tr>
-											<td>첨부파일</td>
-											<td>
-												<input type="file" name="ofile" />
-											</td>
-										</tr>
-										<tr>
-											<td>비밀번호</td>
-											<td>
-												<input type="password" name="pass" style="width: 100px;"/>
-											</td>
-										</tr>
-										
-									</table>
-									<br />
-									<br />
-									 <!-- 각종버튼 -->
-								    <div class="row mb-3">
-								        <div class="col d-flex justify-content-end">
-								            <button type="button" class="btn btn-warning" onclick="location.href='ad_notice.jsp';">목록보기</button>
-								            <button type="submit" class="btn btn-danger">전송하기</button>
-								            <button type="reset" class="btn btn-dark">다시쓰기</button>
-								        </div>
-								    </div>
-								</form>
+                                <!-- 검색 -->
+                                <form method="get" class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
+                                    <select class="selectpicker admin-search" name="searchField">
+                                        <option value="product_name">상품명</option>
+                                        <option value="price">가격</option>
+                                      </select>
+                                      
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2" name="searchWord">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="submit">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
 
-                    
+                    <!-- 버튼 -->
+                    <div class="board-btn-group01">
+                        <ul class="d-flex justify-content-end">
+                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
+                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_suaWrite.jsp';">등록</button></li>
+                        </ul>
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
-
+			
+			<!-- 페이지번호 출력 -->
+			    <table width="90%">
+			        <tr align="center">
+			        <!-- 페이징 처리 -->
+			        	<td>
+			        		${map.pagingImg }
+			        	</td>
+			        </tr>
+			    </table>
+			    
             </div>
             <!-- End of Main Content -->
 

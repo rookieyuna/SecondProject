@@ -5,7 +5,16 @@
 <%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String cate = request.getParameter("cate");	
 
+    String num = request.getParameter("num");
+    BoardDAO dao = new BoardDAO();
+    dao.updateVisitCount(num);
+    BoardDTO dto = dao.selectView(num);
+	
+    dao.close();
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -345,52 +354,62 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                            <form enctype="multipart/form-data">
                                 <table class="table table-bordered table-hover">
                                     <colgroup>
 
                                     </colgroup>
-                                    <thead>
-                                        <tr>
-                                            <th class="boardCheckbox">
-                                                <input type="checkbox" id="checkedAll">
-                                            </th>
-                                            <th class="numbering">번호</th>
-                                            <th class="boardtitle">제목</th>
-                                            <th class="boardwriter">작성자</th>
-                                            <th class="boarddate">작성일</th>
-                                            <th>첨부파일</th>
-                                        </tr>
-                                    </thead>
+                                    
                                     <!-- 테이블 가공 (공지사항 상세보기) -->
                                
                                     <tbody>
                                         <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td class="numbering">Num</td>
-                                            <td class="boardtitle">Dummy Title</td>
-                                            <td>Dummy Pass</td>
-                                            <td>Dummy Postdate</td>
-                                            <td><i class="bi bi-file-check upfile fa-lg"></i></td>
-                                        </tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">작성자</th>
+											<td>
+												<%= dto.getName() %>
+											</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">작성일</th>
+											<td>
+												<%= dto.getPostdate() %>
+											</td>
+										</tr>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">이메일</th>
+											<td>
+												<%= dto.getEmail() %>
+											</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">조회수</th>
+											<td>
+												<%= dto.getVisitcount() %>
+											</td>
+										</tr>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">제목</th>
+											<td colspan="3">
+												<%= dto.getTitle() %>
+											</td>
+										</tr>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">내용</th>
+											<td colspan="3">
+												<%= dto.getContent() %>
+											</td>
+										</tr>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">첨부파일</th>
+											<td colspan="3">
+												<%= dto.getOfile() %>
+											</td>
+										</tr>
                                     </tbody>
                                 </table>
-
-                                <!-- 검색 -->
-                                <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
-                                    <select class="selectpicker admin-search">
-                                        <option>제목</option>
-                                        <option>작성자</option>
-                                        <option>작성일</option>
-                                      </select>
-                                      
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -400,7 +419,7 @@
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
                             <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_nwrite.jsp';">작성</button></li>
+                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_notice.jsp?cate=<%= cate %>';">목록보기</button></li>
                         </ul>
                     </div>
                 </div>

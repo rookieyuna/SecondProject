@@ -198,8 +198,8 @@ public class BoardDAO extends JDBConnect{
 			psmt.setString(2, dto.getPass());
 			psmt.setDate(3, dto.getPostdate());
 			psmt.setString(4, dto.getTitle());
-			psmt.setString(4, dto.getContent());
-			psmt.setString(5, dto.getCategory());
+			psmt.setString(5, dto.getContent());
+			psmt.setString(6, dto.getCategory());
 
 			result = psmt.executeUpdate();
 		} catch (Exception e) {
@@ -209,5 +209,30 @@ public class BoardDAO extends JDBConnect{
 		return result;
 	}
 	
-	//프로그램 일정 불러오기 
+	//프로그램 일정 상세보기 
+	public BoardDTO pselectView(String num) {
+		BoardDTO dto = new BoardDTO();
+		
+		String query = "SELECT B.*, M.name, M.email "
+				+ " FROM member M INNER JOIN board B "
+				+ " ON M.id=B.id "
+				+ " WHERE num=?"; 
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, num);
+			rs = psmt.executeQuery();
+			if(rs.next()) { 
+				dto.setNum(rs.getString("num"));
+				dto.setId(rs.getString("id"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setPostdate(rs.getDate("postdate"));
+				dto.setCategory(rs.getString("category"));
+			}
+		} catch (Exception e) {
+			System.out.println("게시물 상세보기 중 예외 발생");
+			e.printStackTrace();
+		}
+		return dto;
+	}
 }

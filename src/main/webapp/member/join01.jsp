@@ -478,9 +478,22 @@
 
 				<p style="text-align:center; margin-bottom:20px;"><input type="checkbox" name="agreement1" value="" id="confirmChk" >이용약관과 개인정보취급방침에 동의합니다.</p>
 
-				<p style="text-align:center; margin-bottom:20px"><input type="image" src="../images/btn01.gif" id="confirm"/>&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
+				<p style="text-align:center; margin-bottom:20px"><input type="image" src="../images/btn01.gif" id="confirm" />&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
 
- <script>
+
+			</div>
+			
+		</div>
+		<%@ include file="../include/quick.jsp" %>
+	</div>
+	
+
+	<%@ include file="../include/footer.jsp" %>
+	</center>
+ </body>
+</html>
+
+<script>
 $(function(){
     $('#confirm').click(function(){
     	alert("약관동의");
@@ -494,17 +507,3 @@ $(function(){
 });
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-			</div>
-			
-		</div>
-		<%@ include file="../include/quick.jsp" %>
-	</div>
-	
-
-	<%@ include file="../include/footer.jsp" %>
-	</center>
- </body>
-
-</html>
-

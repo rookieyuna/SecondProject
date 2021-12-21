@@ -1,56 +1,51 @@
-<%@page import="board.BoardDAO"%>
 <%@page import="board.BoardDTO"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.*" %>
-<%
-	String cate = request.getParameter("cate");	
-	String cateUrl = request.getRequestURI() + "?cate=" + cate;
-	
-	BoardDAO dao = new BoardDAO();
-	Map<String, Object> param = new HashMap<String, Object>();
-	
-	String searchField = request.getParameter("searchField");
-	String searchWord = request.getParameter("searchWord");
-	
-	if(searchWord != null){
-		param.put("searchField", searchField);
-		param.put("searchWord", searchWord);
-		param.put("cate", cate);
+<script>
+function validateForm(form) {
+	if(form.product_no.value == ""){
+		alert("상품 번호를 입력하세요.");
+		form.product_no.focus();
+		return false;
 	}
-	
-	int totalCount = dao.selectCount(param, cate);
-	int pageSize = 10;
-	int blockPage = 5;
-	int totalPage = (int)Math.ceil((double)totalCount / pageSize);
-	int pageNum = 1;
-	
-	String pageTemp = request.getParameter("pageNum");
-	
-	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
-	
-	int start = (pageNum - 1) * pageSize + 1;
-	int end = pageNum * pageSize;
-	param.put("start", start);
-	param.put("end", end);
-	
-	List<BoardDTO> boardLists = dao.selectList(param, cate);
-	dao.close();
-%>
+	if(!form.product_name.value){
+		alert("상품명을 입력하세요.");
+		form.product_name.focus();
+		return false;
+	}
+	if(!form.product_info.value) {
+		alert("상품 설명을 입력하세요.");
+		form.product_info.focus();
+		return false;
+	}
+	if(!form.price.value) {
+		alert("상품 가격을 입력하세요.");
+		form.price.focus();
+		return false;
+	}
+	if(!form.milage.value) {
+		alert("상품 적립금을 입력하세요.");
+		form.milage.focus();
+		return false;
+	}
+}
+</script>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+	
+	</script>
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
     <!-- Custom fonts for this template -->
@@ -69,8 +64,7 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-   
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 
 <body id="page-top">
@@ -127,8 +121,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Board Management:</h6>
-                        <a class="collapse-item" href="ad_notice.jsp?cate=notB">공지사항 관리</a>
-                        <a class="collapse-item" href="ad_program.jsp?cate=proB">프로그램일정 관리</a>
+                        <a class="collapse-item" href="ad_notice.jsp">공지사항 관리</a>
+                        <a class="collapse-item" href="ad_program.jsp">프로그램일정 관리</a>
                         <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
                         <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
                         <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>
@@ -160,14 +154,13 @@
                 <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Market Management:</h6>
-                        <a class="collapse-item" href="ad_suaRegist.jsp">상품 등록 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_suaRegist.do">상품 등록 관리</a>
                         <a class="collapse-item" href="ad_order.jsp">주문내역 관리</a>
                         <a class="collapse-item" href="ad_requst.jsp">견적의뢰 관리</a>
                         <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
                     </div>
                 </div>
             </li>
-
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -370,107 +363,72 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">프로그램일정 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - PROGRAM</p>
+                    <h1 class="h3 mb-2 text-gray-800">상품 등록 관리</h1>
+                    <p class="mb-4">BOARD MANAGEMENT - REGIST PRODUCT</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">프로그램일정 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">상품 등록</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <!-- 달력 테이블 나오는 부분 -->
-                                <%
-								    Calendar cal = Calendar.getInstance();
-								    int year = request.getParameter("y") == null ? 
-								    		cal.get(Calendar.YEAR) : Integer.parseInt(request.getParameter("y"));
-								    int month = request.getParameter("m") == null ? 
-								    		cal.get(Calendar.MONTH) : (Integer.parseInt(request.getParameter("m")) - 1);
-								
-								    // 시작요일 확인
-								    cal.set(year, month, 1);
-								    int bgnWeek = cal.get(Calendar.DAY_OF_WEEK);
-								
-								    // 다음/이전월 계산
-								    int prevYear = year;
-								    int prevMonth = (month + 1) - 1;
-								    int nextYear = year;
-								    int nextMonth = (month  + 1) + 1;
-								
-								    // 1월인 경우 이전년 12월로 지정
-								    if (prevMonth < 1) {
-								        prevYear--;
-								        prevMonth = 12;
-								    }
-								
-								    // 12월인 경우 다음년 1월로 지정
-								    if (nextMonth > 12) {
-								        nextYear++;
-								        nextMonth = 1;
-								    }
-								%>
-								<table border="0" cellpadding="0" cellspacing="0">
-								<tr>
-								    <td align="center"><a href="./ad_program.jsp?y=<%=prevYear%>&m=<%=prevMonth%>">◁</a> <%=year%>년 <%=month+1%>월 <a href="./ad_program.jsp?y=<%=nextYear%>&m=<%=nextMonth%>">▷</a></td>
-								</tr>
-								<tr>
-								    <td>
-								
-								        <table border="1" style="width: 700px; height: 300px;">
-								        <tr>
-								            <td align="center"><font color ="red">일</td>
-								            <td align="center">월</td>
-								            <td align="center">화</td>
-								            <td align="center">수</td>
-								            <td align="center">목</td>
-								            <td align="center">금</td>
-								            <td align="center"><font color ="skyblue">토</td>
-								        </tr>
-								        <tr>
-										<%
-										    // 시작요일까지 이동
-										    for (int i=1; i<bgnWeek; i++) out.println("<td>&nbsp;</td>");
-										
-										    // 첫날~마지막날까지 처리
-										    // - 날짜를 하루씩 이동하여 월이 바뀔때까지 그린다
-										    while (cal.get(Calendar.MONTH) == month) {
-										        out.println("<td>" + cal.get(Calendar.DATE) + "</td>");
-										
-										        // 토요일인 경우 다음줄로 생성
-										        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY){
-										        	out.println("</tr><tr>");
-										        }
-										
-										        // 날짜 증가시키기
-										        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 
-										        		cal.get(Calendar.DATE)+1);
-										    }
-										
-										    // 끝날부터 토요일까지 빈칸으로 처리
-										    for (int i=cal.get(Calendar.DAY_OF_WEEK); i<=7; i++) 
-										    	out.println("<td>&nbsp;</td>");
-										%>
-								        </tr>
-								        </table>
-								
-								    </td>
-								</tr>
-								</table>
-								<br />
-								<br />
-                                
+                                <table class="table table-bordered table-hover">
+                                    <colgroup>
+
+                                    </colgroup>
+                                    
+                                    <!-- 테이블 가공 (공지사항 작성하기) -->
+                               		<form name="writeFrm" method="post" enctype="multipart/form-data"
+									action="../adminpage/ad_suaWrite.do" onsubmit="return validateForm(this);">
+									<table border="1" width="90%">
+										<tr>
+											<td>상품명</td>
+											<td>
+												<input type="text" name="product_name" style="width: 70%;"/>
+											</td>
+										</tr>
+										<tr>
+											<td>상품설명</td>
+											<td>
+												<textarea name="product_info" style="width:70%; height: 100px;"></textarea>
+											</td>
+										</tr>
+										<tr>
+											<td>가격</td>
+											<td>
+												<input type="text" name="price" style="width: 150px;"/>
+											</td>
+										</tr>
+										<tr>
+											<td>적립금</td>
+											<td>
+												<input type="text" name="milage" style="width: 150px;"/>
+											</td>
+										</tr>
+										<tr>
+											<td>첨부파일</td>
+											<td>
+												<input type="file" name="product_ofile" />
+											</td>
+										</tr>
+									</table>
+									<br />
+									<br />
+									 <!-- 각종버튼 -->
+								    <div class="row mb-3">
+								        <div class="col d-flex justify-content-end">
+								            <button type="button" class="btn btn-warning" onclick="location.href='../adminpage/ad_suaRegist.do';">목록보기</button>
+								            <button type="submit" class="btn btn-danger">등록하기</button>
+								            <button type="reset" class="btn btn-dark">다시쓰기</button>
+								        </div>
+								    </div>
+								</form>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 버튼 -->
-                    <div class="board-btn-group01">
-                        <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_pWrite.jsp?cate=<%= cate %>'" >등록</button></li>
-                        </ul>
-                    </div>
+                    
                 </div>
                 <!-- /.container-fluid -->
 
@@ -535,14 +493,12 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
-
     <!-- BOK table first checkbox - All checked -->
     <script src="js/motion.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
-
 </body>
 
 </html>

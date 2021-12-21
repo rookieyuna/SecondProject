@@ -50,7 +50,7 @@ public class MemberDAO extends JDBConnect {
 		return dto;
 	}
 	
-	//회원가입 회원정보 삽입 메서드
+	//[회원가입] 회원정보 삽입 메서드
 	public int insertMember(MemberDTO dto) {
 		//입력결과 확인용 변수
 		int result=0;
@@ -110,6 +110,45 @@ public class MemberDAO extends JDBConnect {
 	}
 	
 	
+	
+	//회원정보 변경 메서드
+	public int modifyMember(MemberDTO dto) {
+		//입력결과 확인용 변수
+		int result=0;
+		try {
+			//인파라미터가 있는 쿼리문 작성(동적쿼리문)
+			String query = " Update member SET "
+						+ " pass=?, "
+						+ " name=?, "
+						+ " email=?, "
+						+ " postcode=?, "
+						+ " addr1=?, "
+						+ " addr2=?, "
+						+ " phone1=?, "
+						+ " phone2=? "
+						+ " WHERE id=? ";
+				
+			//동적쿼리문 실행을 위한 prepared 객체 생성
+			psmt = con.prepareStatement(query);
+			//순서대로 인파라미터 설정
+			psmt.setString(1, dto.getPass());
+			psmt.setString(2, dto.getName());
+			psmt.setString(3, dto.getEmail());
+			psmt.setString(4, dto.getPostcode());
+			psmt.setString(5, dto.getAddr1());
+			psmt.setString(6, dto.getAddr2());
+			psmt.setString(7, dto.getPhone1());
+			psmt.setString(8, dto.getPhone2());
+			psmt.setString(9, dto.getId());
+			//쿼리문 실행 : 입력에 성공하면 1, 실패하면 0 반환
+			result = psmt.executeUpdate();
+		}
+		catch (Exception e) {
+			System.out.println("회원정보 수정 중 예외 발생");
+			e.printStackTrace();
+		}	
+		return result;
+	}
 }
 	
 /*	//이름으로 아이디/비번 찾기
