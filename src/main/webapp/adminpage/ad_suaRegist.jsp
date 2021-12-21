@@ -1,8 +1,8 @@
-<%@page import="board.BoardDTO"%>
+<%@page import="market.MKProductDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="board.BoardDAO"%>
+<%@page import="market.MKProductDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -387,7 +387,7 @@
 														=> 전체게시물수 - (((페이지번호-1) * 페이지당 게시물수)+ 해당루프의 index)
 														index는 0부터 시작한다. -->
 														${map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
-									            	<td class="numbering" name="product_no">${row.product_no }</td><!-- 상품 번호 -->
+									            	<td class="numbering">${row.product_no }</td><!-- 상품 번호 -->
 									            	<td class="boardwriter"><!-- 상품 이미지 -->
 									            		<img src="../adminpage/Uploads/${row.product_sfile }" width="100px" height="80px"/>
 									            	</td>

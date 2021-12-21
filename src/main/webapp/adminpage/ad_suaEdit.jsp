@@ -38,7 +38,9 @@ function validateForm(form) {
 <html lang="en">
 
 <head>
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -364,12 +366,12 @@ function validateForm(form) {
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">상품 등록 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - REGIST PRODUCT</p>
+                    <p class="mb-4">BOARD MANAGEMENT - EDIT PRODUCT</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">상품 등록</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">상품 수정</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -380,30 +382,34 @@ function validateForm(form) {
                                     
                                     <!-- 테이블 가공 (공지사항 작성하기) -->
                                		<form name="writeFrm" method="post" enctype="multipart/form-data"
-									action="../adminpage/ad_suaWrite.do" onsubmit="return validateForm(this);">
+									action="../adminpage/ad_suaEdit.do" onsubmit="return validateForm(this);">
+									<input type="hidden" name="product_no" value=${dto.product_no } />
+									<input type="hidden" name="prevOfile" value=${dto.product_ofile } />
+									<input type="hidden" name="prevSfile" value=${dto.product_sfile } />
+									
 									<table border="1" width="90%">
 										<tr>
 											<td>상품명</td>
 											<td>
-												<input type="text" name="product_name" style="width: 70%;"/>
+												<input type="text" name="product_name" style="width: 70%;" value="${dto.product_name }"/>
 											</td>
 										</tr>
 										<tr>
 											<td>상품설명</td>
 											<td>
-												<textarea name="product_info" style="width:70%; height: 100px;"></textarea>
+												<textarea name="product_info" style="width:70%; height: 100px;">${dto.product_info }</textarea>
 											</td>
 										</tr>
 										<tr>
 											<td>가격</td>
 											<td>
-												<input type="text" name="price" style="width: 150px;"/>
+												<input type="text" name="price" style="width: 150px;" value="${dto.price }"/>
 											</td>
 										</tr>
 										<tr>
 											<td>적립금</td>
 											<td>
-												<input type="text" name="milage" style="width: 150px;"/>
+												<input type="text" name="milage" style="width: 150px;" value="${dto.milage }"/>
 											</td>
 										</tr>
 										<tr>

@@ -368,7 +368,7 @@
 										<tr>
 											<td>상품설명</td>
 											<td>
-												<textarea name="" style="width:70%; height: 100px;">${dto.product_info }</textarea>
+												<textarea name="" style="width:70%; height: 100px;" readonly>${dto.product_info }</textarea>
 											</td>
 										</tr>
 										<tr>
@@ -391,7 +391,7 @@
 									            다운로드가 완료되면 카운트 하기 위해 idx(일련번호)를 파라미터로 받는다.
 									             -->
 								            	<c:if test="${not empty dto.product_ofile }">
-								            	${dto.product_ofile }
+								            	${dto.product_sfile }
 									            	<a href="../adminpage/ad_suaDownload.do?ofile=${dto.product_ofile }&sfile=${dto.product_sfile}">
 									            	[다운로드]</a>
 								            	</c:if>
@@ -407,8 +407,8 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='../adminpage/pass.do?mode=edit&num=${param.num}';">수정</button></li>
-                            <li><button type="button" class="btn btn-outline-secondary" onclick="location.href='../adminpage/pass.do?mode=delete&num=${param.num}';">삭제</button></li>
+                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='../adminpage/ad_suaEdit.do?product_no=${dto.product_no}';">수정</button></li>
+                            <li><button type="button" class="btn btn-outline-secondary" onclick="location.href='../adminpage/ad_suaDelete.do';">삭제</button></li>
                             <li><button type="button" class="btn btn-warning" onclick="location.href='../adminpage/ad_suaRegist.do';">목록보기</button></li>
                         </ul>
                     </div>

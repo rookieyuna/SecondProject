@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import fileupload.FileUtil;
 import market.MKProductDAO;
 import market.MKProductDTO;
-import market.marketApplicationDAO;
-import utils.JSFunction;
 
 @WebServlet("/adminpage/ad_suaDelete.do")
 public class ad_suaDeleteController extends HttpServlet{
@@ -21,14 +19,21 @@ public class ad_suaDeleteController extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		String[] chk = req.getParameterValues("chk");
-		String product_no = req.getParameter("product_no");
 		
     	MKProductDAO dao = new MKProductDAO();
-		
+    	MKProductDTO dto = new MKProductDTO();
+    	String saveFileName;
+    	
+    	
 		int delResult = 0;
 		
 		for(String val : chk) {		
+			//첨부 파일 먼저 삭제 후
+			dto = dao.selectView(val);
+			saveFileName = dto.getProduct_sfile();
+			FileUtil.deleteFile(req, "/adminpage/Uploads", saveFileName);
 			
+			//상품 데이터 삭제
 			delResult = dao.deleteProduct(val);
 			
 			if(delResult == 0) {
@@ -36,16 +41,10 @@ public class ad_suaDeleteController extends HttpServlet{
 			}
 		}
 		
-		
-		MKProductDTO dto = dao.selectView(product_no);
 		dao.close();
+		System.out.println("삭제성공");
 		
-		String saveFileName = dto.getProduct_sfile();
-		
-		FileUtil.deleteFile(req, "/adminpage/Uploads", saveFileName);
-		
-		resp.sendRedirect("../adminpage/ad_suaDelete.do");
+		resp.sendRedirect("../adminpage/ad_suaRegist.do");
 		
 	}
-	
 }

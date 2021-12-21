@@ -95,7 +95,6 @@ public class MKProductDAO extends DBConnPool{
                 dto.setProduct_info(rs.getString(5));
                 dto.setProduct_ofile(rs.getString(6));
                 dto.setProduct_sfile(rs.getString(7));
-                System.out.println(dto.getPrice());
     		}
     	}
     	catch (Exception e) {
@@ -154,4 +153,37 @@ public class MKProductDAO extends DBConnPool{
         return result;  
     }
  
+    
+    //상품 수정
+  	public int updatePost(MKProductDTO dto) {
+  		int result = 0;
+  		
+  		try{
+  			//update를 위한 쿼리문
+  			String query = "UPDATE product SET "
+  					+ " product_name=?, product_info=?, price=?, "
+  					+ " milage=?, product_ofile=?, product_sfile=? "
+  					+ " WHERE product_no=? ";
+  			
+  			//prepared객체 생성
+  			psmt = con.prepareStatement(query);
+  			//인파라미터 설정
+  			psmt.setString(1, dto.getProduct_name());
+  			psmt.setString(2, dto.getProduct_info());
+  			psmt.setInt(3, dto.getPrice());
+  			psmt.setInt(4, dto.getMilage());
+  			psmt.setString(5, dto.getProduct_ofile());
+  			psmt.setString(6, dto.getProduct_sfile());
+  			psmt.setString(7, dto.getProduct_no());
+  			
+  			//쿼리 실행
+  			result = psmt.executeUpdate();
+  		} 
+  		catch (Exception e){
+  			System.out.println("게시물 수정 중 예외 발생");
+  			e.printStackTrace();
+  		}
+  		
+  		return result;
+  	}
 }
