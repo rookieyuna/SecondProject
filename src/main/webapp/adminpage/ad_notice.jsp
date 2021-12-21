@@ -424,7 +424,7 @@ dao.close();
 									</tbody>
                                 </table>
                                 <div class="boardTool">
-									<div class="tool_Paging">
+									<div class="tool_Paging justify-content-center" >
 										<ul>
 											<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, cateUrl, searchField, searchWord) %>
 										</ul>
