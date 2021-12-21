@@ -5,7 +5,35 @@
 <%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script>
+function validateForm(form) {
+	if(form.product_no.value == ""){
+		alert("상품 번호를 입력하세요.");
+		form.product_no.focus();
+		return false;
+	}
+	if(!form.product_name.value){
+		alert("상품명을 입력하세요.");
+		form.product_name.focus();
+		return false;
+	}
+	if(!form.product_info.value) {
+		alert("상품 설명을 입력하세요.");
+		form.product_info.focus();
+		return false;
+	}
+	if(!form.price.value) {
+		alert("상품 가격을 입력하세요.");
+		form.price.focus();
+		return false;
+	}
+	if(!form.milage.value) {
+		alert("상품 적립금을 입력하세요.");
+		form.milage.focus();
+		return false;
+	}
+}
+</script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -341,99 +369,69 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">상품 목록</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">상품 등록</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            <form action="" id="explist"><!-- 삭제처리할때 form -->
                                 <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="boardCheckbox">
-                                                <input type="checkbox" id="checkedAll">
-                                            </th>
-                                            <th class="numbering">번호</th>
-                                            <th class="boardwriter">상품번호</th>
-                                            <th class="boardwriter">상품 이미지</th>
-                                            <th class="boardtitle">상품명</th>
-                                            <th class="boardwriter">가격</th>
-                                            <th class="boardwriter">적립금</th>
-                                        </tr>
-                                    </thead>
-                                    <!-- 테이블 가공 (공지사항 상세보기) -->
-                               
-                                    <tbody>
-                                     <c:choose>
-										<c:when test="${empty productLists }">
-											<tr>
-												<td colspan="6" align="center">등록된 게시물이 없습니다!</td>
-											</tr>
-										</c:when>
-										<c:otherwise> 
-											<!-- 게시물이 있을때 -->
-											<c:forEach items="${productLists }" var="row" varStatus="loop">
-												<tr align="center">
-													<td><input type="checkbox" name="chk" value="${row.product_no }"></td>
-													<td class="numbering">
-														<!-- 가상번호 계산하기
-														=> 전체게시물수 - (((페이지번호-1) * 페이지당 게시물수)+ 해당루프의 index)
-														index는 0부터 시작한다. -->
-														${map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
-									            	<td class="numbering">${row.product_no }</td><!-- 상품 번호 -->
-									            	<td class="boardwriter"><!-- 상품 이미지 -->
-									            		<img src="../images/market/${row.product_sfile }" width="100px" height="80px"/>
-									            	</td>
-									            	<td class="boardtitle">${row.product_name }</td><!-- 상품명 -->
-									            	<td>${row.price }</td><!-- 가격 -->
-									            	<td>${row.milage }</td><!-- 적립금 -->
-									        	</tr>
-											</c:forEach>
-										</c:otherwise>
-									</c:choose>
-                                    </tbody>
-                                </table>
-                                </form>
+                                    <colgroup>
 
-                                <!-- 검색 -->
-                                <form method="get" class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
-                                    <select class="selectpicker admin-search" name="searchField">
-                                        <option value="product_name">상품명</option>
-                                        <option value="price">가격</option>
-                                      </select>
-                                      
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2" name="searchWord">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="submit">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </colgroup>
+                                    
+                                    <!-- 테이블 가공 (공지사항 작성하기) -->
+                               		<form name="writeFrm" method="post" enctype="multipart/form-data"
+									action="../adminpage/ad_suaWrite.do" onsubmit="return validateForm(this);">
+									<table border="1" width="90%">
+										<tr>
+											<td>상품명</td>
+											<td>
+												<input type="text" name="product_name" style="width: 70%;"/>
+											</td>
+										</tr>
+										<tr>
+											<td>상품설명</td>
+											<td>
+												<textarea name="product_info" style="width:70%; height: 100px;"></textarea>
+											</td>
+										</tr>
+										<tr>
+											<td>가격</td>
+											<td>
+												<input type="text" name="price" style="width: 150px;"/>
+											</td>
+										</tr>
+										<tr>
+											<td>적립금</td>
+											<td>
+												<input type="text" name="milage" style="width: 150px;"/>
+											</td>
+										</tr>
+										<tr>
+											<td>첨부파일</td>
+											<td>
+												<input type="file" name="product_ofile" />
+											</td>
+										</tr>
+									</table>
+									<br />
+									<br />
+									 <!-- 각종버튼 -->
+								    <div class="row mb-3">
+								        <div class="col d-flex justify-content-end">
+								            <button type="button" class="btn btn-warning" onclick="location.href='../adminpage/ad_suaRegist.do';">목록보기</button>
+								            <button type="submit" class="btn btn-danger">등록하기</button>
+								            <button type="reset" class="btn btn-dark">다시쓰기</button>
+								        </div>
+								    </div>
+								</form>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 버튼 -->
-                    <div class="board-btn-group01">
-                        <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_suaWrite.jsp';">등록</button></li>
-                        </ul>
-                    </div>
+                    
                 </div>
                 <!-- /.container-fluid -->
-			
-			<!-- 페이지번호 출력 -->
-			    <table width="90%">
-			        <tr align="center">
-			        <!-- 페이징 처리 -->
-			        	<td>
-			        		${map.pagingImg }
-			        	</td>
-			        </tr>
-			    </table>
-			    
+
             </div>
             <!-- End of Main Content -->
 

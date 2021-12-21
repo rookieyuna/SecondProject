@@ -33,17 +33,24 @@ public class MKProductDAO extends DBConnPool{
         return totalCount;
     }
     
- // 검색 조건에 맞는 게시물 목록을 반환합니다(페이징 기능 지원).
+    // 검색 조건에 맞는 게시물 목록을 반환합니다(페이징 기능 지원).
     public List<MKProductDTO> selectListPage(Map<String,Object> map) {
         List<MKProductDTO> board = new Vector<MKProductDTO>();
-        String query = "SELECT * FROM ( "
+        String query = ""
+        			 + "SELECT * FROM ( "
                      + "    SELECT Tb.*, ROWNUM rNum FROM ( "
                      + "        SELECT * FROM product ";
+
+        if (map.get("searchWord") != null)
+        {
+            query += " WHERE " + map.get("searchField")
+                   + " LIKE '%" + map.get("searchWord") + "%' ";
+        }
 
         query += "        ORDER BY product_no DESC "
                + "    ) Tb "
                + " ) "
-               + " WHERE rNum BETWEEN ? AND ?";
+               + " WHERE (rNum BETWEEN ? AND ? )";
 
         try {
             psmt = con.prepareStatement(query);
@@ -98,4 +105,29 @@ public class MKProductDAO extends DBConnPool{
     	return dto;  
     }
     
+    //상품 등록
+    public int insertWrite(MKProductDTO dto) {
+
+        int result = 0;
+        try {
+            String query = "INSERT INTO product ( "
+                         + " product_no, product_name, product_info, price, "
+                         + " milage, product_ofile, product_sfile) "
+                         + " VALUES ( "
+                         + " seq_board_num.NEXTVAL,?,?,?,?,?,?)";
+            psmt = con.prepareStatement(query);
+            psmt.setString(1, dto.getProduct_name());
+            psmt.setString(2, dto.getProduct_info());
+            psmt.setString(3, dto.getPrice().replaceAll(",", ""));
+            psmt.setString(4, dto.getMilage().replaceAll(",", ""));
+            psmt.setString(5, dto.getProduct_ofile());
+            psmt.setString(6, dto.getProduct_sfile());
+            result = psmt.executeUpdate();
+        }
+        catch (Exception e) {
+            System.out.println("상품 등록 중 예외 발생");
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
