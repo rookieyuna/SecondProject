@@ -178,4 +178,36 @@ public class BoardDAO extends JDBConnect{
 		}
 		return result;
 	}
+	
+	// 프로그램 일정 추가하기
+	public int pinsertWrite(BoardDTO dto) {
+		int result=0;
+		try {
+			String query = "INSERT INTO board ( "
+					+ " num, id, title, postdate, content, visitcount, category) "
+					+ " VALUES ( "
+					+ " seq_board_num.NEXTVAL, ?, ?, ?, ?, 0, ?)";
+
+			psmt = con.prepareStatement(query);
+			System.out.println("아이디 : "+ dto.getId());
+			System.out.println("제목 : "+ dto.getTitle());
+			System.out.println("내용 : "+ dto.getContent());
+			System.out.println("카테 : "+ dto.getCategory());
+
+			psmt.setString(1, dto.getId());
+			psmt.setString(2, dto.getPass());
+			psmt.setDate(3, dto.getPostdate());
+			psmt.setString(4, dto.getTitle());
+			psmt.setString(4, dto.getContent());
+			psmt.setString(5, dto.getCategory());
+
+			result = psmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("게시물 입력 중 예외 발생");
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	//프로그램 일정 불러오기 
 }

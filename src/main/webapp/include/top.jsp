@@ -14,7 +14,7 @@
 		%>
 		<!-- 로그인후 -->
 		<li><a href="../member/logout.jsp"><img src="../images/lnb05.gif" alt="LOG OUT" /></a></li>
-		<li><a href="../center/sub07.jsp"><img src="../images/lnb06.gif" alt="MODIFY" /></a></li>
+		<li><a href="../member/join03.jsp"><img src="../images/lnb06.gif" alt="MODIFY" /></a></li>
 		<%	
 		}
 		%>

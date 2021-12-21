@@ -1,8 +1,13 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Calendar"%>
+<%
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,6 +19,18 @@
     <meta name="description" content="">
     <meta name="author" content="">
     
+    <!-- datepicker CDN과 함수 -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script>
+	    $(function() {
+	        $("#datepicker").datepicker();
+	        //대한민국에서 사용하는 날짜포맷으로 옵션 변경
+	        $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
+	    });
+	</script>
     
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
@@ -33,20 +50,31 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    
-    <!-- datepicker CDN과 함수 -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-    <script>
-    $(function() {
-        $("#datepicker").datepicker();
-        //대한민국에서 사용하는 날짜포맷으로 옵션 변경
-        $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
-    });
-    </script>
-    
+
+    <script type="text/javascript">
+	function validateForm(form) {
+		if(form.id.value == ""){
+			alert("아이디를 입력하세요.");
+			form.id.focus();
+			return false;
+		}
+		if(form.title.value == ""){
+			alert("제목을 입력하세요.");
+			form.title.focus();
+			return false;
+		}
+		if(form.content.value == "") {
+			alert("내용을 입력하세요.");
+			form.content.focus();
+			return false;
+		}
+		if(form.postdate.value == "") {
+			alert("날짜를 입력하세요.");
+			form.postdate.focus();
+			return false;
+		}
+	}
+	</script>
 </head>
 
 <body id="page-top">
@@ -103,8 +131,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Board Management:</h6>
-                        <a class="collapse-item" href="ad_notice.jsp">공지사항 관리</a>
-                        <a class="collapse-item" href="ad_program.jsp">프로그램일정 관리</a>
+                        <a class="collapse-item" href="ad_notice.jsp?cate=notB">공지사항 관리</a>
+                        <a class="collapse-item" href="ad_program.jsp?cate=proB">프로그램일정 관리</a>
                         <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
                         <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
                         <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>
@@ -356,20 +384,22 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                            <form  method="post" action="ad_pWriteProcess.jsp"
+                            	onsubmit="return validateForm(this);">
                                 <table class="table table-bordered table-hover">
                                     
                                     <!--프로그램 일정 작성하기 폼-->
                                     <tr>
 										<td>작성자</td>
-										<td><input type="text" name="id"  size="10" style="width: 90%;"/></td>
+										<td><input type="text" name="id"  style="width: 30%;" /></td>
 									</tr>
 									<tr>
 										<td>제목</td>
-										<td><input type="text" name="title" size="10" style="width: 90%;"/></td>
+										<td><input type="text" name="title" style="width: 30%;"/></td>
 									</tr>
 									<tr>
 										<td>작성일</td>
-										<td><input type="text" id="datepicker" size="10"></td>
+										<td><input type="text" name="postdate" id="datepicker" style="width: 20%;"></td>
 									</tr>
 									<tr>
 										<td>내용</td>
@@ -377,20 +407,17 @@
 											<textarea name="content" style="width:90%; height: 100px;"></textarea>
 										</td>
 									</tr>
-									</table>
-									 <!-- 각종버튼 -->
-								    <div class="row mb-3">
-								        <div class="col d-flex justify-content-end">
-								            <button type="button" class="btn btn-warning" onclick="location.href='ad_program.jsp';">목록보기</button>
-								            <button type="submit" class="btn btn-danger">전송하기</button>
-								            <button type="reset" class="btn btn-dark">다시쓰기</button>
-								        </div>
-								    </div>
-                                   
-									          
-                                </table>
-                                <br />
-                                
+								</table>
+									
+								<!-- 각종버튼 -->
+							    <div class="row mb-3">
+							        <div class="col d-flex justify-content-end">
+							            <button type="button" class="btn btn-warning" onclick="location.href='ad_program.jsp';">목록보기</button>
+							            <button type="submit" class="btn btn-danger">전송하기</button>
+							            <button type="reset" class="btn btn-dark">다시쓰기</button>
+							        </div>
+							    </div>
+                            </form>
                             </div>
                         </div>
                     </div>
@@ -441,20 +468,7 @@
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+    
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 

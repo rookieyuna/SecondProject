@@ -1,122 +1,47 @@
+<%@page import="utils.JSFunction"%>
 <%@page import="board.BoardDTO"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Map"%>
 <%@page import="board.BoardDAO"%>
+<%@page import="membership.MemberDTO"%>
+<%@page import="membership.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-	
-	</script>
-    <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
-
-    <!-- Custom fonts for this template -->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this page -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-    <!-- 211218 KBS ADD -->
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-</head>
-
-<body id="page-top">
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.jsp">
-                <div class="sidebar-brand-icon">
-                    <img src="./img/logo.gif" alt="이화여자대학교 운영 마포구립 장애인직업재활센터">
-                </div>
-                <div class="sidebar-brand-text mx-3">Admin</div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
+<%
+String id = request.getParameter("id");
+String title = request.getParameter("title");
+String content = request.getParameter("content");
+String pass = request.getParameter("pass");
 
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#a"
-                    aria-expanded="true" aria-controls="a">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>회원관리</span>
-                </a>
-                <div id="a" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">User Management:</h6>
-                        <a class="collapse-item" href="ad_member.jsp">사용자 관리</a>
-                    </div>
-                </div>
-            </li>
+BoardDTO dto = new BoardDTO();
+dto.setId(id);
+dto.setPass(pass);
+dto.setTitle(title);
+dto.setContent(content);
 
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#b"
-                    aria-expanded="true" aria-controls="b">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>열린공간</span>
-                </a>
-                <div id="b" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Board Management:</h6>
-                        <a class="collapse-item" href="ad_notice.jsp">공지사항 관리</a>
-                        <a class="collapse-item" href="ad_program.jsp">프로그램일정 관리</a>
-                        <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
-                        <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
-                        <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>
-                    </div>
-                </div>
-            </li>
+BoardDAO dao = new BoardDAO();
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#c"
-                    aria-expanded="true" aria-controls="c">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>커뮤니티</span>
-                </a>
-                <div id="c" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Community Management:</h6>
-                        <a class="collapse-item" href="ad_staff.jsp">직원자료실 관리</a>
-                        <a class="collapse-item" href="ad_guardian.jsp">보호자게시판 관리</a>
-                    </div>
-                </div>
-            </li>
+// DB 1개씩 동시 입력(본기능)
+int iResult = dao.insertWrite(dto);
+/* DB 여러개 동시 입력
+int iResult = 0;
+for(int i=1; i<=30; i++){
+	dto.setTitle(title + "-" + i);
+	iResult = dao.insertWrite(dto);
+}
+*/
+// 자원해제
+dao.close();
 
+<<<<<<< HEAD
+if(iResult == 1){
+	// 글쓰기에 성공했다면 리스트(목록) 페이지로 이동한다.
+	response.sendRedirect("ad_notice.jsp");
+}else{
+	// 실패한 경우 글쓰기 페이지로 이동한다. 즉 뒤로 이동한다.
+	JSFunction.alertBack("글쓰기에 실패하였습니다.", out);
+}
+%>
+=======
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#d"
                     aria-expanded="true" aria-controls="d">
@@ -476,3 +401,4 @@
 </body>
 
 </html>
+>>>>>>> branch 'main' of https://github.com/rookieyuna/SecondProject.git

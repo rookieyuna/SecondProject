@@ -1,6 +1,36 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="membership.MemberDTO"%>
+<%@page import="membership.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
+
+<!-- 회원정보 수정 전 로그인 확인 -->
+<%@ include file="./IsLoggedIn.jsp" %>
+
+<!-- 기존 회원정보 불러오기위한 작업 -->
+<%
+String id = session.getAttribute("UserId").toString(); //로그인 id
+String pass = session.getAttribute("UserPwd").toString(); //로그인 pass
+MemberDAO dao = new MemberDAO(); //DB연결
+MemberDTO dto = dao.allMemberDTO(id, pass); //계정정보조회
+dao.close();
+
+ if (!id.equals(dto.getId())){
+	JSFunction.alertBack("작성자 본인만 수정할 수 있습니다", out);
+	return;
+}
+
+//전화번호, 핸드폰번호, 이메일
+if(dto.getPhone1()!=null){
+	String[] phone1Arr = dto.getPhone1().split("-");
+	pageContext.setAttribute("tel", phone1Arr); //page영역에 저장
+}
+String[] phone2Arr = dto.getPhone2().split("-");
+String[] emailArr = dto.getEmail().split("@");
+%>
+
 <script>
 	//이메일주소 선택시 자동입력 함수
 	function domainInput(obj){
@@ -19,9 +49,6 @@
 	    var thisObj = document.getElementsByName(name1);
 	    var nextObj = document.getElementsByName(name2);
 	    
-	    //var thisObj = eval('document.myform.'+name1); //name1은 문자열이므로 나머지를 문자열화 시켜서
-	    //var nextObj = eval('document.myform.'+name2); //eval 함수로 씌워주면 해당 문자열이 그대로 실행됨
-	    
 	    var strLen = thisObj[0].value.length;
 	    if(strLen>=num){
 	        nextObj[0].focus();
@@ -38,39 +65,7 @@
 	        frm.name.focus();
 	        return false;
 	    }
-	    //아이디 입력여부 확인
-	    if(frm.id.value==''){
-	        alert('아이디를 입력하세요');
-	        frm.id.focus();
-	        return false;
-	    }
-	    //아이디 검증작업1-아이디 길이 확인
-	    if(frm.id.value.length<4 ||frm.id.value.length>12){
-	        alert('아이디는 4~12자로 입력하세요');
-	        frm.id.focus();
-	        return false;
-	    }
-	    //아이디 검증작업2-영문자/숫자만사용
-	    var idCheck= true;
-	    for(var i=0; i<frm.id.value.length; i++){
-	        if(!((frm.id.value[i]>='a' && frm.id.value[i]<='z')||
-	            (frm.id.value[i]>='A' && frm.id.value[i]<='Z') ||
-	            (frm.id.value[i]>='1' && frm.id.value[i]<='9')))
-	            idCheck = false;
-	    }
-	    if(idCheck==false){
-	        alert('숫자와 영문자만 가능합니다');
-	        frm.id.focus();
-	        return false;
-	    }
-	    
-	    //아이디 중복확인 체크
-	    if(frm.id.readOnly==false){
-	        alert('아이디 중복확인하세요');
-	        frm.id.focus();
-	        return false;
-	    }
-	    
+
 	    //패스워드 입력여부 확인
 	    if(!frm.pass1.value || !frm.pass2.value){
 	        alert('비밀번호를 입력하세요');
@@ -110,6 +105,12 @@
 	        return false;
 	    }
 	    
+	    //전화번호 입력 확인
+	    if(frm.tel1.value=='' || frm.tel2.value=='' || frm.tel3.value==''){
+	        alert('전화번호를 입력하세요');
+	        frm.tel1.focus();
+	        return false;
+	    }
 	    //휴대전화 입력 확인
 	    if(frm.mobile1.value=='' || frm.mobile2.value=='' || frm.mobile3.value==''){
 	        alert('휴대전화를 입력하세요');
@@ -132,27 +133,6 @@
 	    return true;
 	}
 	
-	function idCheck(fn){
-        //아이디가 입력되지 않은 상태라면
-        if(fn.id.value===""){
-            alert("중복확인 할 아이디를 입력하세요");
-            fn.id.focus();
-        }
-        else {
-            /*
-            중복확인 후 검증된 id를 수정할 수 없도록 readOnly 속성 추가
-            사용자는 중복확인창 script를 통해서만 수정이 가능하다.
-            */
-            fn.id.readOnly = true; 
-            /*
-            부모창에서 입력된 아이디를 파라미터로 팝업창 전달
-            이때 파라미터명(name)은 id이고 전달되는 값은 입력한 value값이다
-            */
-            window.open("./id_overapping.jsp?id="+fn.id.value, 
-                "idover", "width=500,height=400");
-
-        }
-    }
 </script>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -188,7 +168,7 @@
 					<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;멤버쉽&nbsp;>&nbsp;회원가입<p>
 				</div>
 				
-				<form name="myform" action="JoinProcess.jsp" method="post" onsubmit="return formValidate(this);">
+				<form name="myform" action="ModProcess.jsp" method="post" onsubmit="return formValidate(this);">
 				<p class="join_title"><img src="../images/join_tit03.gif" alt="회원정보입력" /></p>
 				<table cellpadding="0" cellspacing="0" border="0" class="join_box">
 					<colgroup>
@@ -197,13 +177,11 @@
 					</colgroup>
 					<tr>
 						<th><img src="../images/join_tit001.gif" /></th>
-						<td><input type="text" name="name" value="" class="join_input" /></td>
+						<td><input type="text" name="name" value="<%=dto.getName()%>" class="join_input" /></td>
 					</tr>
 					<tr>
 						<th><img src="../images/join_tit002.gif" /></th>
-						<td><input type="text" name="id"  value="" class="join_input" />&nbsp;
-						<button type="button" onclick="idCheck(this.form);" style="cursor:hand; border:0px"><img src="../images/btn_idcheck.gif" alt="중복확인"/></button>&nbsp;&nbsp;
-						<span>* 4자 이상 12자 이내의 영문/숫자 조합하여 공백 없이 기입</span></td>
+						<td><input type="text" name="id" value="<%=id%>" readOnly></td>
 					</tr>
 					<tr>
 						<th><img src="../images/join_tit003.gif" /></th>
@@ -228,8 +206,8 @@
 		                        <option value="064">064</option>
 	                    	</select> -
 							<!-- <input type="text" name="tel1" value="" maxlength="3" class="join_input" style="width:50px;" />&nbsp;-&nbsp; -->
-							<input type="text" name="tel2" value="" maxlength="4" class="join_input" style="width:50px;" onkeyup="fnFocusMove('tel2','tel3',4)"/>&nbsp;-&nbsp;
-							<input type="text" name="tel3" value="" maxlength="4" class="join_input" style="width:50px;" onkeyup="fnFocusMove('tel3','mobile1',4)" />
+							<input type="text" name="tel2" value="${tel[1]}" maxlength="4" class="join_input" style="width:50px;" onkeyup="fnFocusMove('tel2','tel3',4)"/>&nbsp;-&nbsp;
+							<input type="text" name="tel3" value="${tel[2]}" maxlength="4" class="join_input" style="width:50px;" onkeyup="fnFocusMove('tel3','mobile1',4)" />
 						</td>
 					</tr>
 					<tr>
@@ -241,15 +219,15 @@
 		                        <option value="018">018</option><option value="019">019</option>
 		                    </select> -
 							<!-- <input type="text" name="mobile1" value="" maxlength="3" class="join_input" style="width:50px;" />&nbsp;-&nbsp; -->
-							<input type="text" name="mobile2" value="" maxlength="4" class="join_input" style="width:50px;" onkeyup="fnFocusMove('mobile2','mobile3',4)"/>&nbsp;-&nbsp;
-							<input type="text" name="mobile3" value="" maxlength="4" class="join_input" style="width:50px;" /></td>
+							<input type="text" name="mobile2" value="<%=phone2Arr[1] %>" maxlength="4" class="join_input" style="width:50px;" onkeyup="fnFocusMove('mobile2','mobile3',4)"/>&nbsp;-&nbsp;
+							<input type="text" name="mobile3" value="<%=phone2Arr[2] %>" maxlength="4" class="join_input" style="width:50px;" /></td>
 					</tr>
 					<tr>
 						<th><img src="../images/join_tit08.gif" /></th>
 						<td>
  
-						<input type="text" name="email1" style="width:100px;height:20px;border:solid 1px #dadada;" value="" /> @ 
-						<input type="text" name="email2" style="width:150px;height:20px;border:solid 1px #dadada;" value="" readonly="readonly"/>
+						<input type="text" name="email1" style="width:100px;height:20px;border:solid 1px #dadada;" value="<%=emailArr[0] %>" /> @ 
+						<input type="text" name="email2" style="width:150px;height:20px;border:solid 1px #dadada;" value="<%=emailArr[1] %>" readonly="readonly"/>
 						<select name="last_email_check2" onchange="domainInput(this);" class="pass" id="last_email_check2" >
 							<option selected="" value="">선택해주세요</option>
 							<option value="직접입력" >직접입력</option>
@@ -269,12 +247,12 @@
 					<tr>
 						<th><img src="../images/join_tit09.gif" /></th>
 						<td>
-						<input type="text" name="zipcode" value=""  class="join_input" style="width:50px;" />
+						<input type="text" name="zipcode" value="<%=dto.getPostcode()%>"  class="join_input" style="width:50px;" />
 						<a href="javascript:;" title="우편번호검색" onClick="addressFind();" onkeypress="">[우편번호검색]</a>
 						<br/>
 						
-						<input type="text" name="addr1" value=""  class="join_input" style="width:550px; margin-top:5px;" /><br>
-						<input type="text" name="addr2" value=""  class="join_input" style="width:550px; margin-top:5px;" />
+						<input type="text" name="addr1" value="<%=dto.getAddr1()%>"  class="join_input" style="width:550px; margin-top:5px;" /><br>
+						<input type="text" name="addr2" value="<%=dto.getAddr2()%>"  class="join_input" style="width:550px; margin-top:5px;" />
 						
 						</td>
 					</tr>
