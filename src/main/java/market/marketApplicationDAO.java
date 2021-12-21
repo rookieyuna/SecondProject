@@ -126,11 +126,11 @@ public class marketApplicationDAO extends DBConnPool{
 	    	
 	        int totalCount = 0;
 	        String query = "SELECT COUNT(*) FROM marketApplication";
+	        query += " WHERE app_type LIKE 'experience' ";
 	        if (map.get("searchWord") != null) {
-	            query += " WHERE " + map.get("searchField") + " "
+	            query += " AND " + map.get("searchField") + " "
 	                   + " LIKE '%" + map.get("searchWord") + "%'";
 	        }
-	        query += "   AND  app_type LIKE 'experience'";
 	        try {
 	            stmt = con.createStatement();
 	            rs = stmt.executeQuery(query);
@@ -175,8 +175,8 @@ public class marketApplicationDAO extends DBConnPool{
 		            while (rs.next()) {
 		            	marketApplicationDTO dto = new marketApplicationDTO();
 
-		                dto.setClean_type(rs.getString(1));
-		                dto.setClean_area(rs.getString(2));
+		            	dto.setEx_type(rs.getString(1));
+			            dto.setEx_disabled(rs.getString(2));
 		                dto.setName(rs.getString(3));
 		                dto.setDate(rs.getString(4));
 
@@ -201,7 +201,7 @@ public class marketApplicationDAO extends DBConnPool{
 	                         + " ex_helpingtool, ex_nameoftool, phone1, phone2, "
 	                         + " email, ex_type, date1, submit_type, app_type, others) "
 	                         + " VALUES ( "
-	                         + " seq_board_num.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,'cleaning',?)";
+	                         + " seq_board_num.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,'experience',?)";
 	            psmt = con.prepareStatement(query);
 	            psmt.setString(1, dto.getName());
 	            psmt.setString(2, dto.getEx_disabled());
