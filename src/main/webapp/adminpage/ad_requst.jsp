@@ -353,22 +353,22 @@
                                         </tr>
                                         
                                 <c:choose>
-                                	<c:when test='${ empty marketApplication }'>
+                                	<c:when test="${ empty boardLists}">
                                 		<tbody>
                                 			<td colspan="6" align="center">등록된 게시물이 없습니다^^*</td>
                                 		</tbody>
 									</c:when>  
 									<c:otherwise>
 										<tbody>
-											<c:forEach items='${marketApplication }' var = "row" varStatus="loop">
-										     <tr>
-	                                            <td><input type="checkbox"></td>
-	                                            <td class="numbering">${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
-	                                            <td>${row.clean_type }</td>
-	                                            <td>${row.clean_area }</td>
-	                                            <td>${row.name }</td>
-	                                            <td>${row.date1 }</td>
-                                      		  </tr>   
+											<c:forEach items='${boardLists }' var = "row" varStatus="loop">
+										     	<tr>
+		                                            <td><input type="checkbox"></td>
+		                                            <td class="numbering">${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
+		                                            <td>${row.clean_type }</td>
+		                                            <td>${row.clean_area }</td>
+		                                            <td>${row.name }</td>
+		                                            <td>${row.date }</td>
+                                      		 	 </tr>   
                                       		  </c:forEach> 
 										</tbody>          
 									</c:otherwise>                	
@@ -377,34 +377,47 @@
                   
                                 </table>
 
-                                <!-- 검색 -->
-                                <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
-                                    <select class="selectpicker admin-search">
-                                        <option>청소종류</option>
-                                        <option>분양평수</option>
+
+                            
+                                <form action="../adminpage/ad_requst.do"
+                                class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
+                                    <select class="selectpicker admin-search" name="searchField">
+                                        <option value="name">고객명</option>
+                                        <option value="clean_area">분양평수</option>
                                       </select>
+                                     
                                       
                                     <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
+                                        <input type="text" name="searchWord" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
+                                            <button class="btn btn-primary" type="submit">
                                                 <i class="fas fa-search fa-sm"></i>
                                             </button>
-                                        </div>
+                                        </div>                                       
                                     </div>
+                                      
                                 </form>
+                                
                             </div>
                         </div>
                     </div>
+               	<%-- 	 <table border="0" width="90%">
+						<tr align="center">
+							<td>${ map.pagingImg }</td>
+					
+						</tr>
+					</table> --%>
 
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
-                        <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary">등록</button></li>
+                        <ul>
+                        	<li align="center">${ map.pagingImg }</li>
+                            <li class="d-flex justify-content-end"><button type="button" class="btn btn-outline-secondary">삭제</button></li>
                         </ul>
                     </div>
                 </div>
+                
+                
                 <!-- /.container-fluid -->
 
             </div>

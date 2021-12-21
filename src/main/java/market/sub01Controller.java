@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import utils.BoardPage;
+import utils.BoardPage1;
 
 @WebServlet("/market/sub01.do")
 public class sub01Controller extends HttpServlet{
@@ -43,7 +44,7 @@ public class sub01Controller extends HttpServlet{
         String pageTemp = req.getParameter("pageNum");
         if (pageTemp != null && !pageTemp.equals(""))
             pageNum = Integer.parseInt(pageTemp); //정수로 변경한 후 저장 
-
+ 
         //게시물의 구간을 계산
         int start = (pageNum - 1) * pageSize + 1;   
         int end = pageNum * pageSize;  
@@ -56,7 +57,7 @@ public class sub01Controller extends HttpServlet{
         dao.close();  
 
         //페이지 번호를 생성하기 위해 메서드 호출
-        String pagingImg = BoardPage.pagingStr(totalCount, pageSize,
+        String pagingImg = BoardPage1.pagingStr(totalCount, pageSize,
                 blockPage, pageNum, "../market/sub01.do");
         //View로 전달할 데이터를 Map컬렉션에 저장
         map.put("pagingImg", pagingImg);//페이지 번호

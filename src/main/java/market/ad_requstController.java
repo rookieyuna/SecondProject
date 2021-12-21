@@ -13,8 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import utils.BoardPage;
+import utils.BoardPage1;
 
-@WebServlet("/market/ad_requst.do")
+@WebServlet("/adminpage/ad_requst.do")
 public class ad_requstController extends HttpServlet{
 	
 	
@@ -27,6 +28,14 @@ public class ad_requstController extends HttpServlet{
     	
         Map<String, Object> map = new HashMap<String, Object>();
         
+        String searchField = req.getParameter("searchField");
+        String searchWord = req.getParameter("searchWord");
+        //검색어가 있는 경우에만..
+        if (searchWord != null) {
+        	//Map컬렉션에 파라미터 값을 추가한다. 
+        	map.put("searchField", searchField);//검색필드명(title, content등)
+        	map.put("searchWord", searchWord);//검색어
+        }
         //게시물 갯수 카운트
         int totalCount = dao.selectCountCleaning(map);   
 
@@ -57,9 +66,9 @@ public class ad_requstController extends HttpServlet{
         //커넥션풀에 자원 반납
         dao.close();     
 
-        //페이지 번호를 생성하기 위해 메서드 호출
-        String pagingImg = BoardPage.pagingStr(totalCount, pageSize,
-                blockPage, pageNum, "../market/ad_requst.do");
+        //페이지 번호를 생성하기 위해 메서드 호출 
+        String pagingImg = BoardPage1.pagingStr(totalCount, pageSize,
+                blockPage, pageNum, "../adminpage/ad_requst.do");
         //View로 전달할 데이터를 Map컬렉션에 저장
         map.put("pagingImg", pagingImg);//페이지 번호
         map.put("totalCount", totalCount);//전체 게시물의 갯수
@@ -72,4 +81,6 @@ public class ad_requstController extends HttpServlet{
         //View로 포워드를 걸어준다. 
         req.getRequestDispatcher("/adminpage/ad_requst.jsp").forward(req, resp);
 	}
+	
+	
 }
