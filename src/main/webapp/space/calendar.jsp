@@ -1,9 +1,17 @@
+<%@page import="board.BoardDAO"%>
 <%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
 <%@ page import="java.util.*" %>
-
+<%
+	String cate = request.getParameter("cate");	
+	String cateUrl = request.getRequestURI() + "?cate=" + cate;
+	
+	BoardDAO dao = new BoardDAO();
+	Map<String, Object> param = new HashMap<String, Object>();
+	
+%>
  <body>
 	<center>
 	<div id="wrap">

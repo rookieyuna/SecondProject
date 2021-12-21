@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import market.MKProductDAO;
 import market.MKProductDTO;
-import utils.BoardPage1;
+import utils.BoardPage;
 
 @WebServlet("/adminpage/ad_suaView.do")
 public class ad_suaViewController extends HttpServlet

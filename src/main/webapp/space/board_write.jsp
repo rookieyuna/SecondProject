@@ -58,7 +58,7 @@ function validateForm(form){
 				</div>
 			<div>
 
-<form action="WriteProcess.jsp" name="writeFrm" method="post" onsubmit="return validateForm(this);">
+<form method="post" action="WriteProcess.jsp" name="writeFrm"  onsubmit="return validateForm(this);">
 <table class="table table-bordered">
 <colgroup>
 	<col width="20%"/>
@@ -98,13 +98,6 @@ function validateForm(form){
 			style="vertical-align:middle;">내용</th>
 		<td>
 			<textarea rows="10" class="form-control" name="content"></textarea>
-		</td>
-	</tr>
-	<tr>
-		<th class="text-center" 
-			style="vertical-align:middle;">첨부파일</th>
-		<td>
-			<input type="file" class="form-control" />
 		</td>
 	</tr>
 </tbody>

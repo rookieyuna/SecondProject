@@ -26,6 +26,7 @@ BoardDAO dao = new BoardDAO();
 
 //DB 1개씩 동시 입력(본기능)
 int iResult = dao.pinsertWrite(dto);
+
 /* DB 여러개 동시 입력
 int iResult = 0;
 for(int i=1; i<=30; i++){
@@ -37,7 +38,7 @@ dao.close();
 
 if(iResult == 1) {
 	//글쓰기에 성공했다면 목록페이지로 이동한다. 
-	response.sendRedirect("ad_program.jsp");
+	response.sendRedirect("ad_program.jsp?cate=" + cate);
 }
 else {
 	//실패한 경우에는 글쓰기 페이지로 이동한다. 즉 뒤로 이동한다. 

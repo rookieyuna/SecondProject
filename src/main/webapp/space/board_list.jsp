@@ -1,3 +1,5 @@
+<%@page import="membership.MemberDTO"%>
+<%@page import="java.net.URLEncoder"%>
 <%@page import="javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar"%>
 <%@page import="utils.BoardPage"%>
 <%@page import="javax.swing.text.View"%>
@@ -60,14 +62,38 @@
 			</div>
 			<div class="right_contents">
 				<div class="top_title">
-					<img src="../images/space/sub03_title.gif" alt="자유게시판" class="con_title" />
-					<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;자유게시판<p>
+					<%
+						if(cate.equals("notB")){
+					%>
+						<img src="../images/space/sub01_title.gif" alt="공지사항" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;공지사항<p>
+					<%		
+						}else if(cate.equals("freeB")){
+					%>
+						<img src="../images/space/sub03_title.gif" alt="자유게시판" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;자유게시판<p>
+					<%		
+						}else if(cate.equals("photoB")){
+					%>
+						<img src="../images/space/sub04_title.gif" alt="사진게시판" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;사진게시판<p>
+					<%
+						}else if(cate.equals("infoB")){
+					%>
+						<img src="../images/space/sub05_title.gif" alt="정보자료실" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;정보자료실<p>
+					<%
+						}
+					%>
+					
 				</div>
 				
 				
 				<div class="custom_board">
 					<div class="custom_board_wrap">
-						
+						<% 
+						if(!cate.equals("photoB")){
+						 %>
 						<table class="boardTable freeboard">
 							<thead>
 								<tr>
@@ -76,6 +102,13 @@
 									<th>작성자</th>
 									<th>작성일</th>
 									<th>조회수</th>
+									<%
+									if(cate.equals("infoB")) {
+									%>
+									<th>첨부파일</th>
+									<%
+									}
+									%>
 								</tr>
 							</thead>
 							
@@ -93,12 +126,31 @@
 									for(BoardDTO dto : boardLists){
 										virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
 								%>
-								<tr onclick="location.href='board_view.jsp?cate=freeB&num=<%= dto.getNum() %>'">
+								<tr onclick="location.href='board_view.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">
 									<td><%= virtualNum %></td>
 									<td><%= dto.getTitle() %></td>
-									<td><%= dto.getId() %></td>
+									<td><%= dto.getName() %></td>
 									<td><%= dto.getPostdate() %></td>
 									<td><%= dto.getVisitcount() %></td>
+									<%
+									if(cate.equals("infoB")) {
+									%>
+									<td><a href="#">
+										<%
+											if(dto.getOfile() != null){
+												%>
+												<i class="bi bi-file-check upfile fa-lg" style="color: #0fc73d;"></i>
+												<%
+											}else{
+												%>
+												<i class="bi bi-file-check upfile fa-lg" style="color: #dddddd;"></i>
+												<%
+											}
+										%>	
+									</a></td>
+									<%
+									}
+									%>
 								</tr>
 								<%
 									}
@@ -106,7 +158,62 @@
 								%>
 							</tbody>
 						</table>
-						
+						<%
+						}else{
+						%>
+						<div class="photoBoard">
+				            <div class="photoBoard_wrap">
+				
+				              	<ul>
+				              	<%
+								if(boardLists.isEmpty()){
+								%>
+									<li>
+										<p>등록된 게시물이 없습니다.</p>
+									</li>
+								<%
+								}else{
+									int virtualNum = 0;
+									int countNum = 0;
+									for(BoardDTO dto : boardLists){
+										virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
+								%>
+					                <li class="photoB_list" onclick="location.href='board_view.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">
+					                    <div class="photoB_posi">
+					                    	<div class="photoB_detail over-ray">
+					                    		<p class="pic_label pic_title"><%= dto.getTitle() %></p>
+					                    		<p class="pic_label pic_name"><%= dto.getName() %></p>
+					                    		<p class="pic_label pic_post"><%= dto.getPostdate() %></p>
+					                    	</div>
+					                    	<div class="photoB_detail pic"><img src="../Uploads/<%= dto.getSfile() %>" alt=""></div>
+					                  	</div>
+					                </li>
+					            <%
+									}
+									%>
+									
+									<%
+					                	if(totalCount % 4 != 0){
+					                		for(int i=1; i<totalCount-(totalCount % 4); i++){
+					                		%>
+					                		<li class="photoB_list empty"></li>	
+					                		<%
+					                		}
+					                	}else{
+					                		
+					                	}
+					                %>
+									
+									<%
+								}
+					            %>
+				              	</ul>
+				
+				            </div>
+				          </div>
+						<%
+						}
+						%>
 						<div class="boardTool">
 							<div class="tool_Paging">
 								<ul>
@@ -116,12 +223,27 @@
 							
 							<div class="tool_edit">
 								<ul>
-									<li><button type="button" class="btn btn-primary" onclick="location.href='board_write.jsp?cate=<%= cate %>'">글쓰기</button></li>
+									<%
+									if(session.getAttribute("UserId") != null){
+										
+										if(cate.equals("freeB")) {
+										%>
+											<li><button type="button" class="btn btn-primary" onclick="location.href='board_write.jsp?cate=<%= cate %>'">글쓰기</button></li>
+										<%
+										}else if(cate.equals("infoB") || cate.equals("photoB")){
+										%>
+											<li><button type="button" class="btn btn-primary" onclick="location.href='board_fileWrite.jsp?cate=<%= cate %>'">글쓰기</button></li>
+										<% 	
+										}
+									}else{
+										
+									}
+									%>
 								</ul>
 							</div>
-							
+
 							<div class="tool_Search">
-								<form method="get" action="../space/board_list.jsp?cate=freeB">  
+								<form method="get">  
 									<input type="hidden" name="cate" value="<%= cate %>"/>
 									<select name="searchField">
 										<option value="title">제목</option>
