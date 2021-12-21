@@ -401,13 +401,13 @@
 												<%= dto.getContent() %>
 											</td>
 										</tr>
-										<tr>
+										<%-- <tr>
 											<th class="text-center" 
 												style="vertical-align:middle;">첨부파일</th>
 											<td colspan="3">
 												<%= dto.getOfile() %>
 											</td>
-										</tr>
+										</tr> --%>
                                     </tbody>
                                 </table>
                                 </form>
@@ -419,6 +419,7 @@
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
                             <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
+                            <li><button type="button" class="btn btn-outline-success"  onclick="location.href='ad_nEdit.jsp?cate=<%= cate %>';">수정하기</button></li>
                             <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_notice.jsp?cate=<%= cate %>';">목록보기</button></li>
                         </ul>
                     </div>
