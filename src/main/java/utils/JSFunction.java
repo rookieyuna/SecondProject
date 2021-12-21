@@ -32,6 +32,9 @@ public class JSFunction {
 		}
 		catch(Exception e) {}
 	}
+	
+	
+	
 	public static void alertLocation(HttpServletResponse resp, String msg, String url) {
 		try {
 			//컨텐츠 타입 설정
