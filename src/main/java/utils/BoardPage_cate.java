@@ -1,6 +1,6 @@
 package utils;
 
-public class BoardPage {
+public class BoardPage_cate {
 	
 	 public static String pagingStr(int totalCount, int pageSize, int blockPage,
 	        int pageNum, String reqUrl, String searchField, String searchWord) {
@@ -12,9 +12,9 @@ public class BoardPage {
 	        // 단계 4 : '이전 페이지 블록 바로가기' 출력
 	        int pageTemp = (((pageNum - 1) / blockPage) * blockPage) + 1;
 	        if (pageTemp != 1) {
-	            pagingStr += "<a href='" + reqUrl + "?pageNum=1'>[첫 페이지]</a>";
+	            pagingStr += "<a href='" + reqUrl + "&pageNum=1'>[첫 페이지]</a>";
 	            pagingStr += "&nbsp;";
-	            pagingStr += "<a href='" + reqUrl + "?pageNum=" + (pageTemp - 1)
+	            pagingStr += "<a href='" + reqUrl + "&pageNum=" + (pageTemp - 1)
 	                         + "'>[이전 블록]</a>";
 	        }
 
@@ -45,5 +45,7 @@ public class BoardPage {
 	        }
 
 	        return pagingStr;
-}
+	 }
+	 
+	 
 }

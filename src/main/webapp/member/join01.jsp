@@ -476,9 +476,9 @@
 				회사의 개인정보보호정책은 관련 법률 및 고시의 변경 또는 내부 운영방침의 변경에 따라 변경될 수 있습니다. 회사의 개인정보보호정책이 수정될 경우 변경된 사항은 홈페이지를 통하여 공지합니다. <br />
 				</div>
 
-				<p style="text-align:center; margin-bottom:20px;"><input type="checkbox" name="agreement1" value="" >이용약관과 개인정보취급방침에 동의합니다.</p>
+				<p style="text-align:center; margin-bottom:20px;"><input type="checkbox" name="agreement1" value="" id="confirmChk" >이용약관과 개인정보취급방침에 동의합니다.</p>
 
-				<p style="text-align:center; margin-bottom:20px"><a href="join02.jsp" ><img src="../images/btn01.gif" /></a>&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
+				<p style="text-align:center; margin-bottom:20px"><input type="image" src="../images/btn01.gif" id="confirm" />&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
 
 
 			</div>
@@ -492,3 +492,18 @@
 	</center>
  </body>
 </html>
+
+<script>
+$(function(){
+    $('#confirm').click(function(){
+    	alert("약관동의");
+        if($('#confirmChk').checked==false){
+        	alert("약관동의");
+        }
+        else{
+        	location.href="join02.jsp"
+        }
+   	}
+});
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

@@ -1,3 +1,5 @@
+<%@page import="membership.MemberDTO"%>
+<%@page import="membership.MemberDAO"%>
 <%@page import="board.BoardDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
@@ -5,11 +7,25 @@
 <%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+String UserId = session.getAttribute("UserId").toString();
+String UserPwd = session.getAttribute("UserPwd").toString();
+
+String cate = request.getParameter("cate");
+
+MemberDAO mDao = new MemberDAO();
+MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
+%>
 <script>
 function validateForm(form) {
 	if(form.id.value == ""){
 		alert("작성자를 입력하세요.");
 		form.id.focus();
+		return false;
+	}
+	if(form.pass.value == "") {
+		alert("비밀번호를 입력하세요.");
+		form.pass.focus();
 		return false;
 	}
 	if(form.title.value == ""){
@@ -20,11 +36,6 @@ function validateForm(form) {
 	if(form.content.value == "") {
 		alert("내용을 입력하세요.");
 		form.content.focus();
-		return false;
-	}
-	if(form.pass.value == "") {
-		alert("비밀번호를 입력하세요.");
-		form.pass.focus();
 		return false;
 	}
 }
@@ -116,8 +127,8 @@ function validateForm(form) {
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Board Management:</h6>
-                        <a class="collapse-item" href="ad_notice.jsp">공지사항 관리</a>
-                        <a class="collapse-item" href="ad_program.jsp">프로그램일정 관리</a>
+                        <a class="collapse-item" href="ad_notice.jsp?cate=notB">공지사항 관리</a>
+                        <a class="collapse-item" href="ad_program.jsp?cate=proB">프로그램일정 관리</a>
                         <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
                         <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
                         <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>
@@ -149,9 +160,10 @@ function validateForm(form) {
                 <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Market Management:</h6>
+                        <a class="collapse-item" href="ad_suaRegist.jsp">상품 등록 관리</a>
                         <a class="collapse-item" href="ad_order.jsp">주문내역 관리</a>
                         <a class="collapse-item" href="ad_requst.jsp">견적의뢰 관리</a>
-                        <a class="collapse-item" href="ad_experience.jsp">체험학습 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
                     </div>
                 </div>
             </li>
@@ -373,47 +385,59 @@ function validateForm(form) {
                                     </colgroup>
                                     
                                     <!-- 테이블 가공 (공지사항 작성하기) -->
-                               		<form name="writeFrm" method="post" enctype="multipart/form-data"
-									action="ad_nwriteProcess.jsp" onsubmit="return validateForm(this);">
+                               		<form name="writeFrm" method="post" 
+										action="ad_nWriteProcess.jsp" onsubmit="return validateForm(this);">
 									<table border="1" width="90%">
 										<tr>
-											<td>작성자</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">작성자</th>
 											<td>
-												<input type="text" name="id" style="width: 150px;"/>
+												<input type="text" class="form-control" style="width:100px;" name="name" value="<%= mDto.getName() %>"/>
 											</td>
 										</tr>
 										<tr>
-											<td>제목</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">이메일</th>
 											<td>
-												<input type="text" name="title" style="width: 90%;"/>
+												<input type="text" class="form-control" style="width:400px;" name="email" value="<%= mDto.getEmail() %>"/>
 											</td>
 										</tr>
 										<tr>
-											<td>내용</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">패스워드</th>
 											<td>
-												<textarea name="content" style="width:90%; height: 100px;"></textarea>
+												<input type="password" class="form-control" style="width:200px;" name="pass"/>
 											</td>
 										</tr>
 										<tr>
-											<td>첨부파일</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">제목</th>
 											<td>
-												<input type="file" name="ofile" />
+												<input type="text" class="form-control" name="title"/>
 											</td>
 										</tr>
 										<tr>
-											<td>비밀번호</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">내용</th>
 											<td>
-												<input type="password" name="pass" style="width: 100px;"/>
+												<textarea rows="10" class="form-control" name="content"></textarea>
 											</td>
 										</tr>
-										
+										<!-- <tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">첨부파일</th>
+											<td>
+												<input type="file" class="form-control" />
+											</td>
+										</tr> -->
 									</table>
 									<br />
 									<br />
 									 <!-- 각종버튼 -->
 								    <div class="row mb-3">
 								        <div class="col d-flex justify-content-end">
-								            <button type="button" class="btn btn-warning" onclick="location.href='ad_notice.jsp';">목록보기</button>
+								        	<input type="hidden" name="cate" value="<%= cate %>"/>
+								            <button type="button" class="btn btn-warning" onclick="location.href='ad_notice.jsp?cate=<%= cate %>'">목록보기</button>
 								            <button type="submit" class="btn btn-danger">전송하기</button>
 								            <button type="reset" class="btn btn-dark">다시쓰기</button>
 								        </div>

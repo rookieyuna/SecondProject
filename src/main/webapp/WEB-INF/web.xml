@@ -16,6 +16,11 @@
 		<param-name>INIT_PARAM</param-name>
 		<param-value>web.xml에 저장한 초기화 매개변수</param-value>
 	</context-param>
+	
+	<context-param>
+		<param-name>maxPostSize</param-name>
+		<param-value>1024000</param-value>
+	</context-param>
     
   <!-- 한글깨짐에 대한 필터 설정: 현재 제작중인 웹 애플리케이션 전체 적용 -->
   <filter>

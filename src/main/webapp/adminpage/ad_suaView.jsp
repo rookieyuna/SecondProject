@@ -1,3 +1,5 @@
+<%@page import="market.MKProductDTO"%>
+<%@page import="market.MKProductDAO"%>
 <%@page import="board.BoardDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
@@ -5,11 +7,14 @@
 <%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -93,8 +98,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Board Management:</h6>
-                        <a class="collapse-item" href="ad_notice.jsp">공지사항 관리</a>
-                        <a class="collapse-item" href="ad_program.jsp">프로그램일정 관리</a>
+                        <a class="collapse-item" href="ad_notice.jsp?cate=notB">공지사항 관리</a>
+                        <a class="collapse-item" href="ad_program.jsp?cate=proB">프로그램일정 관리</a>
                         <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
                         <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
                         <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>
@@ -126,9 +131,10 @@
                 <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Market Management:</h6>
+                        <a class="collapse-item" href="ad_suaRegist.jsp">상품 등록 관리</a>
                         <a class="collapse-item" href="ad_order.jsp">주문내역 관리</a>
                         <a class="collapse-item" href="ad_requst.jsp">견적의뢰 관리</a>
-                        <a class="collapse-item" href="ad_experience.jsp">체험학습 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
                     </div>
                 </div>
             </li>
@@ -334,38 +340,66 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">공지사항 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - NOTICE</p>
+                    <h1 class="h3 mb-2 text-gray-800">상품 등록 관리</h1>
+                    <p class="mb-4">BOARD MANAGEMENT - EDIT PRODUCT</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">공지사항 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">상품 정보 수정</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                            <form enctype="multipart/form-data">
                                 <table class="table table-bordered table-hover">
                                     <colgroup>
 
                                     </colgroup>
-                                    <thead>
-                                        <tr>
-                                            <th class="boardCheckbox">
-                                                <input type="checkbox" id="checkedAll">
-                                            </th>
-                                            <th class="numbering">번호</th>
-                                            <th class="boardtitle">제목</th>
-                                            <th class="boardwriter">작성자</th>
-                                            <th class="boarddate">작성일</th>
-                                            <th>첨부파일</th>
-                                        </tr>
-                                    </thead>
-                                    <!-- 테이블 가공 (공지사항) -->
-                               
                                     
+                                    <!-- 테이블 가공 -->
+                               
+                                    <tbody>
+                                        <tr>
+											<td>상품명</td>
+											<td>
+												${dto.product_name }
+											</td>
+										</tr>
+										<tr>
+											<td>상품설명</td>
+											<td>
+												<textarea name="" style="width:70%; height: 100px;">${dto.product_info }</textarea>
+											</td>
+										</tr>
+										<tr>
+											<td>가격</td>
+											<td>
+												${dto.price }
+											</td>
+										</tr>
+										<tr>
+											<td>적립금</td>
+											<td>
+												${dto.milage }
+											</td>
+										</tr>
+										<tr>
+											<td>첨부파일</td>
+											<td>
+									            <!-- 
+									            첨부된 파일이 있는 경우에는 파일명과 다운로드 링크를 출력한다.
+									            다운로드가 완료되면 카운트 하기 위해 idx(일련번호)를 파라미터로 받는다.
+									             -->
+								            	<c:if test="${not empty dto.product_ofile }">
+								            	${dto.product_ofile }
+									            	<a href="../adminpage/ad_suaDownload.do?ofile=${dto.product_ofile }&sfile=${dto.product_sfile}">
+									            	[다운로드]</a>
+								            	</c:if>
+								            </td>
+        								</tr>
+                                    </tbody>
                                 </table>
-
-                                
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -373,8 +407,9 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_nWrite.jsp';">작성</button></li>
+                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='../adminpage/pass.do?mode=edit&num=${param.num}';">수정</button></li>
+                            <li><button type="button" class="btn btn-outline-secondary" onclick="location.href='../adminpage/pass.do?mode=delete&num=${param.num}';">삭제</button></li>
+                            <li><button type="button" class="btn btn-warning" onclick="location.href='../adminpage/ad_suaRegist.do';">목록보기</button></li>
                         </ul>
                     </div>
                 </div>

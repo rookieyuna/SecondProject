@@ -33,17 +33,24 @@ public class MKProductDAO extends DBConnPool{
         return totalCount;
     }
     
- // 검색 조건에 맞는 게시물 목록을 반환합니다(페이징 기능 지원).
+    // 검색 조건에 맞는 게시물 목록을 반환합니다(페이징 기능 지원).
     public List<MKProductDTO> selectListPage(Map<String,Object> map) {
         List<MKProductDTO> board = new Vector<MKProductDTO>();
-        String query = "SELECT * FROM ( "
+        String query = ""
+        			 + "SELECT * FROM ( "
                      + "    SELECT Tb.*, ROWNUM rNum FROM ( "
                      + "        SELECT * FROM product ";
+
+        if (map.get("searchWord") != null)
+        {
+            query += " WHERE " + map.get("searchField")
+                   + " LIKE '%" + map.get("searchWord") + "%' ";
+        }
 
         query += "        ORDER BY product_no DESC "
                + "    ) Tb "
                + " ) "
-               + " WHERE rNum BETWEEN ? AND ?";
+               + " WHERE (rNum BETWEEN ? AND ? )";
 
         try {
             psmt = con.prepareStatement(query);
@@ -98,4 +105,53 @@ public class MKProductDAO extends DBConnPool{
     	return dto;  
     }
     
+
+    //상품 등록
+    public int insertWrite(MKProductDTO dto) {
+
+        int result = 0;
+        try {
+            String query = "INSERT INTO product ( "
+                         + " product_no, product_name, product_info, price, "
+                         + " milage, product_ofile, product_sfile) "
+                         + " VALUES ( "
+                         + " seq_board_num.NEXTVAL,?,?,?,?,?,?)";
+            psmt = con.prepareStatement(query);
+            psmt.setString(1, dto.getProduct_name());
+            psmt.setString(2, dto.getProduct_info());
+            psmt.setInt(3, dto.getPrice());
+            psmt.setInt(4, dto.getMilage());
+            psmt.setString(5, dto.getProduct_ofile());
+            psmt.setString(6, dto.getProduct_sfile());
+            result = psmt.executeUpdate();
+        }
+        catch (Exception e) {
+            System.out.println("상품 등록 중 예외 발생");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    
+    //상품 삭제
+    public int deleteProduct(String to) { 
+        int result = 0;
+
+        try {
+        	//쿼리문 작성
+            String query = "DELETE FROM product WHERE product_no=?"; 
+            //prepared객체 생성 및 인파라미터 설정
+            psmt = con.prepareStatement(query); 
+            psmt.setString(1, to);  
+            //쿼리실행
+            result = psmt.executeUpdate(); 
+        } 
+        catch (Exception e) {
+            System.out.println("게시물 삭제 중 예외 발생");
+            e.printStackTrace();
+        }
+
+        return result;  
+    }
+ 
 }
