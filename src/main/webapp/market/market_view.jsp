@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!DOCTYPE html>
@@ -56,10 +57,15 @@
 						<p class="plus_btn"><a href=""><img src="../images/market/plus_btn.gif" /></a></p>
 					</div>
 					<div class="market_right">
-					
+					<!-- 장바구니에 저장할 데이터 파라미터 전달용 -->
 						<input type="hidden" name="product_no" value="${boardList.product_no}"/>
 						<input type="hidden" name="price" value="${boardList.price}"/>
+						<input type="hidden" name="milage" value="${boardList.milage}"/>
+						<input type="hidden" name="product_name" value="${boardList.product_name}"/>
+						<input type="hidden" name="product_sfile" value="${boardList.product_sfile}"/>
 						
+<%-- 						<input type="hidden" name="id" value='${ session.getAttribute("UserId") }'/>
+ --%>						
 						<p class="m_title">${ boardList.product_name }
 						<p>- ${ boardList.product_info }</p>
 						<ul class="m_list">

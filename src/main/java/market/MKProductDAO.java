@@ -98,4 +98,9 @@ public class MKProductDAO extends DBConnPool{
     	return dto;  
     }
     
+    
+    
+    
+    
+    
 }
