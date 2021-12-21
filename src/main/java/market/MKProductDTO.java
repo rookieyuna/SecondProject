@@ -6,8 +6,8 @@ public class MKProductDTO {
 
 	private String product_no;
 	private String product_name;
-	private String price;
-	private String milage;
+	private int price;
+	private int milage;
 	private String product_info;
 	private String product_ofile;
 	private String product_sfile;
@@ -25,18 +25,18 @@ public class MKProductDTO {
 	public void setProduct_name(String product_name) {
 		this.product_name = product_name;
 	}
-	public String getPrice() {
+	
+	public int getPrice() {
 		return price;
 	}
 	public void setPrice(int price) {
-		
-		this.price = formatter.format(price);
-	} 
-	public String getMilage() {
+		this.price = price;
+	}
+	public int getMilage() {
 		return milage;
 	}
 	public void setMilage(int milage) {
-		this.milage = formatter.format(milage);
+		this.milage = milage;
 	}
 	public String getProduct_info() {
 		return product_info;

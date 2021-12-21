@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!--
 
@@ -76,7 +77,7 @@
 										<!-- 제목 -->
 									 	 <td class="t_left"><a href="../market/market_view.do?product_no=${row.product_no }">${ row.product_name }</a></td>
 										<!-- 가격 -->
-										 <td class="p_style">${ row.price }</td>
+										 <td class="p_style"><fmt:formatNumber value="${ row.price }" pattern="#,###"/></td>
 										<!-- 수량텍스트박스 -->
 										<td><input type="text" name="" value="1" class="n_box" /></td>
 										<!-- 구매버튼2개 -->

@@ -72,7 +72,8 @@
 							<li>
 								<dl>
 									<dt>가격</dt>
-									<dd class="p_style" >${ boardList.price}</dd>
+									<dd class="p_style" >
+									<fmt:formatNumber value="${ boardList.price}" pattern="#,###"/></dd>
 								</dl>
 								<dl>
 									<dt>적립금</dt>

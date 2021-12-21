@@ -119,8 +119,8 @@ public class MKProductDAO extends DBConnPool{
             psmt = con.prepareStatement(query);
             psmt.setString(1, dto.getProduct_name());
             psmt.setString(2, dto.getProduct_info());
-            psmt.setString(3, dto.getPrice().replaceAll(",", ""));
-            psmt.setString(4, dto.getMilage().replaceAll(",", ""));
+            psmt.setInt(3, dto.getPrice());
+            psmt.setInt(4, dto.getMilage());
             psmt.setString(5, dto.getProduct_ofile());
             psmt.setString(6, dto.getProduct_sfile());
             result = psmt.executeUpdate();
