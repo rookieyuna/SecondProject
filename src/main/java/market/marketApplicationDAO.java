@@ -10,7 +10,6 @@ import common.DBConnPool;
 
 
 
-
 public class marketApplicationDAO extends DBConnPool{
 
 	public marketApplicationDAO() {
@@ -21,11 +20,11 @@ public class marketApplicationDAO extends DBConnPool{
     	
         int totalCount = 0;
         String query = "SELECT COUNT(*) FROM marketApplication";
-        query += " WHERE  app_type LIKE 'cleaning'";
         if (map.get("searchWord") != null) {
-            query += " AND " + map.get("searchField") + " "
+            query += " WHERE " + map.get("searchField") + " "
                    + " LIKE '%" + map.get("searchWord") + "%'";
         }
+        query += "   AND  app_type LIKE 'cleaning'";
         try {
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
@@ -118,6 +117,7 @@ public class marketApplicationDAO extends DBConnPool{
         return result;
     }
 	
+	
 	///////////////////////////////
 	 public int deleteClean(String to) { 
 	        int result = 0;
@@ -135,15 +135,15 @@ public class marketApplicationDAO extends DBConnPool{
 	            System.out.println("게시물 삭제 중 예외 발생");
 	            e.printStackTrace();
 	        }
-	        
+
 	        return result;  
 	    }
-	
+	 
 	
 	//체험학습
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//게시물의 개수 카운트
-	 public int selectCountExp(Map<String, Object> map) {
+		public int selectCountExp(Map<String, Object> map) {
 	    	
 	        int totalCount = 0;
 	        String query = "SELECT COUNT(*) FROM marketApplication";
@@ -171,7 +171,8 @@ public class marketApplicationDAO extends DBConnPool{
 		 public List<marketApplicationDTO> selectListExp(Map<String,Object> map) {
 		        List<marketApplicationDTO> board = new Vector<marketApplicationDTO>();
 		        String query = " "
-		                     + "SELECT ex_type, ex_disabled, name, date1 FROM ( "
+		                     + "SELECT idx, name, ex_disabled, ex_helpingtool, "
+		                     + " phone1, phone2, email, ex_type, date1, submit_type FROM ( "
 		                     + "    SELECT Tb.*, ROWNUM rNum FROM ( "
 		                     + "        SELECT * FROM marketApplication ";
 
@@ -196,10 +197,16 @@ public class marketApplicationDAO extends DBConnPool{
 		            while (rs.next()) {
 		            	marketApplicationDTO dto = new marketApplicationDTO();
 
-		            	dto.setEx_type(rs.getString(1));
-			            dto.setEx_disabled(rs.getString(2));
-		                dto.setName(rs.getString(3));
-		                dto.setDate(rs.getString(4));
+		            	dto.setIdx(rs.getString(1));
+		            	dto.setName(rs.getString(2));
+		            	dto.setEx_disabled(rs.getString(3));
+		            	dto.setEx_helpingtool(rs.getString(4));
+		            	dto.setPhone1(rs.getString(5));
+		            	dto.setPhone2(rs.getString(6));
+		            	dto.setEmail(rs.getString(7));
+		            	dto.setEx_type(rs.getString(8));
+		            	dto.setDate(rs.getString(9));
+		            	dto.setSubmit_type(rs.getString(10));
 
 		                board.add(dto);
 		            }

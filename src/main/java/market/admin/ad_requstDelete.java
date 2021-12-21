@@ -17,6 +17,8 @@ public class ad_requstDelete extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		String[] chk = req.getParameterValues("chk");
+		String type = req.getParameter("experience");
+		
     	marketApplicationDAO dao = new marketApplicationDAO();
 		
 		int delResult = 0;
@@ -29,7 +31,13 @@ public class ad_requstDelete extends HttpServlet{
 				System.out.println("삭제실패");
 			}
 		}
-		resp.sendRedirect("../adminpage/ad_requst.do");
+		
+		if(type != null) {
+			resp.sendRedirect("../adminpage/ad_experience.do");
+		}
+		else {
+			resp.sendRedirect("../adminpage/ad_requst.do");
+		}
 	}
 	
 }
