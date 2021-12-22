@@ -55,7 +55,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 	
-	</script>
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
     <!-- Custom fonts for this template -->
@@ -487,12 +486,7 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-<<<<<<< HEAD
                             <li><button type="button" class="btn btn-outline-secondary" id="deletebtn" >삭제</button></li>
-=======
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-
->>>>>>> branch 'main' of https://github.com/rookieyuna/SecondProject.git
                             <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_boardWrite.jsp?cate=<%= cate %>';">작성</button></li>
                         </ul>
                     </div>
