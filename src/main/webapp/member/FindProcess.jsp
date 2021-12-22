@@ -31,8 +31,7 @@ if(memberDTO.getId() != null){
 		
 		Map<String, String> emailInfo = new HashMap<String, String>();
 		emailInfo.put("from", "secondpj@naver.com"); 
-		emailInfo.put("to", "syjak7@gmail.com");
-		//emailInfo.put("to", request.getParameter("user_email")); 
+		emailInfo.put("to", request.getParameter("user_email")); 
 		emailInfo.put("subject", "회원님 비밀번호 발송드립니다.");  
 		
 		String content = memberDTO.getPass(); //반환된 비밀번호 저장

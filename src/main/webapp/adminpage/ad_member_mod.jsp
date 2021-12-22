@@ -8,40 +8,19 @@
     pageEncoding="UTF-8"%>
     
 <%
-	MemberDAO dao = new MemberDAO();
-	Map<String, Object> param = new HashMap<String, Object>();
-	
-	String searchField = request.getParameter("searchField");
-	String searchWord = request.getParameter("searchWord");
-	
-	if(searchWord != null){
-		param.put("searchField", searchField);
-		param.put("searchWord", searchWord);
-	}
-	
-	int totalCount = dao.selectCount(param);
-	int pageSize = 10;
-	int blockPage = 5;
-	int totalPage = (int)Math.ceil((double)totalCount / pageSize);
-	int pageNum = 1;
-	
-	String pageTemp = request.getParameter("pageNum");
-	
-	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
-	
-	int start = (pageNum - 1) * pageSize + 1;
-	int end = pageNum * pageSize;
-	param.put("start", start);
-	param.put("end", end);
-	
-	List<MemberDTO> memberLists = dao.selectList(param);
-	dao.close();
+String uid = request.getParameter("user_id");
+
+//데이터베이스 연결
+MemberDAO dao = new MemberDAO();
+//받아온 이름을 매개변수로 getMemberDTO()호출. 아이디찾기
+MemberDTO dto = dao.memberInfo(uid);
+//자원반납
+dao.close();
 %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -67,6 +46,7 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    
     
 </head>
 
@@ -371,104 +351,53 @@
                     <p class="mb-4">User Management</p>
 
                     <!-- DataTales Example -->
+                    <form name="myform" action="ad_member_modProcess.jsp" method="get">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">회원 정보</h6>
                         </div>
+                        
                         <div class="card-body">
                             <table class="table table-bordered table-hover">
+                            <input type="hidden" name="user_id" value="<%= dto.getId() %>" />
                                 <thead>
                                     <tr>
-                                        <th class="boardCheckbox">
-                                            <input type="checkbox" id="checkedAll">
-                                        </th>
-                                        <th width="">아이디</th>
-                                        <th>이름</th>
+                                        <th width="15%">아이디</th>
+                                        <td width="30%"><%= dto.getId() %></td>
+                                        <th width="15%">이름</th>
+                                        <td width="40%"><%= dto.getName() %></td>
+                                    </tr>    
+                                    <tr>
                                         <th>이메일</th>
-                                        <!-- <th>우편번호</th>
-                                        <th>주소1</th>
-                                        <th>주소2</th> -->
-                                        <th>전화번호</th>
-                                        <th>핸드폰번호</th>
-                                        <th>회원등급</th>
-                                        <th>회원등록일</th>
-                                        <th>상세정보</th>
+                                        <td><%= dto.getEmail() %></td>
+                                        <th>주소</th>
+                                        <td><%= dto.getPostcode() %> <%= dto.getAddr1() %> <%= dto.getAddr2() %></td>
                                     </tr>
+                                   	<tr>
+                                        <th>전화번호</th>
+                                        <td><%= dto.getPhone1() %></td>
+                                        <th>핸드폰번호</th>
+                                        <td><%= dto.getPhone2() %></td>
+                                    </tr>  
+                                    <tr>
+                                        <th>회원등급</th>
+                                        <td><input type="text" name="identity" value="<%= dto.getIdentity() %>" /></td>
+                                        <th>회원등록일</th>
+                                        <td><%= dto.getRegidate() %></td>
+                                    </tr>  
                                 </thead>
-                                <!-- 테이블 가공 (회원 정보) -->
-                                <tbody>
-									<%
-									if(memberLists.isEmpty()){
-									%>
-									<tr>
-										<td colspan="12" align="center">등록된 회원정보가 없습니다.</td>
-									<tr>
-									<%
-									}else{
-										int virtualNum = 0;
-										int countNum = 0;
-										for(MemberDTO dto : memberLists){
-											virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
-									%>
-									<%-- <tr onclick="location.href='member_mod.jsp?id==<%= dto.getId() %>'"> --%>
-									<tr>
-										<td><input type="checkbox"></td>
-										<td><%= dto.getId() %></td>
-										<td><%= dto.getName() %></td>
-										<td><%= dto.getEmail() %></td>
-										<%-- <td><%= dto.getPostcode() %></td>
-										<td><%= dto.getAddr1() %></td>
-										<td><%= dto.getAddr2() %></td> --%>
-										<td><%= dto.getPhone1() %></td>
-										<td><%= dto.getPhone2() %></td>
-										<td><%= dto.getIdentity() %></td>
-										<td><%= dto.getRegidate() %></td>
-										<td><button class="btn" type="button" onclick="location.href='ad_member_mod.jsp?user_id=<%= dto.getId() %>'">#</button></td>
-										<!-- <i class="bi bi-pencil-square"></i> -->
-									</tr>
-									<%
-										}
-									}
-									%>
-								</tbody>
                             </table>
-
-                            <!-- 검색 -->
-                            <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
-                                <select class="selectpicker admin-search">
-                                    <option>아이디</option>
-                                    <option>이름</option>
-                                    <option>이메일</option>
-                                  </select>
-                                  
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                            </form>
                         </div>
                     </div>
 
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
+                        	<li><button type="submit" class="btn btn-outline-success">등급저장</button></li>
                             <li><button type="button" class="btn btn-outline-danger">회원삭제</button></li>
                         </ul>
                     </div>
-                    <!-- 페이지 번호 -->
-					<div class="row mt-3">
-	                <div class="col">
-	                	<ul class="pagination justify-content-center">
-		                	<%= BoardPage.pagingStr(totalCount, pageSize,
-		        				blockPage, pageNum, request.getRequestURI()) %>
-	                	</ul>
-	                </div>
-	                </div>
+                    </form>
                 </div>
                 <!-- /.container-fluid -->
             </div>
