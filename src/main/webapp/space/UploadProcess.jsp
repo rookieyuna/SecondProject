@@ -10,6 +10,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String saveDirectory = application.getRealPath("/Uploads");
+	System.out.println(saveDirectory);
 	int maxPostSize = 1024 * 1000;
 	String encoding = "UTF-8";
 	

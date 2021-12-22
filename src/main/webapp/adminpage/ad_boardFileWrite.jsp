@@ -13,8 +13,14 @@
 String num = request.getParameter("num");
 String cate = request.getParameter("cate");
 
+//String userid = session.getAttribute("UserId").toString();
+//String pass = request.getParameter("pass");
+//현재는 로그인이 구현되지 않아 세션에서 id/pass워드를 얻어올 수 없다. 임시방편으로 아래 식을 사용한다.
+String userid = "test1";
+String pass = "1111";
+
 BoardDAO dao = new BoardDAO();
-BoardDTO dto = dao.selectView("num");
+BoardDTO dto = dao.getId(userid);
 %>
 <script type="text/javascript">
 function validateForm(form){
@@ -342,8 +348,10 @@ function validateForm(form){
                         <div class="card-body">
                             <div class="table-responsive">
                                 <!-- 게시글(파일첨부형) 작성하기 -->
-                               	
-                               	<form name="writeFrm" method="post"   enctype="multipart/form-data" action="ad_boardFileWriteProcess.jsp" onsubmit="return validateForm(this);">
+                               
+                               	<form name="writeFrm" method="post"  enctype="multipart/form-data" action="ad_boardFileWriteProcess.jsp" onsubmit="return validateForm(this);">
+                            	<input type="hidden" name="num" value="<%= dto.getNum() %>"/>
+								<input type="hidden" name="cate" value="<%= cate %>"/>
                                 <table class="table table-bordered table-hover">
 									<tr>
 										<tr>
@@ -391,19 +399,17 @@ function validateForm(form){
 									</table>
 									<br />
 									<br />
-									 <!-- 각종버튼 -->
-								    <div class="row mb-3">
-								        <div class="col d-flex justify-content-end">
-								        	<input type="hidden" name="cate" value="<%= cate %>"/>
-								            <button type="button" class="btn btn-warning" 
-								            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
-														                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
-														                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
-														                   	if(cate.equals("infoB")) out.write("ad_infomation.jsp?cate=");%><%= cate %>';">목록보기</button>
-								            <button type="submit" class="btn btn-danger">전송하기</button>
-								            <button type="reset" class="btn btn-dark">다시쓰기</button>
-								        </div>
-								    </div>
+									  <!-- 버튼 -->
+					                    <div class="board-btn-group01">
+					                        <ul class="d-flex justify-content-end">
+					                            <li><button type="submit" class="btn btn-outline-success">작성완료</button></li>                            
+					                            <li><button type="button" class="btn btn-outline-primary" 
+					                            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
+															                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
+															                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
+															                   	if(cate.equals("infoB")) out.write("ad_information.jsp?cate=");%><%= cate %>';">목록보기</button>
+					                        </ul>
+					                    </div>
 								</form>
                             </div>
                         </div>

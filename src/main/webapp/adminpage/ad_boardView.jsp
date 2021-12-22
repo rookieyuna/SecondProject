@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="board.BoardDTO"%>
 <%@page import="board.BoardDAO"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -16,6 +17,19 @@ BoardDTO dto = dao.selectView(num);
 
 dao.close();
 %>
+
+ <script type="text/javascript">
+	 function deletePost(){
+		var confirmed = confirm("정말로 삭제하시겠습니까?");
+		if(confirmed){
+			var form = document.writeFrm;
+			form.method = "get"; // 전송방식을 post로 설정
+			form.action = "ad_boardDeleteProcess.jsp"; // 전송할 URL
+			form.submit(); // form값 전송
+		}
+	}
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -307,10 +321,10 @@ dao.close();
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">
                             <% 
-		                   	if(cate.equals("notB")) out.write("공지사항 작성");
-		                   	if(cate.equals("freeB")) out.write("자유게시판 작성");
-		                   	if(cate.equals("photoB")) out.write("사진게시판 작성");
-		                   	if(cate.equals("infoB")) out.write("정보자료실 작성");
+		                   	if(cate.equals("notB")) out.write("공지사항 상세보기");
+		                   	if(cate.equals("freeB")) out.write("자유게시판 상세보기");
+		                   	if(cate.equals("photoB")) out.write("사진게시판 상세보기");
+		                   	if(cate.equals("infoB")) out.write("정보자료실 상세보기");
 		                    %>
                             </h6>
                         </div>
@@ -319,6 +333,8 @@ dao.close();
                             <!-- 게시글 상세보기 -->
                                	
                                	<form name="writeFrm" method="post" action="ad_boardViewProcess.jsp" onsubmit="return validateForm(this);">
+                               	<input type="hidden" name="num" value="<%= dto.getNum() %>"/>
+                               	<input type="hidden" name="cate" value="<%= cate %>"/>
                                 <table class="table table-bordered table-hover">
 										<tr>
 											<th class="text-center" 
@@ -364,8 +380,18 @@ dao.close();
 										<tr>
 											<th class="text-center" 
 												style="vertical-align:middle;">첨부파일</th>
-											<td colspan="3">
-												<%= dto.getOfile() %>
+											<td colspan="6">
+												<%
+												if(dto.getOfile() != null){
+												%>
+												<a href="../space/Download.jsp?oFile=<%= URLEncoder.encode(dto.getOfile(), "UTF-8") %>&sFile=<%= URLEncoder.encode(dto.getSfile(),"UTF-8")%>"><%= dto.getOfile() %></a></td>
+												<%
+												}else{
+												%>
+												<span>첨부파일이 없습니다.</span>
+												<%
+												}
+												%>
 											</td>
 										</tr>
 										<%
@@ -377,37 +403,25 @@ dao.close();
 								<br />
 								<br />
 								 
-								 
-								 <!-- 각종버튼 -->
-							    <div class="row mb-3">
-							        <div class="col d-flex justify-content-end">
-							        	<input type="hidden" name="cate" value="<%= cate %>"/>
-							            <button type="button" class="btn btn-warning" 
-							            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
-													                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
-													                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
-													                   	if(cate.equals("infoB")) out.write("ad_infomation.jsp?cate=");%><%= cate %>';">목록보기</button>
-							            <button type="submit" class="btn btn-danger">전송하기</button>
-							            <button type="reset" class="btn btn-dark">다시쓰기</button>
-							        </div>
-							    </div>
+								<!-- 버튼 -->
+			                    <div class="board-btn-group01">
+			                        <ul class="d-flex justify-content-end">
+			                            <li><button type="button" class="btn btn-outline-secondary" onclick="deletePost();">삭제</button></li>
+			                            <li><button type="button" class="btn btn-outline-success" onclick="location.href='ad_boardEdit.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">수정하기</button></li>                            
+			                            <li><button type="button" class="btn btn-outline-primary" 
+			                            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
+																	                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
+																	                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
+																	                   	if(cate.equals("infoB")) out.write("ad_information.jsp?cate=");%><%= cate %>';">목록보기</button>
+			                        </ul>
+			                    </div>
+			                     
 								</form>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 버튼 -->
-                    <div class="board-btn-group01">
-                        <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary" onclick="deletePost();">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-success" onclick="location.href='ad_boardEdit.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">수정하기</button></li>                            
-                            <li><button type="button" class="btn btn-outline-primary" 
-                            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
-														                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
-														                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
-														                   	if(cate.equals("infoB")) out.write("ad_infomation.jsp?cate=");%><%= cate %>';">목록보기</button>
-                        </ul>
-                    </div>
+                    
                 </div>
                 <!-- /.container-fluid -->
 

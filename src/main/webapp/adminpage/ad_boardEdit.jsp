@@ -29,6 +29,7 @@ function validateForm(form) {
 		return false;
 	}
 }
+
 </script>
 <!DOCTYPE html>
 <html lang="en">
@@ -319,24 +320,20 @@ function validateForm(form) {
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">
                             <% 
-		                   	if(cate.equals("notB")) out.write("공지사항 작성");
-		                   	if(cate.equals("freeB")) out.write("자유게시판 작성");
-		                   	if(cate.equals("photoB")) out.write("사진게시판 작성");
-		                   	if(cate.equals("infoB")) out.write("정보자료실 작성");
+		                   	if(cate.equals("notB")) out.write("공지사항 수정");
+		                   	if(cate.equals("freeB")) out.write("자유게시판 수정");
+		                   	if(cate.equals("photoB")) out.write("사진게시판 수정");
+		                   	if(cate.equals("infoB")) out.write("정보자료실 수정");
 		                    %>
                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                            	<!-- 테이블 가공 (공지사항 작성하기) -->
+                            	<form name="writeFrm" method="post"  action="ad_boardEditProcess.jsp" onsubmit="return validateForm(this);">
+								<input type="hidden" name="num" value="<%= dto.getNum() %>"/>
+								<input type="hidden" name="cate" value="<%= cate %>"/>
                                 <table class="table table-bordered table-hover">
-                                    <colgroup>
-
-                                    </colgroup>
-                                    
-                                    <!-- 테이블 가공 (공지사항 작성하기) -->
-                               		<form name="writeFrm" method="post"  action="ad_boardEditProcess.jsp" onsubmit="return validateForm(this);">
-									<input type="hidden" name="num" value="<%= dto.getNum() %>"/>
-									<table border="1" width="90%">
 										<tr>
 											<th class="text-center" 
 												style="vertical-align:middle;">작성자</th>
@@ -369,34 +366,58 @@ function validateForm(form) {
 											<th class="text-center" 
 												style="vertical-align:middle;">내용</th>
 											<td>
-												<textarea rows="10" class="form-control" name="content" value="<%= dto.getContent() %>"></textarea>
+												<textarea rows="10" class="form-control" name="content"><%= dto.getContent() %></textarea>
 											</td>
 										</tr>
-										<!-- <tr>
+										<%
+										if(cate.equals("infoB") || cate.equals("photoB")){
+										%>
+										<tr>
 											<th class="text-center" 
 												style="vertical-align:middle;">첨부파일</th>
 											<td>
-												<input type="file" class="form-control" />
+												<!-- <input type="file" class="form-control" /> -->
+												<div class="file_area">
+													<input type="file" id="files" class="hidden" style="display: none;"/>
+													<%
+													if(dto.getOfile() != null){
+													%>
+													<label for="files"><%= dto.getOfile() %></label>
+													<%
+													}else{
+													%>
+													<label for="files">첨부파일이 없습니다</label>
+													<%
+													}
+													%>
+												</div>
 											</td>
-										</tr> -->
+										</tr>
+										<%
+										}
+										%>
 									</table>
 									<br />
 									<br />
-									 <!-- 각종버튼 -->
-								    <div class="row mb-3">
-								        <div class="col d-flex justify-content-end">
-								        	<input type="hidden" name="cate" value="<%= cate %>"/>
-								            <button type="button" class="btn btn-warning" onclick="location.href='ad_notice.jsp?cate=<%= cate %>'">목록보기</button>
-								            <button type="submit" class="btn btn-danger">전송하기</button>
-								            <button type="reset" class="btn btn-dark">다시쓰기</button>
-								        </div>
-								    </div>
+									
+									<!-- 버튼 -->
+				                    <div class="board-btn-group01">
+				                        <ul class="d-flex justify-content-end">
+				                            <li><button type="submit" class="btn btn-outline-success">수정완료</button></li>                            
+				                            <li><button type="button" class="btn btn-outline-primary" 
+				                            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
+														                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
+														                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
+														                   	if(cate.equals("infoB")) out.write("ad_information.jsp?cate=");%><%= cate %>';">목록보기</button>
+				                        </ul>
+				                    </div>
+									
 								</form>
                             </div>
                         </div>
                     </div>
 
-                    
+					
                 </div>
                 <!-- /.container-fluid -->
 

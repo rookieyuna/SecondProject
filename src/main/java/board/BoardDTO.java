@@ -6,6 +6,7 @@ public class BoardDTO {
 	private String title;			// 글제목
 	private String content;			// 글내용
 	private java.sql.Date postdate;	// 작성일
+	private String pdate;			// 달력용
 	private String ofile;			// 기존파일명
 	private String sfile;			// 서버파일명
 	private String downcount;		// 다운로드횟수
@@ -55,6 +56,12 @@ public class BoardDTO {
 	}
 	public void setPostdate(java.sql.Date postdate) {
 		this.postdate = postdate;
+	}
+	public String getPdate() {
+		return pdate;
+	}
+	public void setPdate(String pdate) {
+		this.pdate = pdate;
 	}
 	public String getOfile() {
 		return ofile;

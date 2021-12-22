@@ -25,7 +25,11 @@ if(sessionId.equals(dto.getId())){
 	
 	if(delResult == 1){
 		// 게시물 삭제에 성공하면 리스트로 이동한다.
-		JSFunction.alertLocation("삭제되었습니다.", "board_list.jsp?cate="+cate, out);
+		if(cate.equals("notB")) JSFunction.alertLocation("삭제되었습니다.", "ad_notice.jsp?cate="+cate, out);
+		if(cate.equals("freeB")) JSFunction.alertLocation("삭제되었습니다.", "ad_freeboard.jsp?cate="+cate, out);
+		if(cate.equals("photoB")) JSFunction.alertLocation("삭제되었습니다.", "ad_photo.jsp?cate="+cate, out);
+		if(cate.equals("infoB")) JSFunction.alertLocation("삭제되었습니다.", "ad_information.jsp?cate="+cate, out);
+		
 	}else{
 		JSFunction.alertBack("삭제에 실패하였습니다.", out);
 	}

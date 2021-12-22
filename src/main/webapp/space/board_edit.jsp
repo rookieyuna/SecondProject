@@ -128,13 +128,33 @@ function validateForm(form){
 								<textarea rows="10" class="form-control" name="content"><%= dto.getContent() %></textarea>
 							</td>
 						</tr>
+						<%
+						if(cate.equals("infoB") || cate.equals("photoB")){
+						%>
 						<tr>
 							<th class="text-center" 
 								style="vertical-align:middle;">첨부파일</th>
 							<td>
-								<input type="file" class="form-control" />
+								<!-- <input type="file" class="form-control" /> -->
+								<div class="file_area">
+									<input type="file" id="files" class="hidden" style="display: none;"/>
+									<%
+									if(dto.getOfile() != null){
+									%>
+									<label for="files"><%= dto.getOfile() %></label>
+									<%
+									}else{
+									%>
+									<label for="files">첨부파일이 없습니다</label>
+									<%
+									}
+									%>
+								</div>
 							</td>
 						</tr>
+						<%
+						}
+						%>
 					</tbody>
 					</table>
 					
@@ -142,7 +162,6 @@ function validateForm(form){
 						<!-- 각종 버튼 부분 -->
 						<input type="hidden" name="cate" value="<%= cate %>"/>
 						<button type="submit" class="btn btn-danger">수정 완료</button>
-						<button type="reset" class="btn">다시작성</button>
 						<button type="button" class="btn btn-warning" 
 							onclick="location.href='board_list.jsp?cate=<%= cate %>';">리스트보기</button>
 					</div>

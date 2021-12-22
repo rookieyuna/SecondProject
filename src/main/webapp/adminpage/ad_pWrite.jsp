@@ -33,9 +33,9 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
 			form.content.focus();
 			return false;
 		}
-		if(form.postdate.value == "") {
+		if(form.pdate.value == "") {
 			alert("날짜를 입력하세요.");
-			form.postdate.focus();
+			form.pdate.focus();
 			return false;
 		}
 	}
@@ -397,7 +397,7 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
                                 <table class="table table-bordered table-hover">
                                     
                                     
-                                    <!-----------프로그램 일정 작성하기 폼------------------>
+                                    <!--------------프로그램 일정 작성하기 폼------------------>
                                     <tr>
 										<td>작성자</td>
 										<td><input type="text" name="id"  style="width: 30%;" value="<%= mDto.getId() %>" /></td>
@@ -408,7 +408,7 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
 									</tr>
 									<tr>
 										<td>작성일</td>
-										<td><input type="text" name="postdate" id="datepicker" style="width: 20%;"></td>
+										<td><input type="text" name="pdate" id="datepicker" style="width: 20%;"></td>
 									</tr>
 									<tr>
 										<td>내용</td>

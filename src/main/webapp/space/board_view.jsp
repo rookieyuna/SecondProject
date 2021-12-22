@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="board.BoardDTO"%>
 <%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -127,7 +128,17 @@
 									<th class="text-center" 
 										style="vertical-align:middle;">첨부파일</th>
 									<td colspan="3">
-										<%= dto.getOfile() %>
+										<%
+										if(dto.getOfile() != null){
+										%>
+										<a href="Download.jsp?oFile=<%= URLEncoder.encode(dto.getOfile(), "UTF-8") %>&sFile=<%= URLEncoder.encode(dto.getSfile(),"UTF-8")%>"><%= dto.getOfile() %></a></td>
+										<%
+										}else{
+										%>
+										<span>첨부파일이 없습니다.</span>
+										<%
+										}
+										%>
 									</td>
 								</tr>
 								<%

@@ -1,5 +1,8 @@
 package board;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -81,6 +84,7 @@ public class BoardDAO extends JDBConnect{
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setPostdate(rs.getDate("postdate"));
+				dto.setPdate(rs.getString("pdate"));
 				dto.setOfile(rs.getString("ofile"));
 				dto.setSfile(rs.getString("sfile"));
 				dto.setDowncount(rs.getString("downcount"));
@@ -118,6 +122,7 @@ public class BoardDAO extends JDBConnect{
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setPostdate(rs.getDate("postdate"));
+				dto.setPdate(rs.getString("pdate"));
 				dto.setOfile(rs.getString("ofile"));
 				dto.setSfile(rs.getString("sfile"));
 				dto.setDowncount(rs.getString("downcount"));
@@ -168,6 +173,7 @@ public class BoardDAO extends JDBConnect{
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setPostdate(rs.getDate("postdate"));
+				dto.setPdate(rs.getString("pdate"));
 				dto.setOfile(rs.getString("ofile"));
 				dto.setSfile(rs.getString("sfile"));
 				dto.setDowncount(rs.getString("downcount"));
@@ -295,25 +301,26 @@ public class BoardDAO extends JDBConnect{
 
 	// 프로그램 일정 추가하기
 	public int pinsertWrite(BoardDTO dto) {
+		//SimpleDateFormat pdate = new SimpleDateFormat("yyyy-mm");
 		int result=0;
 		try {
 			String query = "INSERT INTO board ( "
-					+ " num, id, title, postdate, content, visitcount, category) "
+					+ " num, id, title, content, pdate, visitcount, category) "
 					+ " VALUES ( "
 					+ " seq_board_num.NEXTVAL, ?, ?, ?, ?, 0, ?)";
 
 			psmt = con.prepareStatement(query);
 			System.out.println("아이디 : "+ dto.getId());
 			System.out.println("제목 : "+ dto.getTitle());
+			System.out.println("날짜 : "+ dto.getPdate());
 			System.out.println("내용 : "+ dto.getContent());
 			System.out.println("카테 : "+ dto.getCategory());
 
 			psmt.setString(1, dto.getId());
-			psmt.setString(2, dto.getPass());
-			psmt.setDate(3, dto.getPostdate());
-			psmt.setString(4, dto.getTitle());
-			psmt.setString(5, dto.getContent());
-			psmt.setString(6, dto.getCategory());
+			psmt.setString(2, dto.getTitle());
+			psmt.setString(3, dto.getContent());
+			psmt.setString(4, dto.getPdate());
+			psmt.setString(5, dto.getCategory());
 
 			result = psmt.executeUpdate();
 		} catch (Exception e) {
@@ -341,6 +348,7 @@ public class BoardDAO extends JDBConnect{
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setPostdate(rs.getDate("postdate"));
+				dto.setPdate(rs.getString("pdate"));
 				dto.setCategory(rs.getString("category"));
 			}
 		} catch (Exception e) {
@@ -349,4 +357,14 @@ public class BoardDAO extends JDBConnect{
 		}
 		return dto;
 	}
+	
+	//프로그램 값 받아오기 
+	/*
+	 * public Map<String, BoardDTO> clist(String, BoardDTO) { Map<String, BoardDTO>
+	 * map = new HashMap<String, BoardDTO>();
+	 * 
+	 * String query = "INSERT INTO " }
+	 */
+	
+
 }

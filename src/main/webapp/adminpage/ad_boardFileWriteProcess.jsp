@@ -36,6 +36,8 @@ System.out.println("여기까진 들어오늕지 확인");
 		String title = mr.getParameter("title");
 		String content = mr.getParameter("content");
 		String cate = mr.getParameter("cate");
+		System.out.println("프로세스 카테 : " +cate);
+		
 		
 		BoardDTO dto = new BoardDTO();
 		
