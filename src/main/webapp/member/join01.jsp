@@ -477,9 +477,7 @@
 				</div>
 
 				<p style="text-align:center; margin-bottom:20px;"><input type="checkbox" name="agreement1" value="" id="confirmChk" >이용약관과 개인정보취급방침에 동의합니다.</p>
-
-				<p style="text-align:center; margin-bottom:20px"><input type="image" src="../images/btn01.gif" id="confirm" />&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
-
+				<p style="text-align:center; margin-bottom:20px"><img src="../images/btn01.gif" id="confirm" />&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
 
 			</div>
 			
@@ -493,17 +491,16 @@
  </body>
 </html>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 $(function(){
     $('#confirm').click(function(){
-    	alert("약관동의");
-        if($('#confirmChk').checked==false){
-        	alert("약관동의");
+        if($('#confirmChk').is(':checked')==false){
+        	alert("이용약관에 동의하세요.");
         }
         else{
         	location.href="join02.jsp"
         }
-   	}
+   	});
 });
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

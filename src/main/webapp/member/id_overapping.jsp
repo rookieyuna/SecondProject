@@ -21,6 +21,9 @@
         }
         
     </script>
+    <style>
+    
+    </style>
 </head>
 <body>
     <h2>아이디 중복 확인하기</h2>

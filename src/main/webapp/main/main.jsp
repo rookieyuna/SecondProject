@@ -1,5 +1,16 @@
+<%@page import="utils.CookieManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% 
+//쿠키값 읽어오기
+String loginId = CookieManager.readCookie(request, "loginId");
+String loginPw = CookieManager.readCookie(request, "loginPw");
+//앞에서 읽어온 쿠키값이 있다면 checked 속성값을 변수에 설정한다.
+String cookieCheck="";
+if (!loginId.equals("")){
+	cookieCheck = "checked";
+}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -51,16 +62,16 @@ function validateForm(form) {
 						</colgroup>
 						<tr>
 							<th><img src="../images/login_tit01.gif" alt="아이디" /></th>
-							<td><input type="text" name="user_id" value="" class="login_input" /></td>
-							<td rowspan="2"><input type="image" src="../images/login_btn01.gif" alt="로그인" /></td>
+							<td><input type="text" name="user_id" value="<%= loginId %>" class="login_input" tabindex="1"/></td>
+							<td rowspan="2"><input type="image" src="../images/login_btn01.gif" alt="로그인" tabindex="4"/></td>
 						</tr>
 						<tr>
 							<th><img src="../images/login_tit02.gif" alt="패스워드" /></th>
-							<td><input type="password" name="user_pw" value="" class="login_input" /></td>
+							<td><input type="password" name="user_pw" value="<%= loginPw %>" class="login_input" tabindex="2"/></td>
 						</tr>
 					</table>
 					<p>
-						<input type="checkbox" name="" value="" /><img src="../images/login_tit03.gif" alt="저장" />
+						<input type="checkbox" name="save_check" value="Y" <%= cookieCheck %> /><img src="../images/login_tit03.gif" alt="저장" tabindex="3"/>
 						<a href="../member/id_pw.jsp"><img src="../images/login_btn02.gif" alt="아이디/패스워드찾기" /></a>
 						<a href="../member/join01.jsp"><img src="../images/login_btn03.gif" alt="회원가입" /></a>
 					</p>
