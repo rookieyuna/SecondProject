@@ -40,14 +40,14 @@
 			$('#cleanlist').attr("action","../adminpage/ad_requstDelete.do").submit();			
 		})  		
 	});
-
+/* 
 	function allCk(objCheck){ //전체 선택 checkbox 클릭
 		  var checks = document.getElementsByName('chk');
 		  for( var i = 0; i < checks.length; i++ ){
 		   checks[i].checked = objCheck;
 		// name이 'chk' 인 checkbox는  id가 allck인 checkbox의 checked 상태와 같게 된다. 
 		  }	
-	}
+	} */
 
 	
 </script>
