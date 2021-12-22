@@ -1,46 +1,21 @@
-<%@page import="utils.BoardPage"%>
-<%@page import="membership.MemberDTO"%>
-<%@page import="membership.MemberDAO"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Map"%>
 <%@page import="board.BoardDTO"%>
 <%@page import="board.BoardDAO"%>
-<%
-	String cate = request.getParameter("cate");		
-	String cateUrl = request.getRequestURI();
-	BoardDAO dao = new BoardDAO();
-	Map<String, Object> param = new HashMap<String, Object>();
-	
-	String searchField = request.getParameter("searchField");
-	String searchWord = request.getParameter("searchWord");
-	
-	if(searchWord != null){
-		param.put("searchField", searchField);
-		param.put("searchWord", searchWord);
-		param.put("cate", cate);
-	}
-	
-	int totalCount = dao.selectCount(param, cate);
-	int pageSize = 10;
-	int blockPage = 5;
-	int totalPage = (int)Math.ceil((double)totalCount / pageSize);
-	int pageNum = 1;
-	
-	String pageTemp = request.getParameter("pageNum");
-	
-	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
-	
-	int start = (pageNum - 1) * pageSize + 1;
-	int end = pageNum * pageSize;
-	param.put("start", start);
-	param.put("end", end);
-	
-	List<BoardDTO> boardLists = dao.selectList(param, cate);
-	dao.close();
-%>     
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.util.Calendar"%>
+<%
+
+String cate = request.getParameter("cate");	
+String num = request.getParameter("num");
+
+BoardDAO dao = new BoardDAO();
+dao.updateVisitCount(num);
+BoardDTO dto = dao.selectView(num);
+
+dao.close();
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,7 +26,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+    
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
     <!-- Custom fonts for this template -->
@@ -66,12 +44,10 @@
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-
-     <!-- 211218 KBS ADD -->
-     <link rel="stylesheet" href="css/style.css">
-     <!-- Latest compiled and minified CSS -->
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!-- 211218 KBS ADD -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     
 </head>
 
@@ -103,9 +79,9 @@
             <!-- Heading -->
 
 
-			<!-- 여어어어엉어어기기기기이이이이이이가가가가가 좌측메뉴(LNB)이다라라랄라라라랄-->
+             <!-- 여어어어엉어어기기기기이이이이이이가가가가가 좌측메뉴(LNB)이다라라랄라라라랄-->
             <%@ include file = "./include/ad_LNB_location.jsp" %>
-            
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -308,86 +284,114 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">정보자료실 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - INFORMATION</p>
+                    
+                    <h1 class="h3 mb-2 text-gray-800">
+                    <% 
+                   	if(cate.equals("notB")) out.write("공지사항 관리");
+                   	if(cate.equals("freeB")) out.write("자유게시판 관리");
+                   	if(cate.equals("photoB")) out.write("사진게시판 관리");
+                   	if(cate.equals("infoB")) out.write("정보자료실 관리");
+                    %>
+                    </h1>
+                    <p class="mb-4">BOARD MANAGEMENT - 
+                    <% 
+                   	if(cate.equals("notB")) out.write("NOTICE");
+                   	if(cate.equals("freeB")) out.write("FREEBOARD");
+                   	if(cate.equals("photoB")) out.write("PHOTO");
+                   	if(cate.equals("infoB")) out.write("INFORMATION");
+                    %>
+                    </p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">정보자료실 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">
+                            <% 
+		                   	if(cate.equals("notB")) out.write("공지사항 작성");
+		                   	if(cate.equals("freeB")) out.write("자유게시판 작성");
+		                   	if(cate.equals("photoB")) out.write("사진게시판 작성");
+		                   	if(cate.equals("infoB")) out.write("정보자료실 작성");
+		                    %>
+                            </h6>
                         </div>
-                        
-<div class="card-body">
+                        <div class="card-body">
                             <div class="table-responsive">
+                            <!-- 게시글 상세보기 -->
+                               	
+                               	<form name="writeFrm" method="post" action="ad_boardViewProcess.jsp" onsubmit="return validateForm(this);">
                                 <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="boardCheckbox">
-                                                <input type="checkbox" id="checkedAll">
-                                            </th>
-                                            <th class="numbering">번호</th>
-                                            <th class="boardtitle">제목</th>
-                                            <th class="boardwriter">작성자</th>
-                                            <th class="boarddate">작성일</th>
-                                            <th class="">조회수</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    
-                                    <!-- 테이블 가공 (공지사항) -->
-                               		<tbody>
-										<%
-										if(boardLists.isEmpty()){
-										%>
 										<tr>
-											<td colspan="5" align="center">등록된 게시물이 없습니다.</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">작성자</th>
+											<td colspan="3">
+												<%= dto.getName() %>
+											</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">작성일</th>
+											<td>
+												<%= dto.getPostdate() %>
+											</td>
+										</tr>
 										<tr>
-										<%
-										}else{
-											int virtualNum = 0;
-											int countNum = 0;
-											for(BoardDTO dto : boardLists){
-												virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
-										%>
-										<tr onclick="location.href='ad_boardView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">
-											<td><input type="checkbox"></td>
-											<td><%= virtualNum %></td>
-											<td><%= dto.getTitle() %></td>
-											<td><%= dto.getName() %></td>
-											<td><%= dto.getPostdate() %></td>
-											<td><%= dto.getVisitcount() %></td>
+											<th class="text-center" 
+												style="vertical-align:middle;">제목</th>
+											<td colspan="3">
+												<%= dto.getTitle() %>
+											</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">조회수</th>
+											<td>
+												<%= dto.getVisitcount() %>
+											</td>
+										</tr>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">내용</th>
+											<td colspan="5">
+												<%= dto.getContent().replace("\r\n", "<br/>") %>
+												<%
+													if(cate.equals("photoB")){
+													%>
+														<img style="display:block;" src="../Uploads/<%= dto.getSfile() %>" alt="">
+													<%
+													}
+												%>
+											</td>
 										</tr>
 										<%
-											}
+										if(cate.equals("infoB")) {
+										%>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">첨부파일</th>
+											<td colspan="3">
+												<%= dto.getOfile() %>
+											</td>
+										</tr>
+										<%
 										}
 										%>
 									</tbody>
-                                    
-                                </table>
-
-				
-								<div class="boardTool">
-									<div class="tool_Paging">
-										<ul>
-											<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI()) %>
-										</ul>
-									</div>
-									
-									<div class="tool_Search">
-										<form method="get">  
-											<input type="hidden" name="cate" value="<%= cate %>"/>
-											<select name="searchField">
-												<option value="title">제목</option>
-												<option value="id">작성자</option>
-											</select>
-											<div>
-												<input type="text" name="searchWord" placeholder="검색어를 입력하세요" value=""/>								
-												<button type="submit" value="">검색</button>
-											</div>
-										</form>							
-									</div>
-								</div>
-
+								</table>
+								
+								<br />
+								<br />
+								 
+								 
+								 <!-- 각종버튼 -->
+							    <div class="row mb-3">
+							        <div class="col d-flex justify-content-end">
+							        	<input type="hidden" name="cate" value="<%= cate %>"/>
+							            <button type="button" class="btn btn-warning" 
+							            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
+													                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
+													                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
+													                   	if(cate.equals("infoB")) out.write("ad_infomation.jsp?cate=");%><%= cate %>';">목록보기</button>
+							            <button type="submit" class="btn btn-danger">전송하기</button>
+							            <button type="reset" class="btn btn-dark">다시쓰기</button>
+							        </div>
+							    </div>
+								</form>
                             </div>
                         </div>
                     </div>
@@ -395,8 +399,13 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_boardFileWrite.jsp?cate=<%= cate %>';">작성</button></li>
+                            <li><button type="button" class="btn btn-outline-secondary" onclick="deletePost();">삭제</button></li>
+                            <li><button type="button" class="btn btn-outline-success" onclick="location.href='ad_boardEdit.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">수정하기</button></li>                            
+                            <li><button type="button" class="btn btn-outline-primary" 
+                            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
+														                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
+														                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
+														                   	if(cate.equals("infoB")) out.write("ad_infomation.jsp?cate=");%><%= cate %>';">목록보기</button>
                         </ul>
                     </div>
                 </div>

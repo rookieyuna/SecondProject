@@ -10,7 +10,7 @@
     pageEncoding="UTF-8"%>
 <%
 	
-	String cate = "notB";	
+	String cate = request.getParameter("cate");	
 	String cateUrl = request.getRequestURI();
 	BoardDAO dao = new BoardDAO();
 	Map<String, Object> param = new HashMap<String, Object>();
@@ -168,7 +168,12 @@
                     </div>
                 </div>
             </li>
-
+            
+            
+            <!-- 여어어어엉어어기기기기이이이이이이가가가가가 좌측메뉴(LNB)이다라라랄라라라랄-->
+            <%@ include file = "./include/ad_LNB_location.jsp" %>
+            
+            
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -380,6 +385,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                                                        
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
@@ -410,7 +416,8 @@
 											for(BoardDTO dto : boardLists){
 												virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
 										%>
-										<tr onclick="location.href='ad_nView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">
+
+										<tr onclick="location.href='ad_boardView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">
 											<td><input type="checkbox"></td>
 											<td><%= virtualNum %></td>
 											<td><%= dto.getTitle() %></td>
@@ -457,7 +464,8 @@
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
                             <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_nWrite.jsp?cate=<%= cate %>'">작성</button></li>
+
+                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_boardWrite.jsp?cate=<%= cate %>';">작성</button></li>
                         </ul>
                     </div>
                 </div>

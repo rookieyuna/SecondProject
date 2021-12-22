@@ -1,3 +1,5 @@
+<%@page import="utils.JSFunction"%>
+<%@page import="javax.swing.text.Document"%>
 <%@page import="membership.MemberDTO"%>
 <%@page import="membership.MemberDAO"%>
 <%@page import="board.BoardDTO"%>
@@ -8,30 +10,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-String UserId = session.getAttribute("UserId").toString();
-String UserPwd = session.getAttribute("UserPwd").toString();
-String cate = request.getParameter("cate");
 String num = request.getParameter("num");
+String cate = request.getParameter("cate");
 
-BoardDAO dao = new BoardDAO(); //DB연결
-BoardDTO dto = dao.selectView(num);
-
-dao.close();
-
-MemberDAO mDao = new MemberDAO();
-MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
-
+BoardDAO dao = new BoardDAO();
+BoardDTO dto = dao.selectView("num");
 %>
-<script>
-function validateForm(form) {
-	if(form.title.value == ""){
-		alert("제목을 입력하세요.");
+<script type="text/javascript">
+function validateForm(form){
+	if(form.email.value==""){
+		alert("이메일을 입력하세요")
+		form.email.focus();
+		return false;
+	}
+	if(form.pass.value==""){
+		alert("패스워드을 입력하세요")
+		form.pass.focus();
+		return false;
+	}
+	if(form.title.value==""){
+		alert("제목을 입력하세요")
 		form.title.focus();
 		return false;
 	}
-	if(form.content.value == "") {
-		alert("내용을 입력하세요.");
+	if(form.content.value==""){
+		alert("내용을 입력하세요")
 		form.content.focus();
+		return false;
+	}
+	if(form.attachedFile.value ==""){
+		alert("첨부파일은 필수 입력입니다.")
 		return false;
 	}
 }
@@ -47,7 +55,6 @@ function validateForm(form) {
     <meta name="description" content="">
     <meta name="author" content="">
 	
-	</script>
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
     <!-- Custom fonts for this template -->
@@ -96,73 +103,10 @@ function validateForm(form) {
 
             <!-- Heading -->
 
+			
+			<!-- 여어어어엉어어기기기기이이이이이이가가가가가 좌측메뉴(LNB)이다라라랄라라라랄-->
+            <%@ include file = "./include/ad_LNB_location.jsp" %>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#a"
-                    aria-expanded="true" aria-controls="a">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>회원관리</span>
-                </a>
-                <div id="a" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">User Management:</h6>
-                        <a class="collapse-item" href="ad_member.jsp">사용자 관리</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#b"
-                    aria-expanded="true" aria-controls="b">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>열린공간</span>
-                </a>
-                <div id="b" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Board Management:</h6>
-                        <a class="collapse-item" href="ad_notice.jsp?cate=notB">공지사항 관리</a>
-                        <a class="collapse-item" href="ad_program.jsp?cate=proB">프로그램일정 관리</a>
-                        <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
-                        <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
-                        <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#c"
-                    aria-expanded="true" aria-controls="c">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>커뮤니티</span>
-                </a>
-                <div id="c" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Community Management:</h6>
-                        <a class="collapse-item" href="ad_staff.jsp">직원자료실 관리</a>
-                        <a class="collapse-item" href="ad_guardian.jsp">보호자게시판 관리</a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#d"
-                    aria-expanded="true" aria-controls="d">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>장터관리</span>
-                </a>
-                <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Market Management:</h6>
-                        <a class="collapse-item" href="ad_suaRegist.jsp">상품 등록 관리</a>
-                        <a class="collapse-item" href="ad_order.jsp">주문내역 관리</a>
-                        <a class="collapse-item" href="ad_requst.jsp">견적의뢰 관리</a>
-                        <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
-                    </div>
-                </div>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -365,68 +309,85 @@ function validateForm(form) {
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">공지사항 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - NOTICE</p>
+                    
+                    <h1 class="h3 mb-2 text-gray-800">
+                    <% 
+                   	if(cate.equals("notB")) out.write("공지사항 관리");
+                   	if(cate.equals("freeB")) out.write("자유게시판 관리");
+                   	if(cate.equals("photoB")) out.write("사진게시판 관리");
+                   	if(cate.equals("infoB")) out.write("정보자료실 관리");
+                    %>
+                    </h1>
+                    <p class="mb-4">BOARD MANAGEMENT - 
+                    <% 
+                   	if(cate.equals("notB")) out.write("NOTICE");
+                   	if(cate.equals("freeB")) out.write("FREEBOARD");
+                   	if(cate.equals("photoB")) out.write("PHOTO");
+                   	if(cate.equals("infoB")) out.write("INFORMATION");
+                    %>
+                    </p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">공지사항 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">
+                            <% 
+		                   	if(cate.equals("notB")) out.write("공지사항 작성");
+		                   	if(cate.equals("freeB")) out.write("자유게시판 작성");
+		                   	if(cate.equals("photoB")) out.write("사진게시판 작성");
+		                   	if(cate.equals("infoB")) out.write("정보자료실 작성");
+		                    %>
+                            </h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                                <!-- 게시글(파일첨부형) 작성하기 -->
+                               	
+                               	<form name="writeFrm" method="post"   enctype="multipart/form-data" action="ad_boardFileWriteProcess.jsp" onsubmit="return validateForm(this);">
                                 <table class="table table-bordered table-hover">
-                                    <colgroup>
-
-                                    </colgroup>
-                                    
-                                    <!-- 테이블 가공 (공지사항 작성하기) -->
-                               		<form name="writeFrm" method="post" 
-										action="ad_nEditProcess.jsp" onsubmit="return validateForm(this);">
-									<input type="hid-den" name="num" value="<%= dto.getNum() %>"/>
-									<table border="1" width="90%">
+									<tr>
 										<tr>
 											<th class="text-center" 
 												style="vertical-align:middle;">작성자</th>
 											<td>
-												<input type="text" class="form-control" style="width:100px;" name="name" value="<%= mDto.getName() %>"/>
+												<input type="text" class="form-control" style="width:100px;" name="name" value="<%= dto.getName() %>"/>
 											</td>
 										</tr>
 										<tr>
 											<th class="text-center" 
 												style="vertical-align:middle;">이메일</th>
 											<td>
-												<input type="text" class="form-control" style="width:400px;" name="email" value="<%= mDto.getEmail() %>"/>
+												<input type="text" class="form-control" style="width:400px;" name="email" value="<%= dto.getEmail() %>"/>
 											</td>
 										</tr>
-										<%-- <tr>
+										<tr>
 											<th class="text-center" 
 												style="vertical-align:middle;">패스워드</th>
 											<td>
-												<input type="password" class="form-control" style="width:200px;" name="pass" value="<%= dto.getPass() %>"/>
+												<input type="password" class="form-control" style="width:200px;" name="pass"/>
 											</td>
-										</tr> --%>
+										</tr>
 										<tr>
 											<th class="text-center" 
 												style="vertical-align:middle;">제목</th>
 											<td>
-												<input type="text" class="form-control" name="title" value="<%= dto.getTitle() %>"/>
+												<input type="text" class="form-control" name="title"/>
 											</td>
 										</tr>
 										<tr>
 											<th class="text-center" 
 												style="vertical-align:middle;">내용</th>
 											<td>
-												<textarea rows="10" class="form-control" name="content" value="<%= dto.getContent() %>"></textarea>
+												<textarea rows="10" class="form-control" name="content"></textarea>
 											</td>
 										</tr>
-										<!-- <tr>
+										<tr>
 											<th class="text-center" 
 												style="vertical-align:middle;">첨부파일</th>
 											<td>
-												<input type="file" class="form-control" />
+												<input type="file" class="form-control" name="attachedFile" />
 											</td>
-										</tr> -->
+										</tr>
 									</table>
 									<br />
 									<br />
@@ -434,7 +395,11 @@ function validateForm(form) {
 								    <div class="row mb-3">
 								        <div class="col d-flex justify-content-end">
 								        	<input type="hidden" name="cate" value="<%= cate %>"/>
-								            <button type="button" class="btn btn-warning" onclick="location.href='ad_notice.jsp?cate=<%= cate %>'">목록보기</button>
+								            <button type="button" class="btn btn-warning" 
+								            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
+														                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
+														                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
+														                   	if(cate.equals("infoB")) out.write("ad_infomation.jsp?cate=");%><%= cate %>';">목록보기</button>
 								            <button type="submit" class="btn btn-danger">전송하기</button>
 								            <button type="reset" class="btn btn-dark">다시쓰기</button>
 								        </div>
