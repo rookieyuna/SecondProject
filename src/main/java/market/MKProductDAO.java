@@ -186,4 +186,32 @@ public class MKProductDAO extends DBConnPool{
   		
   		return result;
   	}
+  	
+  	
+  	//주문하려는 상품 출력
+    public MKProductDTO orderList(String product_no) {
+        MKProductDTO dto = new MKProductDTO();
+        String query = " SELECT * FROM product WHERE product_no= ?";
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setString(1, product_no); 
+            rs = psmt.executeQuery();
+            
+            if (rs.next()) {
+                dto.setProduct_no(rs.getString(1));
+                dto.setProduct_name(rs.getString(2));
+                dto.setPrice(rs.getInt(3));
+                dto.setMilage(rs.getInt(4));
+                dto.setProduct_info(rs.getString(5));
+                dto.setProduct_ofile(rs.getString(6));
+                dto.setProduct_sfile(rs.getString(7));
+            }
+        }
+        catch (Exception e) {
+            System.out.println("상품 조회 중 예외 발생");
+            e.printStackTrace();
+        }
+        return dto;
+    }
+    
 }

@@ -1,10 +1,16 @@
+<%@page import="java.text.DecimalFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<% pageContext.setAttribute("temp", 1); %>
  <body>
-	<center>
+<!-- 	<center> -->
 	<div id="wrap">
 		<%@ include file="../include/top.jsp" %>
 
@@ -47,7 +53,52 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<c:choose>	
+						<c:when test="${ empty dto }">
+							<tr>
+								<td colspan="9" align="center">등록된 게시물이 없습니다^^*</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td><input type="checkbox" name="" value="" /></td>
+								<td><img src="../images/market/${dto.product_sfile }" width="50px" height="50px"/></td>
+								<td>${ dto.product_name }</td>
+								<td>${ dto.price }원</td>
+								<td><img src="../images/market/j_icon.gif" />&nbsp;${ dto.milage }원</td>
+								<td><input type="text" name="" value="${quantity }" class="basket_num" />
+								&nbsp;<a href=""><img src="../images/market/m_btn.gif" /></a></td>
+								<%-- <td><input type="text" name="" value="${dto.count_num }" class="basket_num" />
+								&nbsp;<a href=""><img src="../images/market/m_btn.gif" /></a></td> --%>
+								<td>무료배송</td>
+								<td>[조건]</td>
+								<% DecimalFormat formatter = new DecimalFormat("###,###"); %>
+								<td><span>
+								 <fmt:formatNumber value="${ dto.price }" pattern="#,###"/>원</span></td>
+							</tr>
+							<%-- <c:forEach items="${ dto }" var="row" varStatus="loop"> 						
+							<input type="hidden" id="total_price" value="${ row.total_price }" />
+							<c:set var="sum" value="${sum+row.price }"/>
+							<tr>
+								<td><input type="checkbox" name="" value="" /></td>
+								<td><img src="../images/market/${row.product_sfile }" width="50px" height="50px"/></td>
+								<td>${ row.product_name }</td>
+								<td>${ row.price }원</td>
+								<td><img src="../images/market/j_icon.gif" />&nbsp;${ row.milage }원</td>
+								<td><input type="text" name="" value="${row.count_num }" class="basket_num" />
+								&nbsp;<a href=""><img src="../images/market/m_btn.gif" /></a></td>
+								<td>무료배송</td>
+								<td>[조건]</td>
+								<% DecimalFormat formatter = new DecimalFormat("###,###"); %>
+								<td><span>
+								 <fmt:formatNumber value="${ row.price }" pattern="#,###"/>원</span></td>
+							</tr>
+							</c:forEach> --%>
+						</c:otherwise>
+						</c:choose>
+						
+						<!-- original data -->
+						<!-- <tr>
 							<td><input type="checkbox" name="" value="" /></td>
 							<td><img src="../images/market/cake_img1.jpg" /></td>
 							<td>녹차 쌀 무스케잌</td>
@@ -68,7 +119,7 @@
 							<td>무료배송</td>
 							<td>[조건]</td>
 							<td><span>60,000원<span></td>
-						</tr>
+						</tr> -->
 					</tbody>
 				</table>
 
@@ -154,6 +205,6 @@
 	
 
 	<%@ include file="../include/footer.jsp" %>
-	</center>
+<!-- 	</center> -->
  </body>
 </html>

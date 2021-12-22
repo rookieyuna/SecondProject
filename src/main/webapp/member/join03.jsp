@@ -213,7 +213,7 @@ String[] emailArr = dto.getEmail().split("@");
 					<tr>
 						<th><img src="../images/join_tit07.gif" /></th>
 						<td>
-							<select name="mobile1" class="userSelect w50" onchange="document.myform.mobile2.focus();">
+							<select name="mobile1" value="<%=phone2Arr[0] %> class="userSelect w50" onchange="document.myform.mobile2.focus();">
 		                        <option value=""></option>
 		                        <option value="010">010</option><option value="011">011</option><option value="017">017</option>
 		                        <option value="018">018</option><option value="019">019</option>

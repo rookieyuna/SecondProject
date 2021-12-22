@@ -1,21 +1,17 @@
 <%@page import="market.MKProductDTO"%>
-<%@page import="market.MKProductDAO"%>
-<%@page import="board.BoardDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="board.BoardDAO"%>
+<%@page import="market.MKProductDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,6 +39,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
+<script>
+	$(function(){
+		$('#deletebtn').click(function(){
+			$('#orderlist').attr("action","../adminpage/ad_sOrderDelete.do").submit();			
+		})  		
+	});
+</script>
 
 <body id="page-top">
 
@@ -98,8 +101,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Board Management:</h6>
-                        <a class="collapse-item" href="ad_notice.jsp?cate=notB">공지사항 관리</a>
-                        <a class="collapse-item" href="ad_program.jsp?cate=proB">프로그램일정 관리</a>
+                        <a class="collapse-item" href="ad_notice.jsp">공지사항 관리</a>
+                        <a class="collapse-item" href="ad_program.jsp">프로그램일정 관리</a>
                         <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
                         <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
                         <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>
@@ -131,7 +134,7 @@
                 <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Market Management:</h6>
-                        <a class="collapse-item" href="ad_suaRegist.jsp">상품 등록 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_suaRegist.do">상품 등록 관리</a>
                         <a class="collapse-item" href="ad_order.jsp">주문내역 관리</a>
                         <a class="collapse-item" href="ad_requst.jsp">견적의뢰 관리</a>
                         <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
@@ -340,65 +343,82 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">상품 등록 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - EDIT PRODUCT</p>
+                    <h1 class="h3 mb-2 text-gray-800">주문 내역 관리</h1>
+                    <p class="mb-4">BOARD MANAGEMENT - ORDER LIST</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">상품 정보 수정</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">주문 내역</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            <form enctype="multipart/form-data">
+                            <form action="" id="orderlist"><!-- 삭제처리할때 form -->
                                 <table class="table table-bordered table-hover">
-                                    <colgroup>
-
-                                    </colgroup>
-                                    
-                                    <!-- 테이블 가공 -->
+                                    <thead>
+                                        <tr>
+                                            <th class="boardCheckbox">
+                                                <input type="checkbox" id="checkedAll">
+                                            </th>
+                                            <th class="numbering">번호</th>
+                                            <th class="boardwriter">상품번호</th>
+                                            <th class="boardwriter">상품 이미지</th>
+                                            <th class="boardtitle">상품명</th>
+                                            <th class="boardwriter">가격</th>
+                                            <th class="boardwriter">적립금</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- 테이블 가공 (공지사항 상세보기) -->
                                
                                     <tbody>
-                                        <tr>
-											<td>상품명</td>
-											<td>
-												${dto.product_name }
-											</td>
-										</tr>
-										<tr>
-											<td>상품설명</td>
-											<td>
-												<textarea name="" style="width:70%; height: 100px;" readonly>${dto.product_info }</textarea>
-											</td>
-										</tr>
-										<tr>
-											<td>가격</td>
-											<td>
-												${dto.price }
-											</td>
-										</tr>
-										<tr>
-											<td>적립금</td>
-											<td>
-												${dto.milage }
-											</td>
-										</tr>
-										<tr>
-											<td>첨부파일</td>
-											<td>
-									            <!-- 
-									            첨부된 파일이 있는 경우에는 파일명과 다운로드 링크를 출력한다.
-									            다운로드가 완료되면 카운트 하기 위해 idx(일련번호)를 파라미터로 받는다.
-									             -->
-								            	<c:if test="${not empty dto.product_ofile }">
-								            	${dto.product_ofile }
-									            	<a href="../adminpage/ad_suaDownload.do?ofile=${dto.product_ofile }&sfile=${dto.product_sfile}">
-									            	[다운로드]</a>
-								            	</c:if>
-								            </td>
-        								</tr>
+                                     <c:choose>
+										<c:when test="${empty productLists }">
+											<tr>
+												<td colspan="6" align="center">등록된 게시물이 없습니다!</td>
+											</tr>
+										</c:when>
+										<c:otherwise> 
+											<!-- 게시물이 있을때 -->
+											<c:forEach items="${productLists }" var="row" varStatus="loop">
+												<tr align="center">
+													<td><input type="checkbox" name="chk" value="${row.product_no }"></td>
+													<td class="numbering">
+														<!-- 가상번호 계산하기
+														=> 전체게시물수 - (((페이지번호-1) * 페이지당 게시물수)+ 해당루프의 index)
+														index는 0부터 시작한다. -->
+														${map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
+									            	<td class="numbering">${row.product_no }</td><!-- 상품 번호 -->
+									            	<td class="boardwriter"><!-- 상품 이미지 -->
+									            		<img src="../adminpage/Uploads/${row.product_sfile }" width="100px" height="80px"/>
+									            	</td>
+									            	<td class="boardtitle" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">
+									            		${row.product_name }<!-- 상품명 -->
+									            	</td>
+									            	<td>${row.price }</td><!-- 가격 -->
+									            	<td>${row.milage }</td><!-- 적립금 -->
+									        	</tr>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
                                     </tbody>
                                 </table>
+                            	</form>
+
+                                <!-- 검색 -->
+                                <form method="get" class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
+                                    <select class="selectpicker admin-search" name="searchField">
+                                        <option value="product_name">상품명</option>
+                                        <option value="price">가격</option>
+                                      </select>
+                                      
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2" name="searchWord">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="submit">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -407,14 +427,24 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='../adminpage/ad_suaEdit.do?product_no=${dto.product_no}';">수정</button></li>
-                            <li><button type="button" class="btn btn-outline-secondary" onclick="location.href='../adminpage/ad_suaDelete.do';">삭제</button></li>
-                            <li><button type="button" class="btn btn-warning" onclick="location.href='../adminpage/ad_suaRegist.do';">목록보기</button></li>
+                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_suaWrite.jsp';">등록</button></li>
+                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_suaEdit.jsp';">수정</button></li>
+                            <li><button type="button" class="btn btn-outline-secondary" id="deletebtn" >삭제</button></li>
                         </ul>
                     </div>
                 </div>
                 <!-- /.container-fluid -->
-
+			
+			<!-- 페이지번호 출력 -->
+			    <table width="90%">
+			        <tr align="center">
+			        <!-- 페이징 처리 -->
+			        	<td>
+			        		${map.pagingImg }
+			        	</td>
+			        </tr>
+			    </table>
+			    
             </div>
             <!-- End of Main Content -->
 
