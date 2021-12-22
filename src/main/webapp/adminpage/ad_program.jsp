@@ -385,14 +385,11 @@
 								        nextYear++;
 								        nextMonth = 1;
 								    }
-								    
-								    Map<String, String> map = new HashMap<String, String>();
-								    map.put("postdate", "2021-12");
 								   
 								%>
 								<table border="0" cellpadding="0" cellspacing="0">
 								<tr>
-								    <td align="center"><a href="./ad_program.jsp?y=<%=prevYear%>&m=<%=prevMonth%>">◁</a> <%=year%>년 <%=month+1%>월 <a href="./ad_program.jsp?y=<%=nextYear%>&m=<%=nextMonth%>">▷</a></td>
+								    <td align="center"><a href="./ad_program.jsp?y=<%=prevYear%>&m=<%=prevMonth%>">◁</a> &nbsp;&nbsp;<%=year%>년 <%=month+1%>월 &nbsp;&nbsp;<a href="./ad_program.jsp?y=<%=nextYear%>&m=<%=nextMonth%>">▷</a></td>
 								</tr>
 								<tr>
 								    <td>
@@ -427,9 +424,15 @@
 										        		cal.get(Calendar.DATE)+1);
 										    }
 										
-										    // 끝날부터 토요일까지 빈칸으로 처리
-										    for (int i=cal.get(Calendar.DAY_OF_WEEK); i<=7; i++) 
-										    	out.println("<td>&nbsp;</td>");
+										    // 빈칸으로 처리
+										    for (int i=cal.get(Calendar.DAY_OF_WEEK); i<=7; i++) {
+										    	out.println("<td>&nbsp;</td>");										    	
+										    }
+										    
+										    //Map<String, BoardDTO> map = new HashMap<String, BoardDTO>();
+										    
+										   
+										    
 										%>
 								        </tr>
 								        </table>

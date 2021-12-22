@@ -1,69 +1,32 @@
+<%@page import="utils.BoardPage"%>
 <%@page import="membership.MemberDTO"%>
-<%@page import="membership.MemberDAO"%>
+<%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.text.DateFormat"%>
+<%@page import="membership.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="java.util.Calendar"%>
+    
 <%
-String UserId = session.getAttribute("UserId").toString();
-String UserPwd = session.getAttribute("UserPwd").toString();
+String uid = request.getParameter("user_id");
 
-String cate = request.getParameter("cate");
-
-MemberDAO mDao = new MemberDAO();
-MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
+//데이터베이스 연결
+MemberDAO dao = new MemberDAO();
+//받아온 이름을 매개변수로 getMemberDTO()호출. 아이디찾기
+MemberDTO dto = dao.memberInfo(uid);
+//자원반납
+dao.close();
 %>
-<script type="text/javascript">
-	function validateForm(form) {
-		if(form.id.value == ""){
-			alert("아이디를 입력하세요.");
-			form.id.focus();
-			return false;
-		}
-		if(form.title.value == ""){
-			alert("제목을 입력하세요.");
-			form.title.focus();
-			return false;
-		}
-		if(form.content.value == "") {
-			alert("내용을 입력하세요.");
-			form.content.focus();
-			return false;
-		}
-		if(form.pdate.value == "") {
-			alert("날짜를 입력하세요.");
-			form.pdate.focus();
-			return false;
-		}
-	}
-</script>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    
-    <!-- datepicker CDN과 함수 -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-    <script>
-	    $(function() {
-	        $("#datepicker").datepicker();
-	        //대한민국에서 사용하는 날짜포맷으로 옵션 변경
-	        $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
-	    });
-	</script>
-    
+
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
     <!-- Custom fonts for this template -->
@@ -78,11 +41,13 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+	
     <!-- 211218 KBS ADD -->
     <link rel="stylesheet" href="css/style.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-
+    
+    
 </head>
 
 <body id="page-top">
@@ -382,62 +347,59 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">프로그램일정 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - PROGRAM</p>
+                    <h1 class="h3 mb-2 text-gray-800">사용자 관리</h1>
+                    <p class="mb-4">User Management</p>
 
                     <!-- DataTales Example -->
+                    <form name="myform" action="ad_member_modProcess.jsp" method="get">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">프로그램일정 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">회원 정보</h6>
                         </div>
+                        
                         <div class="card-body">
-                            <div class="table-responsive">
-                            <form name="writeFrm" method="post" action="ad_pWriteProcess.jsp"
-                            	onsubmit="return validateForm(this);">
-                                <table class="table table-bordered table-hover">
-                                    
-                                    
-                                    <!--------------프로그램 일정 작성하기 폼------------------>
+                            <table class="table table-bordered table-hover">
+                            <input type="hidden" name="user_id" value="<%= dto.getId() %>" />
+                                <thead>
                                     <tr>
-										<td>작성자</td>
-										<td><input type="text" name="id"  style="width: 30%;" value="<%= mDto.getId() %>" /></td>
-									</tr>
-									<tr>
-										<td>비밀번호</td>
-										<td><input type="password" name="pass"  style="width: 30%;" /></td>
-									</tr>
-									<tr>
-										<td>제목</td>
-										<td><input type="text" name="title" style="width: 30%;"/></td>
-									</tr>
-									<tr>
-										<td>작성일</td>
-										<td><input type="text" name="pdate" id="datepicker" style="width: 20%;"></td>
-									</tr>
-									<tr>
-										<td>내용</td>
-										<td>
-											<textarea name="content" style="width:90%; height: 100px;"></textarea>
-										</td>
-									</tr>
-								</table>
-									
-								<!-- 각종버튼 -->
-							    <div class="row mb-3">
-							        <div class="col d-flex justify-content-end">
-							        <input type="hidden" name="cate" value="<%= cate %>"/>
-							            <button type="button" class="btn btn-warning" onclick="location.href='ad_program.jsp?cate=<%= cate %>'">목록보기</button>
-							            <button type="submit" class="btn btn-danger">전송하기</button>
-							            <button type="reset" class="btn btn-dark">다시쓰기</button>
-							        </div>
-							    </div>
-                            </form>
-                            </div>
+                                        <th width="15%">아이디</th>
+                                        <td width="30%"><%= dto.getId() %></td>
+                                        <th width="15%">이름</th>
+                                        <td width="40%"><%= dto.getName() %></td>
+                                    </tr>    
+                                    <tr>
+                                        <th>이메일</th>
+                                        <td><%= dto.getEmail() %></td>
+                                        <th>주소</th>
+                                        <td><%= dto.getPostcode() %> <%= dto.getAddr1() %> <%= dto.getAddr2() %></td>
+                                    </tr>
+                                   	<tr>
+                                        <th>전화번호</th>
+                                        <td><%= dto.getPhone1() %></td>
+                                        <th>핸드폰번호</th>
+                                        <td><%= dto.getPhone2() %></td>
+                                    </tr>  
+                                    <tr>
+                                        <th>회원등급</th>
+                                        <td><input type="text" name="identity" value="<%= dto.getIdentity() %>" /></td>
+                                        <th>회원등록일</th>
+                                        <td><%= dto.getRegidate() %></td>
+                                    </tr>  
+                                </thead>
+                            </table>
                         </div>
                     </div>
+
+                    <!-- 버튼 -->
+                    <div class="board-btn-group01">
+                        <ul class="d-flex justify-content-end">
+                        	<li><button type="submit" class="btn btn-outline-success">등급저장</button></li>
+                            <li><button type="button" class="btn btn-outline-danger">회원삭제</button></li>
+                        </ul>
+                    </div>
+                    </form>
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -482,9 +444,23 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
         </div>
     </div>
 
-    
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+
 
 
     <!-- BOK table first checkbox - All checked -->
@@ -493,7 +469,6 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
-
 </body>
 
 </html>
