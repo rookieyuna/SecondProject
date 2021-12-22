@@ -10,13 +10,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-String cate = request.getParameter("cate");
 String userid = session.getAttribute("UserId").toString();
 String pass = request.getParameter("pass");
 String name = request.getParameter("name");
 String email = request.getParameter("email");
 String title = request.getParameter("title");
 String content = request.getParameter("content");
+String cate = request.getParameter("cate");
 
 
 BoardDTO dto = new BoardDTO();
@@ -38,7 +38,7 @@ int iResult = dao.insertWrite(dto);
 for(int i=1; i<=30; i++){
 	dto.setTitle(title + "-" + i);
 	iResult = dao.insertWrite(dto);
-} */
+}  */
 
 
 //자원해제

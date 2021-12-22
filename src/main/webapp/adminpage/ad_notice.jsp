@@ -129,8 +129,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Board Management:</h6>
-                        <a class="collapse-item" href="ad_notice.jsp">공지사항 관리</a>
-                        <a class="collapse-item" href="ad_program.jsp">프로그램일정 관리</a>
+                        <a class="collapse-item" href="ad_notice.jsp?cate=notB">공지사항 관리</a>
+                        <a class="collapse-item" href="ad_program.jsp?cate=proB">프로그램일정 관리</a>
                         <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
                         <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
                         <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>
@@ -401,7 +401,7 @@
 										if(boardLists.isEmpty()){
 										%>
 										<tr>
-											<td colspan="5" align="center">등록된 게시물이 없습니다.</td>
+											<td colspan="6" align="center">등록된 게시물이 없습니다.</td>
 										<tr>
 										<%
 										}else{
@@ -410,7 +410,7 @@
 											for(BoardDTO dto : boardLists){
 												virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
 										%>
-										<tr onclick="location.href='board_view.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">
+										<tr onclick="location.href='ad_nView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">
 											<td><input type="checkbox"></td>
 											<td><%= virtualNum %></td>
 											<td><%= dto.getTitle() %></td>
@@ -457,7 +457,7 @@
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
                             <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_nWrite.jsp';">작성</button></li>
+                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_nWrite.jsp?cate=<%= cate %>'">작성</button></li>
                         </ul>
                     </div>
                 </div>
