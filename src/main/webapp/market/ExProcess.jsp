@@ -41,7 +41,7 @@ dto.setOthers(others);
 
 //DAO 객체에 저장
 marketApplicationDAO dao = new marketApplicationDAO();
-int iResult = dao.insertClean(dto); 
+int iResult = dao.insertExp(dto); 
 dao.close();
 
 if (iResult == 1) {

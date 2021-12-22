@@ -40,7 +40,6 @@ public class sub05Controller extends HttpServlet
 		//게시물의 갯수 카운트
 		int totalCount = dao.selectCountExp(map);
 
-
 		/***********페이지 처리 start************/
 		//web.xml에 접근하기 위해 서블릿에서 application 내장객체를 얻어옴
 		ServletContext application = getServletContext();
