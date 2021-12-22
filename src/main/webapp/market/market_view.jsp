@@ -22,9 +22,39 @@
 <script>
 
     $(function(){
+    	
+    	 $(document).ready(function(){
+    		
+    		var p = $('#price').text();
+    		var p_result1 = p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$('#price').text(p_result1);
+    		
+    	}); 
+    	
 		$('#cartbtn').click(function(){
 			$('#market_view').attr("action","../market/basketIns.do").submit();			
-		})  		
+		})  
+		
+		$('#count').change(function(){
+			
+			
+			var c = $('#count').val();
+
+			
+			var m = $('#org_milage').val();
+
+			var m_result = m * c ;
+			
+			var p = $('#org_price').val();
+			var p_result = p * c;
+		
+
+			var p_result1 = p_result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$('#price').text(p_result1);
+ 			$('#milage').text(m_result);
+ 		});
+		
+		
 	});
 
    
@@ -73,15 +103,18 @@
 								<dl>
 									<dt>가격</dt>
 									<dd class="p_style" >
-									<fmt:formatNumber value="${ boardList.price}" pattern="#,###"/></dd>
+									<input type="hidden" id="org_price" value="${ boardList.price}" />
+									<div id="price">${ boardList.price}</div></dd>
 								</dl>
 								<dl>
 									<dt>적립금</dt>
-									<dd>${ boardList.milage }</dd>
-								</dl>
+									<dd> 
+									<input type="hidden" id="org_milage" value="${ boardList.milage }" />
+									<div id="milage" >${ boardList.milage }</div></dd>
+								</dl> 
 								<dl>
 									<dt>수량</dt>
-									<dd><input type="text" id="count_num" name="count_num" value="1" class="n_box" /></dd>
+									<dd><input type="text" id="count" name="count_num" value="1" class="n_box" /></dd>
 								</dl>
 								<dl style="border-bottom:0px;">
 									<dt>주문정보</dt>

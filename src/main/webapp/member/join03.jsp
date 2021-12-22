@@ -104,13 +104,7 @@ String[] emailArr = dto.getEmail().split("@");
 	        frm.pass1.focus();
 	        return false;
 	    }
-	    
-	    //전화번호 입력 확인
-	    if(frm.tel1.value=='' || frm.tel2.value=='' || frm.tel3.value==''){
-	        alert('전화번호를 입력하세요');
-	        frm.tel1.focus();
-	        return false;
-	    }
+
 	    //휴대전화 입력 확인
 	    if(frm.mobile1.value=='' || frm.mobile2.value=='' || frm.mobile3.value==''){
 	        alert('휴대전화를 입력하세요');
@@ -196,16 +190,7 @@ String[] emailArr = dto.getEmail().split("@");
 					<tr>
 						<th><img src="../images/join_tit06.gif" /></th>
 						<td>
-							<select name="tel1" class="userSelect w50" onchange="document.myform.tel2.focus();">
-		                        <option value=""></option>
-		                        <option value="02">02</option><option value="031">031</option><option value="032">032</option>
-		                        <option value="033">033</option><option value="041">041</option><option value="042">042</option>
-		                        <option value="043">043</option><option value="051">051</option><option value="052">052</option>
-		                        <option value="053">053</option><option value="054">054</option><option value="055">055</option>
-		                        <option value="061">061</option><option value="062">062</option><option value="063">063</option>
-		                        <option value="064">064</option>
-	                    	</select> -
-							<!-- <input type="text" name="tel1" value="" maxlength="3" class="join_input" style="width:50px;" />&nbsp;-&nbsp; -->
+							<input type="text" name="tel1" value="${tel[0]}" maxlength="3" class="join_input" style="width:40px;" onkeyup="fnFocusMove('tel1','tel2',3)"/>&nbsp;-&nbsp;
 							<input type="text" name="tel2" value="${tel[1]}" maxlength="4" class="join_input" style="width:50px;" onkeyup="fnFocusMove('tel2','tel3',4)"/>&nbsp;-&nbsp;
 							<input type="text" name="tel3" value="${tel[2]}" maxlength="4" class="join_input" style="width:50px;" onkeyup="fnFocusMove('tel3','mobile1',4)" />
 						</td>
@@ -213,12 +198,16 @@ String[] emailArr = dto.getEmail().split("@");
 					<tr>
 						<th><img src="../images/join_tit07.gif" /></th>
 						<td>
+<<<<<<< HEAD
 							<select name="mobile1" value="<%=phone2Arr[0] %> class="userSelect w50" onchange="document.myform.mobile2.focus();">
 		                        <option value=""></option>
 		                        <option value="010">010</option><option value="011">011</option><option value="017">017</option>
 		                        <option value="018">018</option><option value="019">019</option>
 		                    </select> -
 							<!-- <input type="text" name="mobile1" value="" maxlength="3" class="join_input" style="width:50px;" />&nbsp;-&nbsp; -->
+=======
+							<input type="text" name="mobile1" value="<%=phone2Arr[0] %>" maxlength="4" class="join_input" style="width:40px;" onkeyup="fnFocusMove('mobile1','mobile2',3)"/>&nbsp;-&nbsp;
+>>>>>>> branch 'main' of https://github.com/rookieyuna/SecondProject.git
 							<input type="text" name="mobile2" value="<%=phone2Arr[1] %>" maxlength="4" class="join_input" style="width:50px;" onkeyup="fnFocusMove('mobile2','mobile3',4)"/>&nbsp;-&nbsp;
 							<input type="text" name="mobile3" value="<%=phone2Arr[2] %>" maxlength="4" class="join_input" style="width:50px;" /></td>
 					</tr>
@@ -231,14 +220,11 @@ String[] emailArr = dto.getEmail().split("@");
 						<select name="last_email_check2" onchange="domainInput(this);" class="pass" id="last_email_check2" >
 							<option selected="" value="">선택해주세요</option>
 							<option value="직접입력" >직접입력</option>
-							<option value="empal.com" >empal.com</option>
-							<option value="empas.com" >empas.com</option>
-							<option value="freechal.com" >freechal.com</option>
-							<option value="hanafos.com" >hanafos.com</option>
 							<option value="hanmail.net" >hanmail.net</option>
-							<option value="hotmail.com" >hotmail.com</option>
-							<option value="nate.com" >nate.com</option>
 							<option value="naver.com" >naver.com</option>
+							<option value="gmail.com" >gmail.com</option>
+							<option value="nate.com" >nate.com</option>
+							<option value="yahoo.com" >yahoo.com</option>
 						</select>
 	 
 						<input type="checkbox" name="open_email" value="1">

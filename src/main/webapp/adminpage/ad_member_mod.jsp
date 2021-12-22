@@ -1,51 +1,26 @@
 <%@page import="utils.BoardPage"%>
 <%@page import="membership.MemberDTO"%>
-<%@page import="membership.MemberDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="board.BoardDTO"%>
-<%@page import="board.BoardDAO"%>
-<%
-	String cate = request.getParameter("cate");		
-	String cateUrl = request.getRequestURI();
-	BoardDAO dao = new BoardDAO();
-	Map<String, Object> param = new HashMap<String, Object>();
-	
-	String searchField = request.getParameter("searchField");
-	String searchWord = request.getParameter("searchWord");
-	
-	if(searchWord != null){
-		param.put("searchField", searchField);
-		param.put("searchWord", searchWord);
-		param.put("cate", cate);
-	}
-	
-	int totalCount = dao.selectCount(param, cate);
-	int pageSize = 10;
-	int blockPage = 5;
-	int totalPage = (int)Math.ceil((double)totalCount / pageSize);
-	int pageNum = 1;
-	
-	String pageTemp = request.getParameter("pageNum");
-	
-	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
-	
-	int start = (pageNum - 1) * pageSize + 1;
-	int end = pageNum * pageSize;
-	param.put("start", start);
-	param.put("end", end);
-	
-	List<BoardDTO> boardLists = dao.selectList(param, cate);
-	dao.close();
-%>     
+<%@page import="membership.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%
+String uid = request.getParameter("user_id");
+
+//데이터베이스 연결
+MemberDAO dao = new MemberDAO();
+//받아온 이름을 매개변수로 getMemberDTO()호출. 아이디찾기
+MemberDTO dto = dao.memberInfo(uid);
+//자원반납
+dao.close();
+%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -66,12 +41,12 @@
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-
-     <!-- 211218 KBS ADD -->
-     <link rel="stylesheet" href="css/style.css">
-     <!-- Latest compiled and minified CSS -->
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+	
+    <!-- 211218 KBS ADD -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    
     
 </head>
 
@@ -103,9 +78,73 @@
             <!-- Heading -->
 
 
-			<!-- 여어어어엉어어기기기기이이이이이이가가가가가 좌측메뉴(LNB)이다라라랄라라라랄-->
-            <%@ include file = "./include/ad_LNB_location.jsp" %>
-            
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#a"
+                    aria-expanded="true" aria-controls="a">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>회원관리</span>
+                </a>
+                <div id="a" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">User Management:</h6>
+                        <a class="collapse-item" href="ad_member.jsp">사용자 관리</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#b"
+                    aria-expanded="true" aria-controls="b">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>열린공간</span>
+                </a>
+                <div id="b" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Board Management:</h6>
+                        <a class="collapse-item" href="ad_notice.jsp?cate=notB">공지사항 관리</a>
+                        <a class="collapse-item" href="ad_program.jsp?cate=proB">프로그램일정 관리</a>
+                        <a class="collapse-item" href="ad_freeboard.jsp">자유게시판 관리</a>
+                        <a class="collapse-item" href="ad_photo.jsp">사진게시판 관리</a>
+                        <a class="collapse-item" href="ad_information.jsp">정보자료실 관리</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#c"
+                    aria-expanded="true" aria-controls="c">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>커뮤니티</span>
+                </a>
+                <div id="c" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Community Management:</h6>
+                        <a class="collapse-item" href="ad_staff.jsp">직원자료실 관리</a>
+                        <a class="collapse-item" href="ad_guardian.jsp">보호자게시판 관리</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#d"
+                    aria-expanded="true" aria-controls="d">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>장터관리</span>
+                </a>
+                <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Market Management:</h6>
+                        <a class="collapse-item" href="ad_suaRegist.jsp">상품 등록 관리</a>
+                        <a class="collapse-item" href="ad_order.jsp">주문내역 관리</a>
+                        <a class="collapse-item" href="ad_requst.jsp">견적의뢰 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
+                    </div>
+                </div>
+            </li>
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -308,100 +347,59 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">정보자료실 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - INFORMATION</p>
+                    <h1 class="h3 mb-2 text-gray-800">사용자 관리</h1>
+                    <p class="mb-4">User Management</p>
 
                     <!-- DataTales Example -->
+                    <form name="myform" action="ad_member_modProcess.jsp" method="get">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">정보자료실 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">회원 정보</h6>
                         </div>
                         
-<div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="boardCheckbox">
-                                                <input type="checkbox" id="checkedAll">
-                                            </th>
-                                            <th class="numbering">번호</th>
-                                            <th class="boardtitle">제목</th>
-                                            <th class="boardwriter">작성자</th>
-                                            <th class="boarddate">작성일</th>
-                                            <th class="">조회수</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    
-                                    <!-- 테이블 가공 (공지사항) -->
-                               		<tbody>
-										<%
-										if(boardLists.isEmpty()){
-										%>
-										<tr>
-											<td colspan="5" align="center">등록된 게시물이 없습니다.</td>
-										<tr>
-										<%
-										}else{
-											int virtualNum = 0;
-											int countNum = 0;
-											for(BoardDTO dto : boardLists){
-												virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
-										%>
-										<tr onclick="location.href='ad_boardView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">
-											<td><input type="checkbox"></td>
-											<td><%= virtualNum %></td>
-											<td><%= dto.getTitle() %></td>
-											<td><%= dto.getName() %></td>
-											<td><%= dto.getPostdate() %></td>
-											<td><%= dto.getVisitcount() %></td>
-										</tr>
-										<%
-											}
-										}
-										%>
-									</tbody>
-                                    
-                                </table>
-
-				
-								<div class="boardTool">
-									<div class="tool_Paging">
-										<ul>
-											<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI()) %>
-										</ul>
-									</div>
-									
-									<div class="tool_Search">
-										<form method="get">  
-											<input type="hidden" name="cate" value="<%= cate %>"/>
-											<select name="searchField">
-												<option value="title">제목</option>
-												<option value="id">작성자</option>
-											</select>
-											<div>
-												<input type="text" name="searchWord" placeholder="검색어를 입력하세요" value=""/>								
-												<button type="submit" value="">검색</button>
-											</div>
-										</form>							
-									</div>
-								</div>
-
-                            </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover">
+                            <input type="hidden" name="user_id" value="<%= dto.getId() %>" />
+                                <thead>
+                                    <tr>
+                                        <th width="15%">아이디</th>
+                                        <td width="30%"><%= dto.getId() %></td>
+                                        <th width="15%">이름</th>
+                                        <td width="40%"><%= dto.getName() %></td>
+                                    </tr>    
+                                    <tr>
+                                        <th>이메일</th>
+                                        <td><%= dto.getEmail() %></td>
+                                        <th>주소</th>
+                                        <td><%= dto.getPostcode() %> <%= dto.getAddr1() %> <%= dto.getAddr2() %></td>
+                                    </tr>
+                                   	<tr>
+                                        <th>전화번호</th>
+                                        <td><%= dto.getPhone1() %></td>
+                                        <th>핸드폰번호</th>
+                                        <td><%= dto.getPhone2() %></td>
+                                    </tr>  
+                                    <tr>
+                                        <th>회원등급</th>
+                                        <td><input type="text" name="identity" value="<%= dto.getIdentity() %>" /></td>
+                                        <th>회원등록일</th>
+                                        <td><%= dto.getRegidate() %></td>
+                                    </tr>  
+                                </thead>
+                            </table>
                         </div>
                     </div>
 
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_boardFileWrite.jsp?cate=<%= cate %>';">작성</button></li>
+                        	<li><button type="submit" class="btn btn-outline-success">등급저장</button></li>
+                            <li><button type="button" class="btn btn-outline-danger">회원삭제</button></li>
                         </ul>
                     </div>
+                    </form>
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -464,13 +462,13 @@
     <script src="js/demo/datatables-demo.js"></script>
 
 
+
     <!-- BOK table first checkbox - All checked -->
     <script src="js/motion.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
-
 </body>
 
 </html>

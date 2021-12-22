@@ -1,5 +1,42 @@
+<%@page import="utils.BoardPage"%>
+<%@page import="membership.MemberDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="membership.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%
+	MemberDAO dao = new MemberDAO();
+	Map<String, Object> param = new HashMap<String, Object>();
+	
+	String searchField = request.getParameter("searchField");
+	String searchWord = request.getParameter("searchWord");
+	
+	if(searchWord != null){
+		param.put("searchField", searchField);
+		param.put("searchWord", searchWord);
+	}
+	
+	int totalCount = dao.selectCount(param);
+	int pageSize = 10;
+	int blockPage = 5;
+	int totalPage = (int)Math.ceil((double)totalCount / pageSize);
+	int pageNum = 1;
+	
+	String pageTemp = request.getParameter("pageNum");
+	
+	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
+	
+	int start = (pageNum - 1) * pageSize + 1;
+	int end = pageNum * pageSize;
+	param.put("start", start);
+	param.put("end", end);
+	
+	List<MemberDTO> memberLists = dao.selectList(param);
+	dao.close();
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,14 +62,12 @@
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-
-
+	
     <!-- 211218 KBS ADD -->
     <link rel="stylesheet" href="css/style.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-
-
+    
 </head>
 
 <body id="page-top">
@@ -347,42 +382,55 @@
                                         <th class="boardCheckbox">
                                             <input type="checkbox" id="checkedAll">
                                         </th>
-                                        <th>아이디</th>
+                                        <th width="">아이디</th>
                                         <th>이름</th>
-                                        <th>비밀번호</th>
                                         <th>이메일</th>
-                                        <th>우편번호</th>
+                                        <!-- <th>우편번호</th>
                                         <th>주소1</th>
-                                        <th>주소2</th>
+                                        <th>주소2</th> -->
                                         <th>전화번호</th>
                                         <th>핸드폰번호</th>
                                         <th>회원등급</th>
                                         <th>회원등록일</th>
+                                        <th>상세정보</th>
                                     </tr>
                                 </thead>
                                 <!-- 테이블 가공 (회원 정보) -->
                                 <tbody>
-                                    <tr>
-                                        <td><input type="checkbox"></td>
-                                        <td>Dummy Id</td>
-                                        <td>Dummy Name</td>
-                                        <td>Dummy Pass</td>
-                                        <td>Dummy Email</td>
-                                        <td>Dummy postcode</td>
-                                        <td>Dummy addr1</td>
-                                        <td>Dummy addr2</td>
-                                        <td>Dummy phone1</td>
-                                        <td>Dummy phone2</td>
-                                        <td>
-                                            <select class="selectpicker">
-                                                <option>일반회원</option>
-                                                <option>직원</option>
-                                                <option>관리자</option>
-                                            </select>
-                                        </td>
-                                        <td>Dummy regidate</td>
-                                    </tr>
-                                </tbody>
+									<%
+									if(memberLists.isEmpty()){
+									%>
+									<tr>
+										<td colspan="12" align="center">등록된 회원정보가 없습니다.</td>
+									<tr>
+									<%
+									}else{
+										int virtualNum = 0;
+										int countNum = 0;
+										for(MemberDTO dto : memberLists){
+											virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
+									%>
+									<%-- <tr onclick="location.href='member_mod.jsp?id==<%= dto.getId() %>'"> --%>
+									<tr>
+										<td><input type="checkbox"></td>
+										<td><%= dto.getId() %></td>
+										<td><%= dto.getName() %></td>
+										<td><%= dto.getEmail() %></td>
+										<%-- <td><%= dto.getPostcode() %></td>
+										<td><%= dto.getAddr1() %></td>
+										<td><%= dto.getAddr2() %></td> --%>
+										<td><%= dto.getPhone1() %></td>
+										<td><%= dto.getPhone2() %></td>
+										<td><%= dto.getIdentity() %></td>
+										<td><%= dto.getRegidate() %></td>
+										<td><button class="btn" type="button" onclick="location.href='ad_member_mod.jsp?user_id=<%= dto.getId() %>'">#</button></td>
+										<!-- <i class="bi bi-pencil-square"></i> -->
+									</tr>
+									<%
+										}
+									}
+									%>
+								</tbody>
                             </table>
 
                             <!-- 검색 -->
@@ -401,6 +449,7 @@
                                         </button>
                                     </div>
                                 </div>
+                                
                             </form>
                         </div>
                     </div>
@@ -408,15 +457,20 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">탈퇴</button></li>
-                            <li><button type="button" class="btn btn-outline-primary">승인</button></li>
-                            <li><button type="button" class="btn btn-outline-primary">권한수정</button></li>
+                            <li><button type="button" class="btn btn-outline-danger">회원삭제</button></li>
                         </ul>
                     </div>
-
+                    <!-- 페이지 번호 -->
+					<div class="row mt-3">
+	                <div class="col">
+	                	<ul class="pagination justify-content-center">
+		                	<%= BoardPage.pagingStr(totalCount, pageSize,
+		        				blockPage, pageNum, request.getRequestURI()) %>
+	                	</ul>
+	                </div>
+	                </div>
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 

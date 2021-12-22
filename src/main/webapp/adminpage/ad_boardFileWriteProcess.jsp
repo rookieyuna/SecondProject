@@ -9,8 +9,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
+System.out.println("여기까진 들어오늕지 확인");
+
 	String saveDirectory = application.getRealPath("/Uploads");
-	System.out.println(saveDirectory);
 	int maxPostSize = 1024 * 1000;
 	String encoding = "UTF-8";
 	
@@ -35,6 +36,8 @@
 		String title = mr.getParameter("title");
 		String content = mr.getParameter("content");
 		String cate = mr.getParameter("cate");
+		System.out.println("프로세스 카테 : " +cate);
+		
 		
 		BoardDTO dto = new BoardDTO();
 		
@@ -51,13 +54,15 @@
 		dao.insertFile(dto);
 		dao.close();
 		
+		
 		// 문제가 없다면 파일리스트로 이동한다.
-		response.sendRedirect("board_list.jsp?cate=" + cate);
+		if(cate.equals("photoB")) response.sendRedirect("ad_photo.jsp?cate=" + cate);
+		if(cate.equals("infoB")) response.sendRedirect("ad_information.jsp?cate=" + cate);
 		
 	}catch(Exception e){
 		e.printStackTrace();
 		// 예외가 발생하면 request영역에 메시지를 저장한 후 메인으로 포워드한다.
 		request.setAttribute("errorMessage", "파일 업로드 오류");
-		request.getRequestDispatcher("board_fileWrite.jsp").forward(request, response);
+		request.getRequestDispatcher("ad_boardFileWrite.jsp").forward(request, response);
 	}
 %>

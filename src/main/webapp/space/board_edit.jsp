@@ -58,8 +58,30 @@ function validateForm(form){
 			</div>
 			<div class="right_contents">
 				<div class="top_title">
-					<img src="../images/space/sub03_title.gif" alt="자유게시판" class="con_title" />
-					<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;자유게시판<p>
+					<%
+						if(cate.equals("notB")){
+					%>
+						<img src="../images/space/sub01_title.gif" alt="공지사항" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;공지사항<p>
+					<%		
+						}else if(cate.equals("freeB")){
+					%>
+						<img src="../images/space/sub03_title.gif" alt="자유게시판" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;자유게시판<p>
+					<%		
+						}else if(cate.equals("photoB")){
+					%>
+						<img src="../images/space/sub04_title.gif" alt="사진게시판" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;사진게시판<p>
+					<%
+						}else if(cate.equals("infoB")){
+					%>
+						<img src="../images/space/sub05_title.gif" alt="정보자료실" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;정보자료실<p>
+					<%
+						}
+					%>
+					
 				</div>
 				
 				<div>
@@ -106,13 +128,33 @@ function validateForm(form){
 								<textarea rows="10" class="form-control" name="content"><%= dto.getContent() %></textarea>
 							</td>
 						</tr>
+						<%
+						if(cate.equals("infoB") || cate.equals("photoB")){
+						%>
 						<tr>
 							<th class="text-center" 
 								style="vertical-align:middle;">첨부파일</th>
 							<td>
-								<input type="file" class="form-control" />
+								<!-- <input type="file" class="form-control" /> -->
+								<div class="file_area">
+									<input type="file" id="files" class="hidden" style="display: none;"/>
+									<%
+									if(dto.getOfile() != null){
+									%>
+									<label for="files"><%= dto.getOfile() %></label>
+									<%
+									}else{
+									%>
+									<label for="files">첨부파일이 없습니다</label>
+									<%
+									}
+									%>
+								</div>
 							</td>
 						</tr>
+						<%
+						}
+						%>
 					</tbody>
 					</table>
 					
@@ -120,7 +162,6 @@ function validateForm(form){
 						<!-- 각종 버튼 부분 -->
 						<input type="hidden" name="cate" value="<%= cate %>"/>
 						<button type="submit" class="btn btn-danger">수정 완료</button>
-						<button type="reset" class="btn">다시작성</button>
 						<button type="button" class="btn btn-warning" 
 							onclick="location.href='board_list.jsp?cate=<%= cate %>';">리스트보기</button>
 					</div>

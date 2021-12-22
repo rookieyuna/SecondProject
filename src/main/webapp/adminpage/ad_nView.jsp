@@ -15,6 +15,8 @@
 	
     dao.close();
 %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,6 +48,19 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+	
+	<script>
+	function deletePost() {
+		var confirmed = confirm("정말로 삭제하시겠습니까?");
+		if(confirmed) {
+			var form = document.writeFrm;
+			form.method = "post";	//전송방식을 post로 설정
+			form.action = "ad_nDeleteProcess.jsp"; //전송할 URL
+			form.submit();			//폼 값 전송
+		}
+	}
+	</script>
+
 </head>
 
 <body id="page-top">
@@ -354,7 +369,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            <form enctype="multipart/form-data">
+                            <form enctype="multipart/form-data" name="writeFrm">
                                 <table class="table table-bordered table-hover">
                                     <colgroup>
 
@@ -418,8 +433,8 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-success"  onclick="location.href='ad_nEdit.jsp?cate=<%= cate %>';">수정하기</button></li>
+                            <li><button type="button" class="btn btn-outline-secondary" onclick="deletePost();">삭제</button></li>
+                            <li><button type="button" class="btn btn-outline-success"  onclick="location.href='ad_nEdit.jsp?num=<%= dto.getNum() %>';">수정하기</button></li>
                             <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_notice.jsp?cate=<%= cate %>';">목록보기</button></li>
                         </ul>
                     </div>

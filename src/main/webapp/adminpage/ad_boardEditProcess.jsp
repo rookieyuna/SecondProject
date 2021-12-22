@@ -7,7 +7,6 @@
 //수정페이지에서 전송한 폼값 받기
 String num = request.getParameter("num");
 String cate = request.getParameter("cate");
-String userid = session.getAttribute("UserId").toString();
 /* String pass = request.getParameter("pass"); */
 String name = request.getParameter("name");
 String email = request.getParameter("email");
@@ -18,7 +17,6 @@ String content = request.getParameter("content");
 //DTO객체에 입력값 추가하기 
 BoardDTO dto = new BoardDTO();
 dto.setNum(num);
-dto.setId(userid);
 /* dto.setPass(pass); */
 dto.setName(name);
 dto.setEmail(email);
@@ -35,7 +33,7 @@ dao.close();
 
 if(affected == 1) {
 	//수정에 성공한 경우에는 수정된 내용을 확인하기 위해 상세보기 페이지로 이동
-	response.sendRedirect("ad_nView.jsp?cate=" + cate);
+	response.sendRedirect("ad_boardView.jsp?cate=" + cate + "&num=" + num);
 }
 else { 
 	//실패한 경우에는 뒤로 이동 

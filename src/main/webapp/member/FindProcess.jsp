@@ -1,3 +1,8 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="utils.NaverSMTP"%>
+<%@page import="java.io.FileReader"%>
+<%@page import="java.io.BufferedReader"%>
+<%@page import="java.util.Map"%>
 <%@page import="utils.JSFunction"%>
 <%@page import="membership.MemberDTO"%>
 <%@page import="membership.MemberDAO"%>
@@ -8,8 +13,6 @@
 String userId = request.getParameter("user_id");
 String userName = request.getParameter("user_name");
 String userEmail = request.getParameter("user_email");
-
-System.out.println(userId+userName);
 
 //데이터베이스 연결
 MemberDAO dao = new MemberDAO();
@@ -24,7 +27,48 @@ if(memberDTO.getId() != null){
 		JSFunction.alertLocation("아이디: "+ memberDTO.getId(), "login.jsp", out);
 	}
 	else{
-		//2. 아이디&이름으로 비번 찾기
+		//2. 아이디&이름으로 비번 찾기 (이메일발송API사용)
+		
+		Map<String, String> emailInfo = new HashMap<String, String>();
+		emailInfo.put("from", "secondpj@naver.com"); 
+		emailInfo.put("to", request.getParameter("user_email")); 
+		emailInfo.put("subject", "회원님 비밀번호 발송드립니다.");  
+		
+		String content = memberDTO.getPass(); //반환된 비밀번호 저장
+		String format = "html";    
+		
+		String htmlContent = "";  
+		try {
+		
+		    String templatePath = application.getRealPath("/member/MailForm.html");
+		    BufferedReader br = new BufferedReader(new FileReader(templatePath));
+		     
+		    String oneLine;
+		    while ((oneLine = br.readLine()) != null) {
+		        htmlContent += oneLine + "\n";
+		    }
+		    br.close();
+		}
+		catch (Exception e) {
+		    e.printStackTrace();
+		}
+		
+		htmlContent = htmlContent.replace("__CONTENT__", content);
+		
+		emailInfo.put("content", htmlContent);
+		emailInfo.put("format", "text/html;charset=UTF-8");
+		
+		try {
+		    NaverSMTP smtpServer = new NaverSMTP(); 
+		    smtpServer.emailSending(emailInfo);  
+		    out.print("이메일 전송 성공");
+		}
+		catch (Exception e) {
+		    out.print("이메일 전송 실패");
+		    e.printStackTrace();
+		}
+		
+		
 		JSFunction.alertLocation("비밀번호: "+ memberDTO.getPass(), "login.jsp", out);
 	}
 }

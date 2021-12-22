@@ -1,46 +1,52 @@
-<%@page import="utils.BoardPage"%>
+<%@page import="utils.JSFunction"%>
+<%@page import="javax.swing.text.Document"%>
 <%@page import="membership.MemberDTO"%>
 <%@page import="membership.MemberDAO"%>
+<%@page import="board.BoardDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="board.BoardDTO"%>
 <%@page import="board.BoardDAO"%>
-<%
-	String cate = request.getParameter("cate");		
-	String cateUrl = request.getRequestURI();
-	BoardDAO dao = new BoardDAO();
-	Map<String, Object> param = new HashMap<String, Object>();
-	
-	String searchField = request.getParameter("searchField");
-	String searchWord = request.getParameter("searchWord");
-	
-	if(searchWord != null){
-		param.put("searchField", searchField);
-		param.put("searchWord", searchWord);
-		param.put("cate", cate);
-	}
-	
-	int totalCount = dao.selectCount(param, cate);
-	int pageSize = 10;
-	int blockPage = 5;
-	int totalPage = (int)Math.ceil((double)totalCount / pageSize);
-	int pageNum = 1;
-	
-	String pageTemp = request.getParameter("pageNum");
-	
-	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
-	
-	int start = (pageNum - 1) * pageSize + 1;
-	int end = pageNum * pageSize;
-	param.put("start", start);
-	param.put("end", end);
-	
-	List<BoardDTO> boardLists = dao.selectList(param, cate);
-	dao.close();
-%>     
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+String cate = request.getParameter("cate");
+String num = request.getParameter("num");
+//String userid = session.getAttribute("UserId").toString();
+//String pass = request.getParameter("pass");
+// 현재는 로그인이 구현되지 않아 세션에서 id/pass워드를 얻어올 수 없다. 임시방편으로 아래 식을 사용한다.
+String userid = "test1";
+String pass = "1111";
+
+BoardDAO dao = new BoardDAO();
+BoardDTO dto = dao.getId(userid);
+
+dao.close();
+%>
+<script type="text/javascript">
+function validateForm(form) {
+	if(form.id.value == ""){
+		alert("작성자를 입력하세요.");
+		form.id.focus();
+		return false;
+	}
+	if(form.pass.value == "") {
+		alert("비밀번호를 입력하세요.");
+		form.pass.focus();
+		return false;
+	}
+	if(form.title.value == ""){
+		alert("제목을 입력하세요.");
+		form.title.focus();
+		return false;
+	}
+	if(form.content.value == "") {
+		alert("내용을 입력하세요.");
+		form.content.focus();
+		return false;
+	}
+}
+</script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,7 +57,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+	
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
     <!-- Custom fonts for this template -->
@@ -66,13 +72,11 @@
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-
-     <!-- 211218 KBS ADD -->
-     <link rel="stylesheet" href="css/style.css">
-     <!-- Latest compiled and minified CSS -->
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    
+    <!-- 211218 KBS ADD -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 
 <body id="page-top">
@@ -102,10 +106,10 @@
 
             <!-- Heading -->
 
-
+			
 			<!-- 여어어어엉어어기기기기이이이이이이가가가가가 좌측메뉴(LNB)이다라라랄라라라랄-->
             <%@ include file = "./include/ad_LNB_location.jsp" %>
-            
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -308,96 +312,99 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">정보자료실 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - INFORMATION</p>
+                    
+                    <h1 class="h3 mb-2 text-gray-800">
+                    <% 
+                   	if(cate.equals("notB")) out.write("공지사항 관리");
+                   	if(cate.equals("freeB")) out.write("자유게시판 관리");
+                   	if(cate.equals("photoB")) out.write("사진게시판 관리");
+                   	if(cate.equals("infoB")) out.write("정보자료실 관리");
+                    %>
+                    </h1>
+                    <p class="mb-4">BOARD MANAGEMENT - 
+                    <% 
+                   	if(cate.equals("notB")) out.write("NOTICE");
+                   	if(cate.equals("freeB")) out.write("FREEBOARD");
+                   	if(cate.equals("photoB")) out.write("PHOTO");
+                   	if(cate.equals("infoB")) out.write("INFORMATION");
+                    %>
+                    </p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">정보자료실 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">
+                            <% 
+		                   	if(cate.equals("notB")) out.write("공지사항 작성");
+		                   	if(cate.equals("freeB")) out.write("자유게시판 작성");
+		                   	if(cate.equals("photoB")) out.write("사진게시판 작성");
+		                   	if(cate.equals("infoB")) out.write("정보자료실 작성");
+		                    %>
+                            </h6>
                         </div>
-                        
-<div class="card-body">
+                        <div class="card-body">
                             <div class="table-responsive">
+                            <!-- 게시글(일반형) 작성하기 -->
+                               	
+                               	<form name="writeFrm" method="post" action="ad_boardWriteProcess.jsp" onsubmit="return validateForm(this);">
+                               	<input type="hidden" name="num" value="<%= dto.getNum() %>"/>
+								<input type="hidden" name="cate" value="<%= cate %>"/>
                                 <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="boardCheckbox">
-                                                <input type="checkbox" id="checkedAll">
-                                            </th>
-                                            <th class="numbering">번호</th>
-                                            <th class="boardtitle">제목</th>
-                                            <th class="boardwriter">작성자</th>
-                                            <th class="boarddate">작성일</th>
-                                            <th class="">조회수</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    
-                                    <!-- 테이블 가공 (공지사항) -->
-                               		<tbody>
-										<%
-										if(boardLists.isEmpty()){
-										%>
-										<tr>
-											<td colspan="5" align="center">등록된 게시물이 없습니다.</td>
-										<tr>
-										<%
-										}else{
-											int virtualNum = 0;
-											int countNum = 0;
-											for(BoardDTO dto : boardLists){
-												virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
-										%>
-										<tr onclick="location.href='ad_boardView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">
-											<td><input type="checkbox"></td>
-											<td><%= virtualNum %></td>
-											<td><%= dto.getTitle() %></td>
-											<td><%= dto.getName() %></td>
-											<td><%= dto.getPostdate() %></td>
-											<td><%= dto.getVisitcount() %></td>
-										</tr>
-										<%
-											}
-										}
-										%>
-									</tbody>
-                                    
-                                </table>
-
-				
-								<div class="boardTool">
-									<div class="tool_Paging">
-										<ul>
-											<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI()) %>
-										</ul>
-									</div>
-									
-									<div class="tool_Search">
-										<form method="get">  
-											<input type="hidden" name="cate" value="<%= cate %>"/>
-											<select name="searchField">
-												<option value="title">제목</option>
-												<option value="id">작성자</option>
-											</select>
-											<div>
-												<input type="text" name="searchWord" placeholder="검색어를 입력하세요" value=""/>								
-												<button type="submit" value="">검색</button>
-											</div>
-										</form>							
-									</div>
-								</div>
-
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">작성자</th>
+										<td>
+											<input type="text" class="form-control" style="width:100px;" name="name" value="<%= dto.getName() %>"/>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">이메일</th>
+										<td>
+											<input type="text" class="form-control" style="width:400px;" name="email" value="<%= dto.getEmail() %>"/>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">패스워드</th>
+										<td>
+											<input type="password" class="form-control" style="width:200px;" name="pass"/>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">제목</th>
+										<td>
+											<input type="text" class="form-control" name="title"/>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">내용</th>
+										<td>
+											<textarea rows="10" class="form-control" name="content"></textarea>
+										</td>
+									</tr>
+								</table>
+								
+								<br />
+								<br />
+								 
+								 <!-- 버튼 -->
+			                    <div class="board-btn-group01">
+			                        <ul class="d-flex justify-content-end">
+			                            <li><button type="submit" class="btn btn-outline-success">작성완료</button></li>                            
+			                            <li><button type="button" class="btn btn-outline-primary" 
+			                            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
+													                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
+													                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
+													                   	if(cate.equals("infoB")) out.write("ad_information.jsp?cate=");%><%= cate %>';">목록보기</button>
+			                        </ul>
+			                    </div>
+                    
+								</form>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- 버튼 -->
-                    <div class="board-btn-group01">
-                        <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_boardFileWrite.jsp?cate=<%= cate %>';">작성</button></li>
-                        </ul>
                     </div>
                 </div>
                 <!-- /.container-fluid -->
@@ -463,14 +470,12 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
-
     <!-- BOK table first checkbox - All checked -->
     <script src="js/motion.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
-
 </body>
 
 </html>

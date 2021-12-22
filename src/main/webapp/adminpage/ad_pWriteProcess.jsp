@@ -1,3 +1,4 @@
+<%@page import="java.sql.Date"%>
 <%@page import="utils.JSFunction"%>
 <%@page import="board.BoardDAO"%>
 <%@page import="board.BoardDTO"%>
@@ -10,15 +11,18 @@
 <%@page import="java.util.Calendar"%>
 <%
 String id = request.getParameter("id");
+String pass = request.getParameter("pass");
 String title = request.getParameter("title");
-String postdate = request.getParameter("postdate");
+String pdate = request.getParameter("pdate");
 String content = request.getParameter("content");
 String cate = request.getParameter("cate");
 
 BoardDTO dto = new BoardDTO();
+
 dto.setId(id);
+dto.setPass(pass);
 dto.setTitle(title);
-/* dto.setPostdate(postdate); */
+dto.setPdate(pdate);
 dto.setContent(content);
 dto.setCategory(cate);
 

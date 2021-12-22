@@ -6,13 +6,14 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%
+	//프로그램 일정 달력에 뿌리기
+	/* select * from myboard where to_char(postdate, 'yyyy-mm')='2021-12' order by postdate asc; */
 	String cate = request.getParameter("cate");	
 	String cateUrl = request.getRequestURI() + "?cate=" + cate;
 	
 	BoardDAO dao = new BoardDAO();
-	Map<String, Object> param = new HashMap<String, Object>();
 	
-	
+	Map<String, BoardDTO> param = new HashMap<String, BoardDTO>();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -384,10 +385,11 @@
 								        nextYear++;
 								        nextMonth = 1;
 								    }
+								   
 								%>
 								<table border="0" cellpadding="0" cellspacing="0">
 								<tr>
-								    <td align="center"><a href="./ad_program.jsp?y=<%=prevYear%>&m=<%=prevMonth%>">◁</a> <%=year%>년 <%=month+1%>월 <a href="./ad_program.jsp?y=<%=nextYear%>&m=<%=nextMonth%>">▷</a></td>
+								    <td align="center"><a href="./ad_program.jsp?y=<%=prevYear%>&m=<%=prevMonth%>">◁</a> &nbsp;&nbsp;<%=year%>년 <%=month+1%>월 &nbsp;&nbsp;<a href="./ad_program.jsp?y=<%=nextYear%>&m=<%=nextMonth%>">▷</a></td>
 								</tr>
 								<tr>
 								    <td>
@@ -408,11 +410,11 @@
 										    for (int i=1; i<bgnWeek; i++) out.println("<td>&nbsp;</td>");
 										
 										    // 첫날~마지막날까지 처리
-										    // - 날짜를 하루씩 이동하여 월이 바뀔때까지 그린다
+										    // 날짜를 하루씩 이동하여 월이 바뀔때까지 그린다
 										    while (cal.get(Calendar.MONTH) == month) {
 										        out.println("<td>" + cal.get(Calendar.DATE) + "</td>");
 										
-										        // 토요일인 경우 다음줄로 생성
+										        // 토요일인 경우 다음줄로
 										        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY){
 										        	out.println("</tr><tr>");
 										        }
@@ -422,9 +424,15 @@
 										        		cal.get(Calendar.DATE)+1);
 										    }
 										
-										    // 끝날부터 토요일까지 빈칸으로 처리
-										    for (int i=cal.get(Calendar.DAY_OF_WEEK); i<=7; i++) 
-										    	out.println("<td>&nbsp;</td>");
+										    // 빈칸으로 처리
+										    for (int i=cal.get(Calendar.DAY_OF_WEEK); i<=7; i++) {
+										    	out.println("<td>&nbsp;</td>");										    	
+										    }
+										    
+										    //Map<String, BoardDTO> map = new HashMap<String, BoardDTO>();
+										    
+										   
+										    
 										%>
 								        </tr>
 								        </table>
@@ -442,7 +450,6 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
                             <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_pWrite.jsp?cate=<%= cate %>'" >등록</button></li>
                         </ul>
                     </div>
