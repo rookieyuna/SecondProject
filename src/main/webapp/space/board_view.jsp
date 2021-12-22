@@ -37,8 +37,30 @@
 			</div>
 			<div class="right_contents">
 				<div class="top_title">
-					<img src="../images/space/sub03_title.gif" alt="자유게시판" class="con_title" />
-					<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;자유게시판<p>
+					<%
+						if(cate.equals("notB")){
+					%>
+						<img src="../images/space/sub01_title.gif" alt="공지사항" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;공지사항<p>
+					<%		
+						}else if(cate.equals("freeB")){
+					%>
+						<img src="../images/space/sub03_title.gif" alt="자유게시판" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;자유게시판<p>
+					<%		
+						}else if(cate.equals("photoB")){
+					%>
+						<img src="../images/space/sub04_title.gif" alt="사진게시판" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;사진게시판<p>
+					<%
+						}else if(cate.equals("infoB")){
+					%>
+						<img src="../images/space/sub05_title.gif" alt="정보자료실" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;정보자료실<p>
+					<%
+						}
+					%>
+					
 				</div>
 			
 				<div>
@@ -116,8 +138,6 @@
 						
 						<div class="row text-center" style="">
 						<%
-						System.out.println("1번 : " + session.getAttribute("UserId"));
-						System.out.println("2번 : " + session.getAttribute("UserId").toString().equals(dto.getId()));
 						if(session.getAttribute("UserId") != null && session.getAttribute("UserId").toString().equals(dto.getId())){
 			            %>	
 							<!-- 각종 버튼 부분 -->

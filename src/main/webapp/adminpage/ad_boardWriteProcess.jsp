@@ -46,7 +46,9 @@ dao.close();
 
 if(iResult == 1){
 	// 글쓰기에 성공했다면 리스트(목록) 페이지로 이동한다.
-	response.sendRedirect("ad_notice.jsp?cate=" + cate);
+	if(cate.equals("notB")) response.sendRedirect("ad_notice.jsp?cate=" + cate);
+	if(cate.equals("freeB")) response.sendRedirect("ad_freeboard.jsp?cate=" + cate);
+	
 }else{
 	// 실패한 경우 글쓰기 페이지로 이동한다. 즉 뒤로 이동한다.
 	JSFunction.alertBack("글쓰기에 실패하였습니다.", out);

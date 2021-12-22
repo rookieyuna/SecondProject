@@ -33,7 +33,17 @@ public class JSFunction {
 		catch(Exception e) {}
 	}
 	
-	
+	//JS를 통해 경고창을 띄우고 뒤로 이동한다.
+		public static void listBack(JspWriter out) {
+			try {
+				String script = ""
+						+ "<script>"
+						+ "	   history.back();"
+						+ "</script>";
+				out.println(script);
+			}
+			catch(Exception e) {}
+		}
 	
 	public static void alertLocation(HttpServletResponse resp, String msg, String url) {
 		try {
