@@ -21,32 +21,27 @@
 <title></title>
 </head>
 <script>
-<<<<<<< HEAD
 	$(function(){
-		$('#deletebtn').click(function(){
-			$('#productlist').attr("action","../adminpage/ad_suaDelete.do").submit();			
-		}) 
-		
-		$('#tempBtn').click(function(){
+		//바로 구매 버튼 클릭시
+		/*$('#tempBtn').click(function(){
 			$('#form1').attr("action","../market/basket2.do").submit();			
-		}) 
+		}) */
+	});
+	
+	$(function(){
+	/* 	$('.n_box').change(function(){
+			alert("asdf");
+			
+		}); */
+			
+		//// 온클릭이벤트 안댐 ... 장바구니로 이동
+		/* $('#cartbtn').click(function(){
+			alert("asdf");
+			$('#market_view').attr("action","../market/basketIns.do").submit();			
+		}); */
+		
 		
 	});
-=======
-$(function(){
-/* 	$('.n_box').change(function(){
-		alert("asdf");
-		
-	}); */
-		
-	//// 온클릭이벤트 안댐 ... 장바구니로 이동
-	/* $('#cartbtn').click(function(){
-		alert("asdf");
-		$('#market_view').attr("action","../market/basketIns.do").submit();			
-	}); */
-	
-	
-});
 
 	function money(idx){		
 		
@@ -75,8 +70,13 @@ $(function(){
 		console.log(document.getElementById("zlag").value);
 		document.getElementById("form1").action="../market/basketIns01.do";
 	}
+	
+	//바로 구매 버튼 누르면(위와 동일)
+	function goBuy(idx){
+		document.getElementById("zlag").value = idx;
+		document.getElementById("form1").action="../market/basket2.do";
+	}
 
->>>>>>> branch 'main' of https://github.com/rookieyuna/SecondProject.git
 </script>
  <body>
 	<%-- <center> --%>
@@ -123,8 +123,8 @@ $(function(){
 							</c:when>
 							<c:otherwise>
 								<!-- 출력할 게시물이 있을때 -->
-								<c:forEach items="${ boardLists }" var="row" varStatus="loop">
 								<form name="orderFrm" id="form1" action="">
+								<c:forEach items="${ boardLists }" var="row" varStatus="loop">
 									<tr align="center">
 										<td><!-- 원본은 체크박스인데.... 흠 필요없..어서 일단은 가상번호 -->
 										 ${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}
@@ -149,40 +149,27 @@ $(function(){
 										 <!-- 제품의 총 가격 ( 파라미터 전달용 히든박스) -->
 										 <input type="hidden" name="pricetotal_${row.product_no }" id="pricetotal_${row.product_no }" value="${row.price }" /></td>
 										<!-- 수량텍스트박스 -->
-<<<<<<< HEAD
-										<td><input type="text" name="quantity" value="1" class="n_box" /></td>
-=======
 										<td><input type="text" onchange="changePrice(${row.product_no })" name="count_${row.product_no }" id="count_${row.product_no }" value="1" class="n_box" /></td>
->>>>>>> branch 'main' of https://github.com/rookieyuna/SecondProject.git
 										<!-- 구매버튼2개 -->
-<<<<<<< HEAD
 										<td>
-										<button style="border: 0" type="button" id="tempBtn" >
+										<!-- 최종 구매 버튼 -->
+										<%-- <button style="border: 0" type="button" id="tempBtn" >
 											<img src="../images/market/btn01.gif" style="margin-bottom: 5px;"/>
-											<%-- onclick="location.href='../market/basket2.do?product_no=${row.product_no }&quantity=${quantity}'" --%>
-										</button><br />
+											onclick="location.href='../market/basket2.do?product_no=${row.product_no }&quantity=${quantity}'"
+										</button><br /> --%>
+										<input type="image" onclick="goBuy(${row.product_no})" class="cart" src="../images/market/btn01.gif" alt="바로구매" ></input><br />
 										<%-- <a href="../market/basket2.do?product_no=${row.product_no }&quantity=${quantity}">
 											<img src="../images/market/btn01.gif" style="margin-bottom: 5px;"/><br />
 										</a> --%>
 										<%-- <input type="image" src="../images/market/btn01.gif" style="margin-bottom: 5px;" 
 											onclick="location.href='../market/basket2.do?product_no=${row.product_no }&quantity=${quantity}'"/><br /> --%>
-										<a href="basket.jsp"><img src="../images/market/btn02.gif" /></a></td>
-=======
-										<td><a href=""><img src="../images/market/btn01.gif"
-												style="margin-bottom: 5px;" /></a><br />
-					
 										<!-- 장바구니버튼 !  온클릭이벤트 ! -->
 										<input type="image" onclick="goCart(${row.product_no})" class="cart" src="../images/market/btn02.gif" alt="장바구니" ></input>
 										</td>
->>>>>>> branch 'main' of https://github.com/rookieyuna/SecondProject.git
 									</tr>
-<<<<<<< HEAD
-									<input type="hidden" name="product_no" value="${row.product_no }" /><!-- 파라미터로 전달할 품번 -->
-								</form>
-=======
 									<script>money(${row.product_no});</script>
->>>>>>> branch 'main' of https://github.com/rookieyuna/SecondProject.git
 								</c:forEach>
+								<input type="hidden" name="product_no" value="${row.product_no }" /><!-- 파라미터로 전달할 품번 -->
 								</form>
 							</c:otherwise> 
 						</c:choose>

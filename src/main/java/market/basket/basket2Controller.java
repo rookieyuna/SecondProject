@@ -23,8 +23,9 @@ public class basket2Controller extends HttpServlet{
 		
 		MKProductDAO dao = new MKProductDAO();
 		
-		String quantity = req.getParameter("quantity");
-		String product_no = req.getParameter("product_no");
+		String product = req.getParameter("zlag");
+		String quantity = req.getParameter("count_"+product);
+		String product_no = req.getParameter("product_"+product);
 
         //현재 페이지에 출력할 게시물을 얻어옴.
 		MKProductDTO dto = dao.selectView(product_no);
@@ -36,7 +37,6 @@ public class basket2Controller extends HttpServlet{
         req.setAttribute("dto", dto);
         //View로 포워드를 걸어준다. 
         req.getRequestDispatcher("/market/basket2.jsp").forward(req, resp);
-        System.out.println(quantity);
 	}
 	
 	
