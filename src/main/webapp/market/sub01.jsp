@@ -1,3 +1,4 @@
+<%@page import="market.MKProductDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
@@ -7,14 +8,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!--
 
-1. 수량 수정하면 가격 변경되는부분 
--> formatter로 해뒀는데 value값으로 바로 접근안댐
 
 3. 페이징 처리 부분 이쁘게 
 4. 바로구매버튼 : basket2.jsp 구현 후에 연결
-5. 장바구니버튼 : basket.jsp 구현 후에 연결
-->  장바구니 버튼을 누르면 포워드하면서 파라미터를 전달해줘야하는데 
-foreach문으로 루프가 돌아가서 id로 값에 접근이 안됨.... 어캐함?
+
   -->
 
 <!DOCTYPE html>
@@ -48,16 +45,24 @@ $(function(){
 
 	function changePrice(idx) {
 		
+		console.log("changeprice");
 		var count = document.getElementById("count_"+idx).value;
 		var price = document.getElementById("price1_"+idx).value;
 					
 		var result = count * price ;
+		console.log("result:"+result);
 		document.getElementById("price_"+idx).innerHTML = (result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-			
-		
-		
+		document.getElementById("pricetotal_"+idx).innerHTML = result;
+					
 	}
-
+	
+	//장바구니 버튼 누르면 zlag라는 히든박스에 idx값이 전달댐! idx = product_no
+	function goCart(idx){
+		
+		document.getElementById("zlag").value = idx;
+		console.log(document.getElementById("zlag").value);
+		document.getElementById("form1").action="../market/basketIns01.do";
+	}
 
 </script>
  <body>
@@ -104,7 +109,9 @@ $(function(){
 							</c:when>
 							<c:otherwise>
 								<!-- 출력할 게시물이 있을때 -->
-								<c:forEach items="${ boardLists }" var="row" varStatus="loop">
+								<!-- 폼태그 ! 장바구니 저장  -->
+								<form action="" id="form1">
+								<c:forEach items="${ boardLists }" var="row" varStatus="loop"> 
 									<tr align="center">
 											
 										<td><!-- 원본은 체크박스인데.... 흠 필요없..어서 일단은 가상번호 -->
@@ -115,23 +122,34 @@ $(function(){
 											<a href="../market/market_view.do?product_no=${row.product_no }"><img src="../images/market/${row.product_sfile }" width="120px" height="80px"/></a>
 										</td>
 										<!-- 제목 -->
-									 	 <td class="t_left"><a href="../market/market_view.do?product_no=${row.product_no }">${ row.product_name }</a></td>
-										<!-- 가격 -->
-											<input type="hidden" id="price1_${row.product_no }" value="${ row.price }" />
-										 <td class="p_style" id="price_${row.product_no }">
-										 ${ row.price }</td>
+									 	 <td class="t_left"><a href="../market/market_view.do?product_no=${row.product_no }">${ row.product_name }</a>
+									 	 <!-- 장바구니 추가에 필요한 파라미터 전달용 히든박스들 -->
+									 	 <input type="hidden" name="name_${row.product_no }" value="${row.product_name }" />
+									 	 <input type="hidden" name="milage_${row.product_no }" value="${row.milage }" />
+									 	 <input type="hidden" name="sfile_${row.product_no }" value="${row.product_sfile }"/>
+									 	 <input type="hidden" name="price1_${row.product_no }" id="price1_${row.product_no}" value="${ row.price }" />
+									 	 <input  type="hidden" name="product_${row.product_no }" value="${ row.product_no }" />
+									 	 <input type="hidden" id="zlag" name="zlag" value="0"/>
+									 	
+									 	 </td>
+										<!-- 가격 -->						
+										 <td class="p_style" id="price_${row.product_no }">${ row.price }
+										 <!-- 제품의 총 가격 ( 파라미터 전달용 히든박스) -->
+										 <input type="hidden" name="pricetotal_${row.product_no }" id="pricetotal_${row.product_no }" value="${row.price }" /></td>
 										<!-- 수량텍스트박스 -->
-										<td><input type="text" onchange="changePrice(${row.product_no })" id="count_${row.product_no }" value="1" class="n_box" /></td>
+										<td><input type="text" onchange="changePrice(${row.product_no })" name="count_${row.product_no }" id="count_${row.product_no }" value="1" class="n_box" /></td>
 										<!-- 구매버튼2개 -->
 										<td><a href=""><img src="../images/market/btn01.gif"
 												style="margin-bottom: 5px;" /></a><br />
-										<!--  <a href=""><img src="../images/market/btn02.gif" /></a>-->
-										<input type="image"  class="cart" src="../images/market/btn02.gif" alt="장바구니" ></input>
+					
+										<!-- 장바구니버튼 !  온클릭이벤트 ! -->
+										<input type="image" onclick="goCart(${row.product_no})" class="cart" src="../images/market/btn02.gif" alt="장바구니" ></input>
 										</td>
 									</tr>
-									<<script>money(${row.product_no});</script>
+									<script>money(${row.product_no});</script>
 								</c:forEach>
-							</c:otherwise>
+								</form>
+							</c:otherwise> 
 						</c:choose>
 					</table>
 

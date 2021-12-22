@@ -9,18 +9,7 @@
 
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- 
-1. 수정버튼 누르면 수량변경
--> cart테이블에 데이터가 수정되어야함 
-온클릭이벤트로 req.set해서 파라미터 싹다 넣고...?
-dto객체 만들어서 거기에 필요한 파라미터들 싺다 정리하고 dto객체를 파라미터로 포워드하는거
-일단 온클릭 이벤트부터 해결
 
-그ㅡ리고 파라미터 하나더 flag전달
- -> 온클릭이벤트에서 만약 수량이 0으로 수정됬다면 삭제를 해야하는데
- if문 넣으면 0이라면 delete되는기능
-
- -->
  
  <script>
  		function money(idx){
@@ -133,7 +122,8 @@ dto객체 만들어서 거기에 필요한 파라미터들 싺다 정리하고 d
 							
 							
 							 
-							<td><input type="number" id="count_${row.product_no }" onchange="changePrice(${row.product_no })" value="${row.count_num }" class="basket_num" />
+							<td><input type="text" id="count_${row.product_no }" width="60px"
+							 onchange="changePrice(${row.product_no })" value="${row.count_num }" class="basket_num" />
 							&nbsp;
 							<!-- 수정버튼을 누르면 update -->
 							<a href=""><img src="../images/market/m_btn.gif" /></a>
