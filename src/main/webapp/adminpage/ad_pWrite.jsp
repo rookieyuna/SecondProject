@@ -403,6 +403,10 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
 										<td><input type="text" name="id"  style="width: 30%;" value="<%= mDto.getId() %>" /></td>
 									</tr>
 									<tr>
+										<td>비밀번호</td>
+										<td><input type="password" name="pass"  style="width: 30%;" /></td>
+									</tr>
+									<tr>
 										<td>제목</td>
 										<td><input type="text" name="title" style="width: 30%;"/></td>
 									</tr>
