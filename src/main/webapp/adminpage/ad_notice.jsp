@@ -42,6 +42,8 @@
 	List<BoardDTO> boardLists = dao.selectList(param, cate);
 	dao.close();
 %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,7 +75,29 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!-- 211222 KBS ADD 체크박스 삭제를 위한 -->
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
+
+<script>
+
+	$(function(){
+		$('#deletebtn').click(function(){
+			$('#cleanlist').attr("action","../adminpage/ad_requstDelete.do").submit();			
+		})  		
+	});
+
+	function allCk(objCheck){ //전체 선택 checkbox 클릭
+		  var checks = document.getElementsByName('chk');
+		  for( var i = 0; i < checks.length; i++ ){
+		   checks[i].checked = objCheck;
+		// name이 'chk' 인 checkbox는  id가 allck인 checkbox의 checked 상태와 같게 된다. 
+		  }	
+	}
+
+	
+</script>
 
 <body id="page-top">
 
@@ -318,7 +342,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                                        
+                                <form action="" id="cleanlist"><!-- 삭제처리할때 form -->                        
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
@@ -350,7 +374,7 @@
 												virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
 										%>
 										<tr onclick="location.href='ad_boardView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">
-											<td><input type="checkbox"></td>
+											<td><input type="checkbox" name="chk" value="<%= dto.getNum() %>"></td>
 											<td><%= virtualNum %></td>
 											<td><%= dto.getTitle() %></td>
 											<td><%= dto.getName() %></td>
@@ -395,7 +419,7 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
+                            <li><button type="button" class="btn btn-outline-secondary" id="deletebtn" >삭제</button></li>
                             <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_boardWrite.jsp?cate=<%= cate %>';">작성</button></li>
                         </ul>
                     </div>
