@@ -9,7 +9,65 @@
 
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- 
+1. 수정버튼 누르면 수량변경
+-> cart테이블에 데이터가 수정되어야함 
+온클릭이벤트로 req.set해서 파라미터 싹다 넣고...?
+dto객체 만들어서 거기에 필요한 파라미터들 싺다 정리하고 dto객체를 파라미터로 포워드하는거
+일단 온클릭 이벤트부터 해결
 
+그ㅡ리고 파라미터 하나더 flag전달
+ -> 온클릭이벤트에서 만약 수량이 0으로 수정됬다면 삭제를 해야하는데
+ if문 넣으면 0이라면 delete되는기능
+
+ -->
+ 
+ <script>
+ 		function money(idx){
+ 			var total = document.getElementById("total_"+idx).innerHTML;
+ 			document.getElementById("total_"+idx).innerHTML = (total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+ 			
+ 			var price = document.getElementById("price_"+idx).innerHTML;
+ 			document.getElementById("price_"+idx).innerHTML = (price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+ "원");			
+
+ 		}
+ 		function money1(){
+ 			var sum = document.getElementById("sum").innerHTML;
+ 			var sum1 = document.getElementById("sum1").innerHTML;
+ 			document.getElementById("sum1").innerHTML = sum1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+ 			document.getElementById("sum").innerHTML = (sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+ "원");
+ 			
+ 		}
+ 		
+		function changePrice(idx) {
+			
+			var count = document.getElementById("count_"+idx).value;
+			var price = document.getElementById("price1_"+idx).value;
+			var result = count * price ;
+			document.getElementById("total_"+idx).innerHTML = (result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+				
+			//최종합계 구현
+			var i = document.getElementById("count1_"+idx).value; //바꾸기전 갯수		
+			document.getElementById("count1_"+idx).value = count;
+			
+			//바꾼후 갯수랑 바꾸기전 갯수랑 비교해서 
+			var j = count - i;
+			
+			
+			
+			var sum = document.getElementById("org_sum").value; 
+			var sum_r = parseInt(sum) + parseInt( price * j);
+	
+			document.getElementById("sum").innerHTML = (sum_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +"원");
+			document.getElementById("sum1").innerHTML = (sum_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +"원");
+			document.getElementById("org_sum").value = sum_r;
+		
+		}
+		
+		
+		
+		
+	</script>
  <body>
 	<!-- <center> -->
 	<div id="wrap">
@@ -62,31 +120,42 @@
 					<c:otherwise>
 					
 						<c:forEach items="${ carts }" var="row" varStatus="loop"> 						
-<%-- 						<input type="hidden" id="total_price" value="${ row.total_price }" />
- --%>						<c:set var="sum" value="${sum+row.total_price }"/>
+						<c:set var="sum" value="${sum+row.total_price }"/>
 						<tr>
+							
 							<td><input type="checkbox" name="" value="" /></td>
 							<td><img src="../images/market/${row.product_sfile }" width="50px" height="50px"/></td>
-							<td>${ row.product_name }</td>
-							<td>${ row.price }원</td>
+							<td >${ row.product_name }</td>
+							<td ><span id ="price_${row.product_no }">${ row.price }</span>
+							<input type="hidden" id ="price1_${row.product_no }" value="${ row.price }"/>
+							</td>
 							<td><img src="../images/market/j_icon.gif" />&nbsp;${ row.milage }원</td>
-							<td><input type="text" name="" value="${row.count_num }" class="basket_num" />
-							&nbsp;<a href=""><img src="../images/market/m_btn.gif" /></a></td>
+							
+							
+							 
+							<td><input type="number" id="count_${row.product_no }" onchange="changePrice(${row.product_no })" value="${row.count_num }" class="basket_num" />
+							&nbsp;
+							<!-- 수정버튼을 누르면 update -->
+							<a href=""><img src="../images/market/m_btn.gif" /></a>
+							<input type="hidden" id="count1_${row.product_no }" value="${row.count_num }" />
+							</td>
 							<td>무료배송</td>
 							<td>[조건]</td>
-							<% DecimalFormat formatter = new DecimalFormat("###,###"); %>
-							<td><span>
-							 <fmt:formatNumber value="${ row.total_price }" pattern="#,###"/>원<span></td>
+							<td><span id="total_${row.product_no }">
+							 ${ row.total_price }</span></td>
 							
 						</tr>
-						</c:forEach>
+						<<script>money(${row.product_no });</script>
+						</c:forEach> 
 					</c:otherwise>
 				</c:choose>
 					</tbody>
 				</table> 
+				<input type="hidden" id="org_sum" value="${sum }" />
 				<p class="basket_text">[ 기본 배송 ] <span>상품구매금액</span> 
-				<fmt:formatNumber value="${ sum }" pattern="#,###"/> + <span>배송비</span> 0 = 합계 : 
-				<span class="money"><fmt:formatNumber value="${ sum }" pattern="#,###"/>원</span><br /><br />
+				<span id="sum1">${ sum }</span> + <span>배송비</span> 0 = 합계 : 
+				<span class="money" id="sum">${ sum }</span><br /><br />
+				<<script>money1();</script>
 				<a href=""><img src="../images/market/basket_btn01.gif" /></a>&nbsp;<a href="basket02.jsp"><img src="../images/market/basket_btn02.gif" /></a></p>
 			</div> 
 		</div>
