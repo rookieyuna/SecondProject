@@ -86,7 +86,7 @@ public class WriteController extends HttpServlet {
 		
 		//새로운 게시물을 테이블에 저장한다.
 		BoardDAO dao = new BoardDAO();
-		int result = dao.insertWrite(dto);
+		int result = dao.insertFile(dto);
 		//커넥션 풀 자원 반납
 		dao.close();
 		
@@ -94,7 +94,7 @@ public class WriteController extends HttpServlet {
 			//쓰기에 성공하면 리스트로 이동한다
 			
 			JSFunction.alertLocation(resp, "글쓰기 완료!!", "../board2/list.do?cate="+category);
-			//resp.sendRedirect("../board2/list.do?cate=${param.cate}");
+			//resp.sendRedirect("../board2/list.do?cate="+category);
 			
 		}
 		else {

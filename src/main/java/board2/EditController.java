@@ -24,22 +24,29 @@ import utils.JSFunction;
  	글쓰기 페이지로 진입시에는 단순히 페이지 이동을 doGet()요청을 처리하고
  	내용을 채운 후 작성할때는 Post방식으로 전송하므로 doPost()가 요청을 처리한다.
 */
-@WebServlet("/mvcboard/edit.do")
+@WebServlet("/board2/edit.do")
 public class EditController extends HttpServlet {
 	
 	//글수정 페이지 진입 (View컨트롤러와 동일)
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
-	
-		//일련번호 파라미터 받기
-		String idx = req.getParameter("idx");
+		
+		//커넥션 풀을 통해 DB연결
 		BoardDAO dao = new BoardDAO();
+		
+		//일련번호 파라미터 받기
+		String num = req.getParameter("num");
+		String cate = req.getParameter("cate");
+		
 		//게시물 가져오기
-		BoardDTO dto = dao.selectView(idx);
+		BoardDTO dto = dao.selectView(num);
+		dao.close();
+		
 		//DTO객체를 리퀘스트 영역에 저장
 		req.setAttribute("dto", dto);
-		req.getRequestDispatcher("/14MVCBoard/Edit.jsp").forward(req, resp);
+		
+		req.getRequestDispatcher("/community/board2_edit.jsp").forward(req, resp);
 	}
 	
 	
@@ -69,17 +76,16 @@ public class EditController extends HttpServlet {
 		String name = mr.getParameter("name");
 		String title = mr.getParameter("title");
 		String content = mr.getParameter("content");
-		//패스워드 검증 시 session 영역에 저장된 속성값 가져오기
-		HttpSession session = req.getSession();
-		String pass = (String)session.getAttribute("pass");
 		
+		String cate = mr.getParameter("cate"); 
+
 		//DTO에 데이터 세팅
 		BoardDTO dto = new BoardDTO();
 		dto.setNum(num);
 		dto.setName(name);
 		dto.setTitle(title);
 		dto.setContent(content);
-		dto.setPass(pass);
+		dto.setPass("1234");
 		
 		//새롭게 저장된 파일이 있는지 확인하기 위해 파일명을 얻어옴
 		String fileName = mr.getFilesystemName("ofile");
@@ -108,16 +114,15 @@ public class EditController extends HttpServlet {
 		
 		//DB업데이트 처리
 		BoardDAO dao = new BoardDAO();
-		int result = dao.updateEdit(dto);
+		int result = dao.updateFileEdit(dto);
 		//커넥션 풀 자원 반납
 		dao.close();
 		
 		if(result==1) { //수정이 완료되었다면...
-			session.removeAttribute("pass");
-			resp.sendRedirect("../board2/view.do?num="+num);
+			resp.sendRedirect("../board2/view.do?cate="+cate+"&num="+num);
 		}
 		else {//수정에 실패한 경우...
-			JSFunction.alertLocation(resp, "비밀번호 검증을 다시 진행하세요", "../board2/view.do?num="+num);
+			JSFunction.alertLocation(resp, "수정실패여", "../board2/view.do?cate="+cate+"&num="+num);
 		}
 	}
 }

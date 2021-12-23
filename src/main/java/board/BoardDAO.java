@@ -176,7 +176,7 @@ public class BoardDAO extends JDBConnect {
 	public int insertWrite(BoardDTO dto) {
 		int result = 0;
 		try {
-			String query = "INSERT INTO board ( num, id, pass, title, content, category) "
+			String query = "INSERT INTO board (num, id, pass, title, content, category) "
 					+ " VALUES ( seq_board_num.NEXTVAL, ?, ?, ?, ?, ?)";
 
 			psmt = con.prepareStatement(query);
@@ -186,11 +186,13 @@ public class BoardDAO extends JDBConnect {
 			System.out.println("내용 : " + dto.getContent());
 			System.out.println("카테 : " + dto.getCategory());
 
+
 			psmt.setString(1, dto.getId());
 			psmt.setString(2, dto.getPass());
 			psmt.setString(3, dto.getTitle());
 			psmt.setString(4, dto.getContent());
 			psmt.setString(5, dto.getCategory());
+
 
 			result = psmt.executeUpdate();
 		} catch (Exception e) {
