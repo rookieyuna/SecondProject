@@ -2,24 +2,38 @@
 li{
     list-style: none;
 }
+
 .custom_board{
     border:1px solid #e3e6f0;
     border-radius: 4px;
     padding:25px;
     *{
-        font-size: 1rem;
+        font-size: 0.8rem;
         color: #858796;
     }
     .boardTable{
         width:100%;
-        border:1px solid #e3e6f0;
+        border-top: 3px solid #d73923;
         padding: 25px;
 
         tr{
-            border-bottom: 1px solid #e3e6f0;
+            
             th,td{
-                padding:15px;
+                padding:16px 12px;
                 text-align: center;
+            }
+            &:last-child > * {
+                border-bottom: 1px solid #cecfd3;
+            }
+            td{
+                border-bottom-color: #cecfd3;
+                &:nth-of-type(2){
+                    text-align: left;
+                    width: 330px;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
             }
         }
         
@@ -27,19 +41,46 @@ li{
         thead{
             tr{
                 th{
-                    border-right: 1px solid #e3e6f0;
+                    color: #333;
+                    background-color: #f9f9f9;
+
+                    &:nth-of-type(1){
+                        width: 10%;  
+                    }
+                    &:nth-of-type(2){
+                        width: auto;  
+                    }
+                    &:nth-of-type(3){
+                        width: 15%;  
+                    }
+                    &:nth-of-type(4){
+                        width: 15%;  
+                    }
+                    &:nth-of-type(5){
+                        width: 10%;  
+                    }
+                    &:nth-of-type(5){
+                        width: 15%;  
+                    }
+                    &:nth-of-type(6){
+                        width: 100px; 
+                    }
                 }
+                
             }
         }
         tbody{
             tr{
                 td{
-                    border-right: 1px solid #e3e6f0;
+                    border-bottom: 1px solid#cecfd3;
                 }
                 &:hover{
                     color: #858796;
                     background-color: rgba(0,0,0,.075);
                     cursor: pointer;
+                }
+                i{
+                    font-size: 1.4rem;
                 }
             }
         }
@@ -47,19 +88,128 @@ li{
 
     .boardTool{
         .tool_Paging{
+            margin-top: 24px;
             ul{
                 display: flex;
                 justify-content: center;
                 li{
-                    margin: 0 5px;
+                    padding: 0 10px;
+                    &.nowPage{
+                        font-size: 1rem;
+                        font-weight: bold;
+                        color: #d73923;
+                    }    
+                    a{
+                        font-size: 1rem;
+                        width:100%;
+                    }
                 }
             }
         }
         .tool_Search{
+            margin-top: 24px;
             form{
                 display: flex;
                 justify-content: center;
+                select{
+                    width: 80px;
+                    padding: .8em .5em;
+                    border: 1px solid #999;
+                    font-family: inherit;
+                    background: url(../../images/icons/expand_more_black_24dp.svg) no-repeat 95% 50%;
+                    border-radius: 0px;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                    &::-ms-expand{
+                        display: none;
+                    }
+                }
+                div{
+                    display: flex;
+                    input{
+                        width: 200px;
+                        padding: .8em .5em;
+                        border: 1px solid #999;
+                        border-left: 0;
+                        border-right: 0;
+                        font-family: inherit;
+                    }
+                    button{
+                        border: 1px solid #999;
+                        padding: .8em .8em;
+                        background: #f9f9f9;
+                        &:hover{
+                            background: #f32308;
+                            transition: all ease 0.3s;
+                            color: #fff;
+                            cursor: pointer;
+                        }
+                    }
+                }
             }
+        }
+    }
+}
+
+form[name=writeFrm], form[name=fileForm]{
+    table{
+        width:100%;
+        border-top: 2px solid #d73923;
+        border-bottom : 1px solid #cecfd3;
+        tr{
+            &:not(:nth-last-child(1)){
+                border-bottom: 1px solid #cecfd3;
+            }
+            &:nth-of-type(-n+2){
+                th:nth-of-type(2){
+                    border-left: 1px solid #cecfd3;
+                }
+            }
+        }
+        th,td{
+            padding: 0.8rem;
+        }
+        th{
+            height: 50px;
+            border-right: 1px solid #cecfd3;
+        }
+        input{
+            border: 1px solid #cecfd3;
+            width: 100% !important;
+            padding: 0.8rem 0.5rem;
+            border-radius: 4px;
+        }
+        textarea{
+            width: 100% !important;
+            padding: 10px;
+        }
+    }
+
+    .row.text-center{
+        margin-top: 16px;
+        text-align: center;
+        button{
+            border: 1px solid #d9d9d9;
+            min-width: 100px;
+            padding: 0.6rem 0.4rem;
+            border-radius: 4px;
+            background: #f9f9f9;
+            &:hover{
+                cursor: pointer;
+                background: #f32308;
+                transition: all ease 0.3s;
+                color: #fff;
+                border: #fff;
+            }
+        }
+    }
+} 
+
+form[name=fileForm]{
+    tr:last-child{
+        input{
+            border:1px solid red;
         }
     }
 }

@@ -9,41 +9,86 @@ li {
 }
 
 .custom_board * {
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: #858796;
 }
 
 .custom_board .boardTable {
   width: 100%;
-  border: 1px solid #e3e6f0;
+  border-top: 3px solid #d73923;
   padding: 25px;
 }
 
-.custom_board .boardTable tr {
-  border-bottom: 1px solid #e3e6f0;
-}
-
 .custom_board .boardTable tr th, .custom_board .boardTable tr td {
-  padding: 15px;
+  padding: 16px 12px;
   text-align: center;
 }
 
+.custom_board .boardTable tr:last-child > * {
+  border-bottom: 1px solid #cecfd3;
+}
+
+.custom_board .boardTable tr td {
+  border-bottom-color: #cecfd3;
+}
+
+.custom_board .boardTable tr td:nth-of-type(2) {
+  text-align: left;
+  width: 330px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .custom_board .boardTable thead tr th {
-  border-right: 1px solid #e3e6f0;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.custom_board .boardTable thead tr th:nth-of-type(1) {
+  width: 10%;
+}
+
+.custom_board .boardTable thead tr th:nth-of-type(2) {
+  width: auto;
+}
+
+.custom_board .boardTable thead tr th:nth-of-type(3) {
+  width: 15%;
+}
+
+.custom_board .boardTable thead tr th:nth-of-type(4) {
+  width: 15%;
+}
+
+.custom_board .boardTable thead tr th:nth-of-type(5) {
+  width: 10%;
+}
+
+.custom_board .boardTable thead tr th:nth-of-type(5) {
+  width: 15%;
+}
+
+.custom_board .boardTable thead tr th:nth-of-type(6) {
+  width: 100px;
 }
 
 .custom_board .boardTable tbody tr td {
-  border-right: 1px solid #e3e6f0;
-}
-
-.custom_board .boardTable tbody tr td:nth-of-type(1){
-	width: 25px;
+  border-bottom: 1px solid #cecfd3;
 }
 
 .custom_board .boardTable tbody tr:hover {
   color: #858796;
   background-color: rgba(0, 0, 0, 0.075);
   cursor: pointer;
+}
+
+.custom_board .boardTable tbody tr i {
+  font-size: 1.4rem;
+}
+
+.custom_board .boardTool .tool_Paging {
+  margin-top: 24px;
 }
 
 .custom_board .boardTool .tool_Paging ul {
@@ -56,7 +101,45 @@ li {
 }
 
 .custom_board .boardTool .tool_Paging ul li {
-  margin: 0 5px;
+  padding: 0 10px;
+}
+
+.custom_board .boardTool .tool_Paging ul li.nowPage {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #d73923;
+}
+
+.custom_board .boardTool .tool_Paging ul li a {
+  font-size: 1rem;
+  width: 100%;
+}
+
+.custom_board .boardTool .tool_edit{
+	position: relative;
+}
+.custom_board .boardTool .tool_edit>ul{
+	position: absolute;
+    right: 0;
+    top: -30px;
+}
+.custom_board .boardTool .tool_edit>ul>li>button{
+	border: 1px solid #d9d9d9;
+    min-width: 100px;
+    padding: 0.6rem 0.4rem;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+.custom_board .boardTool .tool_edit>ul>li>button:hover{
+	background: #f32308;
+	-webkit-transition: all ease 0.3s;
+	transition: all ease 0.3s;
+	color: #fff;
+	cursor: pointer;
+}
+
+.custom_board .boardTool .tool_Search {
+  margin-top: 24px;
 }
 
 .custom_board .boardTool .tool_Search form {
@@ -68,8 +151,194 @@ li {
           justify-content: center;
 }
 
+.custom_board .boardTool .tool_Search form select {
+  width: 80px;
+  padding: .8em .5em;
+  border: 1px solid #999;
+  font-family: inherit;
+  background: url(../images/icons/expand_more_black_24dp.svg) no-repeat 95% 50%;
+  border-radius: 0px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.custom_board .boardTool .tool_Search form select::-ms-expand {
+  display: none;
+}
+
+.custom_board .boardTool .tool_Search form div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.custom_board .boardTool .tool_Search form div input {
+  width: 200px;
+  padding: .8em .5em;
+  border: 1px solid #999;
+  border-left: 0;
+  border-right: 0;
+  font-family: inherit;
+}
+
+.custom_board .boardTool .tool_Search form div button {
+  border: 1px solid #999;
+  padding: .8em .8em;
+  background: #f9f9f9;
+}
+
+.custom_board .boardTool .tool_Search form div button:hover {
+  background: #f32308;
+  -webkit-transition: all ease 0.3s;
+  transition: all ease 0.3s;
+  color: #fff;
+  cursor: pointer;
+}
+
+form[name=writeFrm] table, form[name=fileForm] table {
+  width: 100%;
+  border-top: 2px solid #d73923;
+  border-bottom: 1px solid #cecfd3;
+}
+
+form[name=writeFrm] table tr:not(:nth-last-child(1)), form[name=fileForm] table tr:not(:nth-last-child(1)) {
+  border-bottom: 1px solid #cecfd3;
+}
+
+form[name=writeFrm] table tr:nth-of-type(-n+2) th:nth-of-type(2), form[name=fileForm] table tr:nth-of-type(-n+2) th:nth-of-type(2) {
+  border-left: 1px solid #cecfd3;
+}
+
+form[name=writeFrm] table th, form[name=writeFrm] table td, form[name=fileForm] table th, form[name=fileForm] table td {
+  padding: 0.8rem;
+}
+
+form[name=writeFrm] table th, form[name=fileForm] table th {
+  height: 50px;
+  border-right: 1px solid #cecfd3;
+}
+
+form[name=writeFrm] table input, form[name=fileForm] table input {
+  border: 1px solid #cecfd3;
+  width: 100% !important;
+  padding: 0.8rem 0.5rem;
+  border-radius: 4px;
+}
+
+form[name=writeFrm] table textarea, form[name=fileForm] table textarea {
+  width: 100% !important;
+  padding: 10px;
+}
+
+form[name=writeFrm] .row.text-center, form[name=fileForm] .row.text-center {
+  margin-top: 16px;
+  text-align: center;
+}
+
+form[name=writeFrm] .row.text-center button, form[name=fileForm] .row.text-center button {
+  border: 1px solid #d9d9d9;
+  min-width: 100px;
+  padding: 0.6rem 0.4rem;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+form[name=writeFrm] .row.text-center button:hover, form[name=fileForm] .row.text-center button:hover {
+  cursor: pointer;
+  background: #f32308;
+  -webkit-transition: all ease 0.3s;
+  transition: all ease 0.3s;
+  color: #fff;
+  border: #fff;
+}
+
+form[name=fileForm] tr:last-child input {
+    display: inline-block;
+    width: auto !important;
+}
+
+.filebox label { 
+	display: inline-block; 
+	padding: .5em .75em; 
+	color: #999; 
+	font-size: inherit; 
+	line-height: normal; 
+	vertical-align: middle; 
+	background-color: #fdfdfd; 
+	cursor: pointer; 
+	border: 1px solid #ebebeb; 
+	border-bottom-color: #e2e2e2; 
+	border-radius: .25em; 
+}
+.filebox input[type="file"] { 
+/* 파일 필드 숨기기 */
+	 position: absolute; 
+	 width: 1px; 
+	 height: 1px; 
+	 padding: 0; 
+	 margin: -1px; 
+	 overflow: hidden; 
+	 clip:rect(0,0,0,0);
+	border: 0; 
+}
+.filebox .upload-name { 
+	display: inline-block;
+	padding: .5em .75em; 
+	font-size: inherit; 
+	font-family: inherit; 
+	line-height: normal; 
+	vertical-align: middle; 
+	background-color: #f5f5f5;
+	border: 1px solid #ebebeb; 
+	border-bottom-color: #e2e2e2; 
+	border-radius: .25em;
+	-webkit-appearance: none; 
+	-moz-appearance: none; 
+	appearance: none; 
+}
+
+.fileOk{
+    font-family: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #f5f5f5;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: 0.25em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 1em;	
+    
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+	
+.fileOk:hover{
+	cursor: pointer;
+	background: #0fc73d;
+	-webkit-transition: all ease 0.3s;
+	transition: all ease 0.3s;
+	color: #fff;
+	border: 1px solid #0fc73d;
+}
+.down-icon{
+	background: url("../images/icons/file_download_black_24dp.svg") no-repeat left center;
+	display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+.fileOk:hover .down-icon{
+	background: url("../images/icons/file_download_black_24dp.svg") no-repeat left center;	
+	filter: invert(1);
+	transition : all ease 0.3s;
+}
 .upfile {
   width: 50px;
+  color: #0fc73d;
 }
 
 .photoBoard .photoBoard_wrap {
@@ -87,6 +356,7 @@ li {
           justify-content: space-between;
   -ms-flex-line-pack: justify;
       align-content: space-between;
+  height: 420px;
 }
 
 .photoBoard .photoBoard_wrap ul li.photoB_list {
@@ -94,8 +364,6 @@ li {
           box-sizing: border-box;
   width: calc(100%/4.2);
   height: 200px;
-  margin-bottom: 20px;
-  cursor: pointer;
 }
 
 .photoBoard .photoBoard_wrap ul li.photoB_list .photoB_posi {

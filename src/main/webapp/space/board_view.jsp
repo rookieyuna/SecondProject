@@ -131,7 +131,7 @@
 										<%
 										if(dto.getOfile() != null){
 										%>
-										<a href="Download.jsp?oFile=<%= URLEncoder.encode(dto.getOfile(), "UTF-8") %>&sFile=<%= URLEncoder.encode(dto.getSfile(),"UTF-8")%>"><%= dto.getOfile() %></a></td>
+										<a class="fileOk" href="Download.jsp?oFile=<%= URLEncoder.encode(dto.getOfile(), "UTF-8") %>&sFile=<%= URLEncoder.encode(dto.getSfile(),"UTF-8")%>"><span class="down-icon"></span><%= dto.getOfile() %></a></td>
 										<%
 										}else{
 										%>

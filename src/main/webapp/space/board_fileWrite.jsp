@@ -41,6 +41,19 @@ function validateForm(form){
 		return false;
 	}
 }
+
+$(function(){
+	var fileTarget = $('.filebox .upload-hidden'); 
+	fileTarget.on('change', function(){ 
+		if(window.FileReader){
+			var filename = $(this)[0].files[0].name;
+		} else { 
+			var filename = $(this).val().split('/').pop().split('\\').pop();
+		} 
+		$(this).siblings('.upload-name').val(filename); 
+	}); 
+});
+
 </script>
 
  <body>
@@ -129,7 +142,11 @@ function validateForm(form){
 								<th class="text-center" 
 									style="vertical-align:middle;">첨부파일</th>
 								<td>
-									<input type="file" class="form-control" name="attachedFile" />
+									<div class="filebox">
+										<input type="text" class="upload-name" value="파일선택" disabled />
+										<label for="ex_filename">업로드</label>
+										<input type="file" id="ex_filename" class="form-control upload-hidden" name="attachedFile" />
+									</div>								
 								</td>
 							</tr>
 						</tbody>
