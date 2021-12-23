@@ -12,12 +12,9 @@
 <%
 String num = request.getParameter("num");
 String cate = request.getParameter("cate");
-
-//String userid = session.getAttribute("UserId").toString();
-//String pass = request.getParameter("pass");
-//현재는 로그인이 구현되지 않아 세션에서 id/pass워드를 얻어올 수 없다. 임시방편으로 아래 식을 사용한다.
-String userid = "test1";
-String pass = "1111";
+System.out.println(cate);
+String userid = session.getAttribute("UserId").toString();
+String pass = request.getParameter("pass");
 
 BoardDAO dao = new BoardDAO();
 BoardDTO dto = dao.getId(userid);
@@ -333,6 +330,10 @@ function validateForm(form){
                     %>
                     </p>
 
+
+					<form name="fileForm" method="post"  enctype="multipart/form-data" action="ad_boardFileWriteProcess.jsp" onsubmit="return validateForm(this);">
+                   	<input type="hidden" name="num" value="<%= dto.getNum() %>"/>
+					<input type="hidden" name="cate" value="<%= cate %>"/>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -349,72 +350,65 @@ function validateForm(form){
                             <div class="table-responsive">
                                 <!-- 게시글(파일첨부형) 작성하기 -->
                                
-                               	<form name="writeFrm" method="post"  enctype="multipart/form-data" action="ad_boardFileWriteProcess.jsp" onsubmit="return validateForm(this);">
-                            	<input type="hidden" name="num" value="<%= dto.getNum() %>"/>
-								<input type="hidden" name="cate" value="<%= cate %>"/>
                                 <table class="table table-bordered table-hover">
 									<tr>
-										<tr>
-											<th class="text-center" 
-												style="vertical-align:middle;">작성자</th>
-											<td>
-												<input type="text" class="form-control" style="width:100px;" name="name" value="<%= dto.getName() %>"/>
-											</td>
-										</tr>
-										<tr>
-											<th class="text-center" 
-												style="vertical-align:middle;">이메일</th>
-											<td>
-												<input type="text" class="form-control" style="width:400px;" name="email" value="<%= dto.getEmail() %>"/>
-											</td>
-										</tr>
-										<tr>
-											<th class="text-center" 
-												style="vertical-align:middle;">패스워드</th>
-											<td>
-												<input type="password" class="form-control" style="width:200px;" name="pass"/>
-											</td>
-										</tr>
-										<tr>
-											<th class="text-center" 
-												style="vertical-align:middle;">제목</th>
-											<td>
-												<input type="text" class="form-control" name="title"/>
-											</td>
-										</tr>
-										<tr>
-											<th class="text-center" 
-												style="vertical-align:middle;">내용</th>
-											<td>
-												<textarea rows="10" class="form-control" name="content"></textarea>
-											</td>
-										</tr>
-										<tr>
-											<th class="text-center" 
-												style="vertical-align:middle;">첨부파일</th>
-											<td>
-												<input type="file" class="form-control" name="attachedFile" />
-											</td>
-										</tr>
-									</table>
-									<br />
-									<br />
-									  <!-- 버튼 -->
-					                    <div class="board-btn-group01">
-					                        <ul class="d-flex justify-content-end">
-					                            <li><button type="submit" class="btn btn-outline-success">작성완료</button></li>                            
-					                            <li><button type="button" class="btn btn-outline-primary" 
-					                            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
-															                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
-															                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
-															                   	if(cate.equals("infoB")) out.write("ad_information.jsp?cate=");%><%= cate %>';">목록보기</button>
-					                        </ul>
-					                    </div>
-								</form>
+										<th class="text-center" 
+											style="vertical-align:middle;">작성자</th>
+										<td>
+											<input type="text" class="form-control" style="width:100px;" name="name" value="<%= dto.getName() %>"/>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">이메일</th>
+										<td>
+											<input type="text" class="form-control" style="width:400px;" name="email" value="<%= dto.getEmail() %>"/>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">패스워드</th>
+										<td>
+											<input type="password" class="form-control" style="width:200px;" name="pass"/>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">제목</th>
+										<td>
+											<input type="text" class="form-control" name="title"/>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">내용</th>
+										<td>
+											<textarea rows="6" class="form-control" name="content"></textarea>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">첨부파일</th>
+										<td>
+											<input type="file" class="form-control" name="attachedFile" />
+										</td>
+									</tr>
+								</table>
                             </div>
                         </div>
                     </div>
-
+					<!-- 버튼 -->
+                    <div class="board-btn-group01">
+                        <ul class="d-flex justify-content-end">
+                            <li><button type="submit" class="btn btn-outline-success">작성완료</button></li>                            
+                            <li><button type="button" class="btn btn-outline-primary" 
+                            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
+										                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
+										                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
+										                   	if(cate.equals("infoB")) out.write("ad_information.jsp?cate=");%><%= cate %>';">목록보기</button>
+                        </ul>
+                    </div>
+				</form>
                     
                 </div>
                 <!-- /.container-fluid -->

@@ -118,11 +118,15 @@ table th.boarddate {
   width: 15%;
 }
 
+
+
 table td {
   text-align: center;
   vertical-align: middle !important;
 }
-
+form[name=writeFrm] td{
+	text-align: left;
+}
 table td:hover {
   cursor: pointer;
 }
@@ -139,7 +143,11 @@ table td.boardphoto img {
 }
 
 .board-btn-group01 {
-  margin-right: 20px;
+    margin-right: 20px;
+    position: absolute;
+    right: 20px;
+    z-index: 999;
+    margin-top: -8px;
 }
 
 .board-btn-group01 li {
@@ -148,10 +156,8 @@ table td.boardphoto img {
 }
 
 .container-fluid .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
-  width: 110px;
+  width: 100px;
 }
-
-.container-fluid
 
 .admin-table-bottom-tool .bootstrap-select > select.selectpicker {
   width: auto !important;
@@ -159,4 +165,67 @@ table td.boardphoto img {
 
 .admin-table-bottom-tool .bootstrap-select > .dropdown-toggle.btn-light {
   width: 90px;
+}
+
+.row.mt-3{
+	position: relative;
+    top: -4px;
+}
+.row.mt-3 .pagination li{
+	width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.row.mt-3 .pagination li a{
+    color: #858796;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.row.mt-3 .pagination li.nowPage{
+	background: #4e73df;
+    border-color: #4e73df;
+    color: #fff;
+}
+
+
+.form-check-input:checked[type=checkbox] {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+}
+.form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+.form-check-input[type=checkbox] {
+    border-radius: 0.25em;
+}
+.flex-shrink-0 {
+    flex-shrink: 0!important;
+}
+
+.form-check-input {
+    width: 1em;
+    height: 1em;
+    margin-top: 0.25em !important;
+    vertical-align: top;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px solid rgba(0,0,0,.25);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    
+    position: initial;
+    margin-left: auto;
 }

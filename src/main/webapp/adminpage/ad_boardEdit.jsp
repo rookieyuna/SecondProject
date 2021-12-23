@@ -315,6 +315,10 @@ function validateForm(form) {
                     %>
                     </p>
 
+
+					<form name="writeFrm" method="post"  action="ad_boardEditProcess.jsp" onsubmit="return validateForm(this);">
+					<input type="hidden" name="num" value="<%= dto.getNum() %>"/>
+					<input type="hidden" name="cate" value="<%= cate %>"/>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -330,9 +334,7 @@ function validateForm(form) {
                         <div class="card-body">
                             <div class="table-responsive">
                             	<!-- 테이블 가공 (공지사항 작성하기) -->
-                            	<form name="writeFrm" method="post"  action="ad_boardEditProcess.jsp" onsubmit="return validateForm(this);">
-								<input type="hidden" name="num" value="<%= dto.getNum() %>"/>
-								<input type="hidden" name="cate" value="<%= cate %>"/>
+                            	
                                 <table class="table table-bordered table-hover">
 										<tr>
 											<th class="text-center" 
@@ -366,7 +368,7 @@ function validateForm(form) {
 											<th class="text-center" 
 												style="vertical-align:middle;">내용</th>
 											<td>
-												<textarea rows="10" class="form-control" name="content"><%= dto.getContent() %></textarea>
+												<textarea rows="6" class="form-control" name="content"><%= dto.getContent() %></textarea>
 											</td>
 										</tr>
 										<%
@@ -397,26 +399,22 @@ function validateForm(form) {
 										}
 										%>
 									</table>
-									<br />
-									<br />
-									
-									<!-- 버튼 -->
-				                    <div class="board-btn-group01">
-				                        <ul class="d-flex justify-content-end">
-				                            <li><button type="submit" class="btn btn-outline-success">수정완료</button></li>                            
-				                            <li><button type="button" class="btn btn-outline-primary" 
-				                            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
-														                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
-														                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
-														                   	if(cate.equals("infoB")) out.write("ad_information.jsp?cate=");%><%= cate %>';">목록보기</button>
-				                        </ul>
-				                    </div>
-									
-								</form>
                             </div>
                         </div>
                     </div>
-
+					<!-- 버튼 -->
+                    <div class="board-btn-group01">
+                        <ul class="d-flex justify-content-end">
+                            <li><button type="submit" class="btn btn-outline-success">수정완료</button></li>                            
+                            <li><button type="button" class="btn btn-outline-primary" 
+                            	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
+										                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
+										                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
+										                   	if(cate.equals("infoB")) out.write("ad_information.jsp?cate=");%><%= cate %>';">목록보기</button>
+                        </ul>
+                    </div>
+					
+				</form>
 					
                 </div>
                 <!-- /.container-fluid -->

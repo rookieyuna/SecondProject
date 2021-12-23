@@ -18,10 +18,9 @@ public class BoardPage {
 	    // 단계 4 : '이전 페이지 블록 바로가기' 출력
 	    int pageTemp = (((pageNum - 1) / blockPage) * blockPage) + 1;
 	    if (pageTemp != 1) {
-	        pagingStr += "<a href='" + reqUrl + "?pageNum=1'>[첫 페이지]</a>";
-	        pagingStr += "&nbsp;";
-	        pagingStr += "<a href='" + reqUrl + "?pageNum=" + (pageTemp - 1)
-	                     + "'>[이전 블록]</a>";
+	        pagingStr += "<li><a href='" + reqUrl + "?pageNum=1'>[첫 페이지]</a></li>";
+	        pagingStr += "<li><a href='" + reqUrl + "?pageNum=" + (pageTemp - 1)
+	                     + "'>[이전 블록]</a></li>";
 	    }
 	
 	    // 단계 5 : 각 페이지 번호 출력
@@ -29,10 +28,10 @@ public class BoardPage {
 	    while (blockCount <= blockPage && pageTemp <= totalPages) {
 	        if (pageTemp == pageNum) {
 	            // 현재 페이지는 링크를 걸지 않음
-	            pagingStr += "&nbsp;" + pageTemp + "&nbsp;";
+	            pagingStr += "<li class='nowPage'>" + pageTemp + "</li>";
 	        } else {
-	            pagingStr += "&nbsp;<a href='" + reqUrl + "?pageNum=" + pageTemp
-	                         + "'>" + pageTemp + "</a>&nbsp;";
+	            pagingStr += "<li><a href='" + reqUrl + "?pageNum=" + pageTemp
+	                         + "'>" + pageTemp + "</a></li>";
 	        }
 	        pageTemp++;
 	        blockCount++;
@@ -40,11 +39,10 @@ public class BoardPage {
 	
 	    // 단계 6 : '다음 페이지 블록 바로가기' 출력
 	    if (pageTemp <= totalPages) {
-	        pagingStr += "<a href='" + reqUrl + "?pageNum=" + pageTemp
-	                     + "'>[다음 블록]</a>";
-	        pagingStr += "&nbsp;";
-	        pagingStr += "<a href='" + reqUrl + "?pageNum=" + totalPages
-	                     + "'>[마지막 페이지]</a>";
+	        pagingStr += "<li><a href='" + reqUrl + "?pageNum=" + pageTemp
+	                     + "'>[다음 블록]</a></li>";
+	        pagingStr += "<li><a href='" + reqUrl + "?pageNum=" + totalPages
+	                     + "'>[마지막 페이지]</a></li>";
 	    }
 	
 	    return pagingStr;
@@ -59,10 +57,9 @@ public class BoardPage {
 	        // 단계 4 : '이전 페이지 블록 바로가기' 출력
 	        int pageTemp = (((pageNum - 1) / blockPage) * blockPage) + 1;
 	        if (pageTemp != 1) {
-	            pagingStr += "<a href='" + reqUrl + "&pageNum=1'>[첫 페이지]</a>";
-	            pagingStr += "&nbsp;";
-	            pagingStr += "<a href='" + reqUrl + "&pageNum=" + (pageTemp - 1)
-	                         + "'>[이전 블록]</a>";
+	            pagingStr += "<li><a href='" + reqUrl + "&pageNum=1'>[첫 페이지]</a></li>";
+	            pagingStr += "<li><a href='" + reqUrl + "&pageNum=" + (pageTemp - 1)
+	                         + "'>[이전 블록]</a></li>";
 	        }
 
 	        // 단계 5 : 각 페이지 번호 출력
@@ -70,13 +67,13 @@ public class BoardPage {
 	        while (blockCount <= blockPage && pageTemp <= totalPages) {
 	            if (pageTemp == pageNum) {
 	                // 현재 페이지는 링크를 걸지 않음
-	                pagingStr += "&nbsp;" + pageTemp + "&nbsp;";
+	                pagingStr += "<li class='nowPage'>" + pageTemp + "</li>";
 	            } else {
-	                pagingStr += "&nbsp;<a href='" + reqUrl; 
+	                pagingStr += "<li><a href='" + reqUrl; 
 	                		if(searchField != null && searchWord != null){
 	                			pagingStr += "&searchField=" + searchField + "&searchWord=" + searchWord;
 	                		}
-	                pagingStr += "&pageNum=" + pageTemp + "'>" + pageTemp + "</a>&nbsp;";
+	                pagingStr += "&pageNum=" + pageTemp + "'>" + pageTemp + "</a></li>";
 	            }
 	            pageTemp++;
 	            blockCount++;
@@ -84,11 +81,10 @@ public class BoardPage {
 
 	        // 단계 6 : '다음 페이지 블록 바로가기' 출력
 	        if (pageTemp <= totalPages) {
-	            pagingStr += "<a href='" + reqUrl + "&pageNum=" + pageTemp
-	                         + "'>[다음 블록]</a>";
-	            pagingStr += "&nbsp;";
-	            pagingStr += "<a href='" + reqUrl + "&pageNum=" + totalPages
-	                         + "'>[마지막 페이지]</a>";
+	            pagingStr += "<li><a href='" + reqUrl + "&pageNum=" + pageTemp
+	                         + "'>[다음 블록]</a></li>";
+	            pagingStr += "<li><a href='" + reqUrl + "&pageNum=" + totalPages
+	                         + "'>[마지막 페이지]</a></li>";
 	        }
 
 	        return pagingStr;

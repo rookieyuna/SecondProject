@@ -83,7 +83,7 @@ function validateForm(form){
 				</div>
 			
 				<div>
-					<form  name="fileForm" method="post" enctype="multipart/form-data" action="UploadProcess.jsp" onsubmit="return validateForm(this);">
+					<form name="fileForm" method="post" enctype="multipart/form-data" action="UploadProcess.jsp" onsubmit="return validateForm(this);">
 						<table class="table table-bordered">
 						<colgroup>
 							<col width="20%"/>

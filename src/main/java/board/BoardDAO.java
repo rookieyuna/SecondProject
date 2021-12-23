@@ -50,8 +50,7 @@ public class BoardDAO extends JDBConnect {
 			String query = "SELECT * FROM ( " + " SELECT Tb.*, ROWNUM rNum FROM ( ";
 
 			if (map.get("searchWord") != null) {
-
-				query += " select * from (";
+				query += " select * from ( ";
 			}
 
 			query += " select * from (SELECT B.*, M.name, M.email  FROM member M INNER JOIN board B ON M.id=B.id) board where category like '"
@@ -62,7 +61,8 @@ public class BoardDAO extends JDBConnect {
 			}
 
 			query += " 		ORDER BY num DESC " + "   ) Tb " + " ) " + " WHERE rNum BETWEEN ? AND ?";
-
+			
+			
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, map.get("start").toString());
 			psmt.setString(2, map.get("end").toString());
@@ -70,6 +70,7 @@ public class BoardDAO extends JDBConnect {
 
 			while (rs.next()) {
 				BoardDTO dto = new BoardDTO();
+				
 				dto.setNum(rs.getString("num"));
 				dto.setId(rs.getString("id"));
 				dto.setTitle(rs.getString("title"));
@@ -92,7 +93,6 @@ public class BoardDAO extends JDBConnect {
 			System.out.println("selectList 오류발생");
 			e.printStackTrace();
 		}
-
 		return boardBox;
 	}
 
@@ -242,6 +242,38 @@ public class BoardDAO extends JDBConnect {
 		return result;
 	}
 
+		// 게시판 - 삭제 기능
+		public int deletePost(String[] bd_no) {
+			int res = 0;
+			int[] cnt = null;
+			// 쿼리문 작성
+			String query = "DELETE FROM board WHERE num=?";
+			try {
+				psmt = con.prepareStatement(query);
+				for(int i=0; i<bd_no.length; i++) {
+					psmt.setString(1, bd_no[i]);
+					psmt.addBatch();
+				}
+				cnt = psmt.executeBatch();
+				
+				for(int i=0; i<cnt.length; i++) {
+					if(cnt[i]==-2) {
+						res++;
+					}
+				}
+				
+				if(bd_no.length==res) {
+					con.commit();
+				}else {
+					con.rollback();
+				}
+			} catch (Exception e) {
+				System.out.println("게시물 삭제 중 예외 발생");
+				e.printStackTrace();
+			}
+			return res;
+		}
+		
 	// 게시판 - 파일 첨부
 	public int insertFile(BoardDTO dto) {
 		int applyResult = 0;

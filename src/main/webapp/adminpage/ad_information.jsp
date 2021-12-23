@@ -7,8 +7,9 @@
 <%@page import="board.BoardDTO"%>
 <%@page import="board.BoardDAO"%>
 <%
-	String cate = request.getParameter("cate");		
-	String cateUrl = request.getRequestURI();
+	String cate = request.getParameter("cate");	
+	String cateUrl = request.getRequestURI() + "?cate=" + cate;
+	
 	BoardDAO dao = new BoardDAO();
 	Map<String, Object> param = new HashMap<String, Object>();
 	
@@ -72,9 +73,21 @@
      <!-- Latest compiled and minified CSS -->
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    
+    <!-- 211222 KBS ADD 체크박스 삭제를 위한 -->
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
-
+<script>
+$(function(){
+	$('#deletebtn').click(function(){
+		if($("input:checkbox[name=chk]:checked").length == 0){
+			alert("삭제할 항목을 체크해주세요");
+		}else{
+			$('#cleanlist').attr("action","/SecondProject/adminpage/ad_boardCheckingDeleteProcess.jsp").submit();			
+		}
+	})  		
+});
+</script>
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -317,13 +330,15 @@
                             <h6 class="m-0 font-weight-bold text-primary">정보자료실 정보</h6>
                         </div>
                         
-<div class="card-body">
+						<div class="card-body">
                             <div class="table-responsive">
+                            	<form method="post" id="cleanlist"><!-- 삭제처리할때 form -->                        
+                                <input type="hidden" name="cate" value="<%= cate %>" />
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
                                             <th class="boardCheckbox">
-                                                <input type="checkbox" id="checkedAll">
+                                                <input type="checkbox" id="checkedAll" class="form-check-input flex-shrink-0" style="font-size: 1.375em;">
                                             </th>
                                             <th class="numbering">번호</th>
                                             <th class="boardtitle">제목</th>
@@ -349,13 +364,13 @@
 											for(BoardDTO dto : boardLists){
 												virtualNum = totalCount - (((pageNum - 1) * pageSize) + countNum++);
 										%>
-										<tr onclick="location.href='ad_boardView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">
-											<td><input type="checkbox"></td>
-											<td><%= virtualNum %></td>
-											<td><%= dto.getTitle() %></td>
-											<td><%= dto.getName() %></td>
-											<td><%= dto.getPostdate() %></td>
-											<td><%= dto.getVisitcount() %></td>
+										<tr>
+											<td><input type="checkbox" class="form-check-input flex-shrink-0" style="font-size: 1.375em;" name="chk" value="<%= dto.getNum() %>"></td>
+											<td onclick="location.href='ad_boardView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'"><%= virtualNum %></td>
+											<td onclick="location.href='ad_boardView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'"><%= dto.getTitle() %></td>
+											<td onclick="location.href='ad_boardView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'"><%= dto.getName() %></td>
+											<td onclick="location.href='ad_boardView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'"><%= dto.getPostdate() %></td>
+											<td onclick="location.href='ad_boardView.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'"><%= dto.getVisitcount() %></td>
 										</tr>
 										<%
 											}
@@ -364,30 +379,25 @@
 									</tbody>
                                     
                                 </table>
-
+								</form>
 				
-								<div class="boardTool">
-									<div class="tool_Paging">
-										<ul>
-											<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, request.getRequestURI()) %>
-										</ul>
-									</div>
-									
-									<div class="tool_Search">
-										<form method="get">  
-											<input type="hidden" name="cate" value="<%= cate %>"/>
-											<select name="searchField">
-												<option value="title">제목</option>
-												<option value="id">작성자</option>
-											</select>
-											<div>
-												<input type="text" name="searchWord" placeholder="검색어를 입력하세요" value=""/>								
-												<button type="submit" value="">검색</button>
-											</div>
-										</form>							
-									</div>
-								</div>
-
+								<!-- 검색 -->
+			                    <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" method="get" style="justify-content: flex-end;">
+			                    	<input type="hidden" name="cate" value="<%= cate %>"/>
+			                        <select class="selectpicker admin-search" name="searchField">
+			                            <option value="title">제목</option>
+										<option value="id">작성자</option>
+			                          </select>
+			                          
+			                        <div class="input-group">
+			                            <input type="text" class="form-control bg-light border-0 small" name="searchWord" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
+			                            <div class="input-group-append">
+			                                <button class="btn btn-primary" type="submit">
+			                                    <i class="fas fa-search fa-sm"></i>
+			                                </button>
+			                            </div>
+			                        </div>
+			                    </form>
                             </div>
                         </div>
                     </div>
@@ -395,10 +405,19 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
+                            <li><button type="button" class="btn btn-outline-secondary" id="deletebtn">삭제</button></li>
                             <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_boardFileWrite.jsp?cate=<%= cate %>';">작성</button></li>
                         </ul>
                     </div>
+                    
+					<!-- 페이지 번호 -->
+					<div class="row mt-3">
+		                <div class="col">
+		                	<ul class="pagination justify-content-center">
+			                	<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, cateUrl, searchField, searchWord) %>
+		                	</ul>
+		                </div>
+	                </div>
                 </div>
                 <!-- /.container-fluid -->
 

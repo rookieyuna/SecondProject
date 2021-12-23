@@ -36,6 +36,10 @@ li {
   border-right: 1px solid #e3e6f0;
 }
 
+.custom_board .boardTable tbody tr td:nth-of-type(1){
+	width: 25px;
+}
+
 .custom_board .boardTable tbody tr:hover {
   color: #858796;
   background-color: rgba(0, 0, 0, 0.075);
