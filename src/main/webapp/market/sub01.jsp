@@ -123,11 +123,11 @@
 							</c:when>
 							<c:otherwise>
 								<!-- 출력할 게시물이 있을때 -->
-								<form name="orderFrm" id="form1" action="">
+								<form name="orderFrm" id="form1" action="" type="post">
 								<c:forEach items="${ boardLists }" var="row" varStatus="loop">
 									<tr align="center">
 										<td><!-- 원본은 체크박스인데.... 흠 필요없..어서 일단은 가상번호 -->
-										 ${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}
+										 	${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}
 										</td>
 										<td>
 											<!-- 이미지 (이미지 scr속성 바꿔야댐)--> 
@@ -135,41 +135,33 @@
 										</td>
 										<!-- 제목 -->
 									 	 <td class="t_left"><a href="../market/market_view.do?product_no=${row.product_no }">${ row.product_name }</a>
-									 	 <!-- 장바구니 추가에 필요한 파라미터 전달용 히든박스들 -->
-									 	 <input type="hidden" name="name_${row.product_no }" value="${row.product_name }" />
-									 	 <input type="hidden" name="milage_${row.product_no }" value="${row.milage }" />
-									 	 <input type="hidden" name="sfile_${row.product_no }" value="${row.product_sfile }"/>
-									 	 <input type="hidden" name="price1_${row.product_no }" id="price1_${row.product_no}" value="${ row.price }" />
-									 	 <input  type="hidden" name="product_${row.product_no }" value="${ row.product_no }" />
-									 	 <input type="hidden" id="zlag" name="zlag" value="0"/>
-									 	
+										 	 <!-- 장바구니/최종구매 추가에 필요한 파라미터 전달용 히든박스들 -->
+										 	 <input type="hidden" name="name_${row.product_no }" value="${row.product_name }" />
+										 	 <input type="hidden" name="milage_${row.product_no }" value="${row.milage }" />
+										 	 <input type="hidden" name="sfile_${row.product_no }" value="${row.product_sfile }"/>
+										 	 <input type="hidden" name="price1_${row.product_no }" id="price1_${row.product_no}" value="${ row.price }" />
+										 	 <input  type="hidden" name="product_${row.product_no }" value="${ row.product_no }" />
+										 	 <input type="hidden" id="zlag" name="zlag" value="0"/>
 									 	 </td>
 										<!-- 가격 -->						
 										 <td class="p_style" id="price_${row.product_no }">${ row.price }
-										 <!-- 제품의 총 가격 ( 파라미터 전달용 히든박스) -->
-										 <input type="hidden" name="pricetotal_${row.product_no }" id="pricetotal_${row.product_no }" value="${row.price }" /></td>
+											 <!-- 제품의 총 가격 ( 파라미터 전달용 히든박스) -->
+											 <input type="hidden" name="pricetotal_${row.product_no }" id="pricetotal_${row.product_no }" value="${row.price }" />
+										</td>
 										<!-- 수량텍스트박스 -->
-										<td><input type="text" onchange="changePrice(${row.product_no })" name="count_${row.product_no }" id="count_${row.product_no }" value="1" class="n_box" /></td>
+										<td>
+											<input type="text" onchange="changePrice(${row.product_no })" name="count_${row.product_no }" id="count_${row.product_no }" value="1" class="n_box" />
+										</td>
 										<!-- 구매버튼2개 -->
 										<td>
-										<!-- 최종 구매 버튼 -->
-										<%-- <button style="border: 0" type="button" id="tempBtn" >
-											<img src="../images/market/btn01.gif" style="margin-bottom: 5px;"/>
-											onclick="location.href='../market/basket2.do?product_no=${row.product_no }&quantity=${quantity}'"
-										</button><br /> --%>
-										<input type="image" onclick="goBuy(${row.product_no})" class="cart" src="../images/market/btn01.gif" alt="바로구매" ></input><br />
-										<%-- <a href="../market/basket2.do?product_no=${row.product_no }&quantity=${quantity}">
-											<img src="../images/market/btn01.gif" style="margin-bottom: 5px;"/><br />
-										</a> --%>
-										<%-- <input type="image" src="../images/market/btn01.gif" style="margin-bottom: 5px;" 
-											onclick="location.href='../market/basket2.do?product_no=${row.product_no }&quantity=${quantity}'"/><br /> --%>
-										<!-- 장바구니버튼 !  온클릭이벤트 ! -->
-										<input type="image" onclick="goCart(${row.product_no})" class="cart" src="../images/market/btn02.gif" alt="장바구니" ></input>
+											<!-- 최종 구매 버튼 -->
+	1										<input type="image" onclick="goBuy(${row.product_no})" class="cart" src="../images/market/btn01.gif" alt="바로구매" ></input><br />
+											<!-- 장바구니버튼 !  온클릭이벤트 ! -->
+											<input type="image" onclick="goCart(${row.product_no})" class="cart" src="../images/market/btn02.gif" alt="장바구니" ></input>
 										</td>
 									</tr>
 									<script>money(${row.product_no});</script>
 								</c:forEach>
-								<input type="hidden" name="product_no" value="${row.product_no }" /><!-- 파라미터로 전달할 품번 -->
 								</form>
 							</c:otherwise> 
 						</c:choose>
@@ -178,7 +170,6 @@
 					<table width="90%">
 						<tr align="center">
 							<td>${ map.pagingImg }</td>
-					
 						</tr>
 					</table>
 				</div>
