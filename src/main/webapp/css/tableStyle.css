@@ -121,7 +121,7 @@ li {
 .custom_board .boardTool .tool_edit>ul{
 	position: absolute;
     right: 0;
-    top: -30px;
+    top: 25px;
 }
 .custom_board .boardTool .tool_edit>ul>li>button{
 	border: 1px solid #d9d9d9;

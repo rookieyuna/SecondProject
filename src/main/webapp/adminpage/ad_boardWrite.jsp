@@ -10,13 +10,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-String cate = request.getParameter("cate");
 String num = request.getParameter("num");
-//String userid = session.getAttribute("UserId").toString();
-//String pass = request.getParameter("pass");
-// 현재는 로그인이 구현되지 않아 세션에서 id/pass워드를 얻어올 수 없다. 임시방편으로 아래 식을 사용한다.
-String userid = "test1";
-String pass = "1111";
+String cate = request.getParameter("cate");
+String userid = session.getAttribute("UserId").toString();
+String pass = request.getParameter("pass");
 
 BoardDAO dao = new BoardDAO();
 BoardDTO dto = dao.getId(userid);

@@ -239,7 +239,7 @@ public class BoardDAO extends JDBConnect {
 		return result;
 	}
 
-		// 게시판 - 삭제 기능
+		// 게시판 - 체크박스 삭제 기능
 		public int deletePost(String[] bd_no) {
 			int res = 0;
 			int[] cnt = null;
@@ -301,7 +301,7 @@ public class BoardDAO extends JDBConnect {
 	}
 
 	// 게시판 - 파일 수정하기
-		public int updateFile(BoardDTO dto) {
+		public int updateFileEdit(BoardDTO dto) {
 			int result = 0;
 			try {
 				String query = "UPDATE board SET " + " title=?, content=?, ofile=?, sfile=? " + " WHERE num=?";
@@ -313,6 +313,7 @@ public class BoardDAO extends JDBConnect {
 				psmt.setString(3, dto.getOfile());
 				psmt.setString(4, dto.getSfile());
 				psmt.setString(5, dto.getNum());
+				
 				// 쿼리 실행
 				result = psmt.executeUpdate();
 			} catch (Exception e) {

@@ -379,7 +379,7 @@ dao.close();
 											</td>
 										</tr>
 										<%
-										if(cate.equals("infoB")) {
+										if(cate.equals("infoB") || cate.equals("photoB")) {
 										%>
 										<tr>
 											<th class="text-center" 

@@ -29,7 +29,17 @@ function validateForm(form) {
 		return false;
 	}
 }
-
+$(function(){
+	var fileTarget = $('.filebox .upload-hidden'); 
+	fileTarget.on('change', function(){ 
+		if(window.FileReader){
+			var filename = $(this)[0].files[0].name;
+		} else { 
+			var filename = $(this).val().split('/').pop().split('\\').pop();
+		} 
+		$(this).siblings('.upload-name').val(filename); 
+	}); 
+});
 </script>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,8 +51,8 @@ function validateForm(form) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-	
-	</script>
+	<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>	
+
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
     <!-- Custom fonts for this template -->
@@ -315,9 +325,21 @@ function validateForm(form) {
                     %>
                     </p>
 
-
+					
+					
+					<%
+					if(cate.equals("notB") || cate.equals("freeB"))	{
+					%>
 					<form name="writeFrm" method="post"  action="ad_boardEditProcess.jsp" onsubmit="return validateForm(this);">
-					<input type="hidden" name="num" value="<%= dto.getNum() %>"/>
+					<%
+					}else{
+					%>
+					<form name="fileForm" method="post" enctype="multipart/form-data" action="ad_boardFileEditProcess.jsp" onsubmit="return validateForm(this);">
+					<%
+					}
+					%>	
+					
+					<input type="hidden" name="num" value="<%= num %>"/>
 					<input type="hidden" name="cate" value="<%= cate %>"/>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -380,11 +402,12 @@ function validateForm(form) {
 											<td>
 												<!-- <input type="file" class="form-control" /> -->
 												<div class="file_area">
-													<input type="file" id="files" class="hidden" style="display: none;"/>
+													<input type="file" id="ex_filename" class="form-control upload-hidden" name="attachedFile" required />
 													<%
 													if(dto.getOfile() != null){
 													%>
-													<label for="files"><%= dto.getOfile() %></label>
+													<input type="text" class="upload-name" value="<%= dto.getOfile() %>" disabled />
+													<label for="ex_filename">업로드</label>
 													<%
 													}else{
 													%>

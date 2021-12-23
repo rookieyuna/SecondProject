@@ -37,7 +37,7 @@ System.out.println("여기까진 들어오늕지 확인");
 		String title = mr.getParameter("title");
 		String content = mr.getParameter("content");
 		String cate = mr.getParameter("cate");
-		
+		String num = mr.getParameter("num");
 		
 		BoardDTO dto = new BoardDTO();
 		
@@ -48,18 +48,20 @@ System.out.println("여기까진 들어오늕지 확인");
 		dto.setCategory(cate);
 		dto.setOfile(fileName);
 		dto.setSfile(newFileName);
+		dto.setNum(num);
 		
 		// DAO객체 생성 및 insert 처리
 		BoardDAO dao = new BoardDAO();
 		dao.insertFile(dto);
 		//DB 여러개 동시 입력
+		
 		/*
 		int iResult = 0;
 		for(int i=1; i<=30; i++){
 			dto.setTitle(title + "-" + i);
 			iResult = dao.insertWrite(dto);
-		}*/
-		
+		}
+		*/
 		dao.close();
 		
 		
