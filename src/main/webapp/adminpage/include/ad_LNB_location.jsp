@@ -43,8 +43,8 @@
                 <div id="c" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Community Management:</h6>
-                        <a class="collapse-item" href="ad_staff.jsp">직원자료실 관리</a>
-                        <a class="collapse-item" href="ad_guardian.jsp">보호자게시판 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_staff.do?cate=stafB">직원자료실 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_staff.do?cate=guardB">보호자게시판 관리</a>
                     </div>
                 </div>
             </li>

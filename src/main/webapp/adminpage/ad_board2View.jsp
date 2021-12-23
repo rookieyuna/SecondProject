@@ -1,14 +1,27 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="board.BoardDTO"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Map"%>
 <%@page import="board.BoardDAO"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.util.Calendar"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
- 
+
+<script type="text/javascript">
+	 function deletePost(){
+		var confirmed = confirm("정말로 삭제하시겠습니까?");
+		if(confirmed){
+			var form = document.writeFrm;
+			form.method = "get"; // 전송방식을 post로 설정
+			form.action = "ad_boardDeleteProcess.jsp"; // 전송할 URL
+			form.submit(); // form값 전송
+		}
+	}
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,7 +32,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+    
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
     <!-- Custom fonts for this template -->
@@ -34,25 +50,13 @@
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-    
-     <!-- 211218 KBS ADD -->
-     <link rel="stylesheet" href="css/style.css">
-     <!-- Latest compiled and minified CSS -->
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!-- 211218 KBS ADD -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     
 </head>
-<script>
-$(function(){
-	$('#deletebtn').click(function(){
-		if($("input:checkbox[name=chk]:checked").length == 0){
-			alert("삭제할 항목을 체크해주세요");
-		}else{
-			$('#cleanlist').attr("action","/SecondProject/adminpage/ad_boardCheckingDeleteProcess.jsp").submit();			
-		}
-	})  		
-});
-</script>
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -81,7 +85,7 @@ $(function(){
             <!-- Heading -->
 
 
-            <!-- 여어어어엉어어기기기기이이이이이이가가가가가 좌측메뉴(LNB)이다라라랄라라라랄-->
+             <!-- 여어어어엉어어기기기기이이이이이이가가가가가 좌측메뉴(LNB)이다라라랄라라라랄-->
             <%@ include file = "./include/ad_LNB_location.jsp" %>
 
 
@@ -286,89 +290,109 @@ $(function(){
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">직원자료실 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - STAFF</p>
+                    
+                    <h1 class="h3 mb-2 text-gray-800">
+                    <c:choose>
+                    	<c:when test="${dto.category eq 'stafB'}">직원 자료실 관리</c:when>
+                    	<c:otherwise>보호자 게시판 관리</c:otherwise>
+                    </c:choose>
+                    </h1>
+                    <p class="mb-4">BOARD MANAGEMENT - 
+                    <c:choose>
+                    	<c:when test="${dto.category eq 'stafB'}">STAFF</c:when>
+                    	<c:otherwise>GUARDIAN</c:otherwise>
+                    </c:choose>
+                    </p>
 
+                    <form name="writeFrm" method="post" action="ad_board2ViewProcess.jsp" onsubmit="return validateForm(this);">
+                    <input type="hidden" name="num" value="${dto.num }"/>
+                    <input type="hidden" name="cate" value="${dto.cate }"/>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">직원자료실 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">
+                            <c:choose>
+		                    	<c:when test="${dto.category eq 'stafB'}">직원 자료실 정보</c:when>
+		                    	<c:otherwise>보호자게시판 정보</c:otherwise>
+		                    </c:choose>
+                            </h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            	<form method="post" id="cleanlist"><!-- 삭제처리할때 form -->                        
-                                <input type="hidden" name="cate" value="stafB" />
+                            <!-- 게시글 상세보기 -->
+                               	
+
                                 <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="boardCheckbox">
-                                                <input type="checkbox" id="checkedAll" class="form-check-input flex-shrink-0" style="font-size: 1.375em;">
-                                            </th>
-                                            <th class="numbering">번호</th>
-                                            <th class="boardtitle">제목</th>
-                                            <th class="boardwriter">작성자</th>
-                                            <th class="boarddate">작성일</th>
-                                            <th class="numbering">조회수</th>
-                                        </tr>
-                                    </thead>
-                                    <!-- 테이블 가공 (정보자료실) -->
-                                    <tbody>
-                                     <c:choose>
-										<c:when test="${empty boardLists }">
-											<tr>
-												<td colspan="6" align="center">등록된 게시물이 없습니다!</td>
-											</tr>
-										</c:when>
-										<c:otherwise> 
-										<!-- 게시물이 있을때 -->
-											<c:forEach items="${boardLists }" var="row" varStatus="loop">
-												<tr align="center">
-													<td><input type="checkbox" class="form-check-input flex-shrink-0" style="font-size: 1.375em;" name="chk" value="${row.num }"></td>
-													<td class="numbering" onclick="location.href='ad_board2View.do?cate=stafB&num=${row.num }'">
-														<!-- 가상번호 계산하기
-														=> 전체게시물수 - (((페이지번호-1) * 페이지당 게시물수)+ 해당루프의 index)
-														index는 0부터 시작한다. -->
-														${map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}
-													</td>
-													<td class="boardtitle" onclick="location.href='ad_board2View.do?cate=stafB&num=${row.num }'">${row.title }</td>
-													<td onclick="location.href='ad_board2View.do?cate=stafB&num=${row.num }'">${row.name }</td>
-													<td onclick="location.href='aad_board2View.do?cate=stafB&num=${row.num }'">${row.postdate }</td>
-													<td onclick="location.href='ad_board2View.do.jsp?cate=stafB&num=${row.num }'">${row.visitcount }</td>
-									        	</tr>
-											</c:forEach>
-										</c:otherwise>
-									</c:choose>
-                                    </tbody>
-                                </table>
-								</form>
-                                <!-- 검색 -->
-                                <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" method="get" style="justify-content: flex-end;">
-                                    <input type="hidden" name="cate" value="stafB"/>
-                                    <select class="selectpicker admin-search" name="searchField">
-                                        <option value="title">제목</option>
-                                        <option value="id">작성자</option>
-                                      </select>
-                                      
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" name="searchWord" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="submit">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">작성자</th>
+											<td colspan="3">
+												${dto.name }
+											</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">작성일</th>
+											<td>
+												${dto.postdate }
+											</td>
+										</tr>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">제목</th>
+											<td colspan="3">
+												${dto.title }
+											</td>
+											<th class="text-center" 
+												style="vertical-align:middle;">조회수</th>
+											<td>
+												${dto.visitcount }
+											</td>
+										</tr>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">내용</th>
+											<td colspan="5">
+												${dto.content }
+											</td>
+										</tr>
+										<tr>
+											<th class="text-center" 
+												style="vertical-align:middle;">첨부파일</th>
+											<td colspan="6">
+												<!-- 
+									            첨부된 파일이 있는 경우에는 파일명과 다운로드 링크를 출력한다.
+									            다운로드가 완료되면 카운트 하기 위해 idx(일련번호)를 파라미터로 받는다.
+									             -->
+								            	<c:if test="${not empty dto.ofile }">
+								            	${dto.ofile }
+									            	<a href="../space/Download.jsp?oFile=${dto.ofile }&sfile=${dto.sfile}">
+									            	[다운로드]</a>
+								            	</c:if>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								
+								<br />
+								<br />
                             </div>
                         </div>
                     </div>
-
-                    <!-- 버튼 -->
+					<!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary" id="deletebtn">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_commWrite.jsp?cate=stafB;">작성</button></li>
+                            <li><button type="button" class="btn btn-outline-secondary" onclick="deletePost();">삭제</button></li>
+                            <li><button type="button" class="btn btn-outline-success" onclick="location.href='ad_board2Edit.do?cate=${dto.category }&num=${dto.num }'">수정하기</button></li>                            
+                            <li><button type="button" class="btn btn-outline-primary" 
+                            	onclick="location.href='<c:choose>
+									                    	<c:when test="${dto.category eq 'stafB'}">ad_staff.do?cate=</c:when>
+									                    	<c:otherwise>ad_guardian.do?cate=</c:otherwise>
+		                    							</c:choose>
+		                    							${dto.category }';">목록보기</button></li>
                         </ul>
                     </div>
+                     
+					</form>
+                    
                 </div>
                 <!-- /.container-fluid -->
 
