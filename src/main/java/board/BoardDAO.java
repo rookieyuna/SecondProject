@@ -176,8 +176,8 @@ public class BoardDAO extends JDBConnect {
 	public int insertWrite(BoardDTO dto) {
 		int result = 0;
 		try {
-			String query = "INSERT INTO board ( " + " num, id, pass, title, content, visitcount, category) "
-					+ " VALUES ( " + " seq_board_num.NEXTVAL, ?, ?, ?, ?, 0, ?)";
+			String query = "INSERT INTO board ( num, id, pass, title, content, category) "
+					+ " VALUES ( seq_board_num.NEXTVAL, ?, ?, ?, ?, ?)";
 
 			psmt = con.prepareStatement(query);
 			System.out.println("아이디 : " + dto.getId());

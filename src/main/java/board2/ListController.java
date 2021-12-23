@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.BoardDAO;
+import board.BoardDTO;
 import utils.BoardPage;
 
 @WebServlet("/board2/list.do")
@@ -21,7 +23,8 @@ public class ListController extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		//커넥션풀을 이용한 DB연결
-		MVCBoardDAO dao = new MVCBoardDAO();
+		BoardDAO dao = new BoardDAO();
+		String cate = req.getParameter("cate");
 		
 		//파라미터 및 View로 전달할 데이터 저장용 Map컬렉션 생성
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -35,7 +38,7 @@ public class ListController extends HttpServlet{
 			map.put("searchWord", searchWord); //검색어 value
 		}
 		//게시물의 개수
-		int totalCount = dao.selectCount(map);
+		int totalCount = dao.selectCount(map, cate);
 		
 		
 		/***** 페이지 처리 start ******/
@@ -63,7 +66,7 @@ public class ListController extends HttpServlet{
 		/***** 페이지 처리 end ******/
 		
 		//현재 페이지에 출력할 게시물을 얻어옴
-		List<MVCBoardDTO> boardLists = dao.selectListPage(map);
+		List<BoardDTO> boardLists = dao.selectList(map, cate);
 		//커넥션풀에 자원반납
 		dao.close();
 		
@@ -82,4 +85,32 @@ public class ListController extends HttpServlet{
 		//View로 포워드를 걸어준다
 		req.getRequestDispatcher("/community/board2_list.jsp").forward(req, resp);
 	}
+	/*
+	 * <%
+	 * String cate = request.getParameter("cate"); String cateUrl =
+	 * request.getRequestURI() + "?cate=" + cate;
+	 * 
+	 * BoardDAO dao = new BoardDAO(); Map<String, Object> param = new
+	 * HashMap<String, Object>();
+	 * 
+	 * String searchField = request.getParameter("searchField"); String searchWord =
+	 * request.getParameter("searchWord");
+	 * 
+	 * if(searchWord != null){ param.put("searchField", searchField);
+	 * param.put("searchWord", searchWord); param.put("cate", cate); }
+	 * 
+	 * int totalCount = dao.selectCount(param, cate); int pageSize = 10; int
+	 * blockPage = 5; int totalPage = (int)Math.ceil((double)totalCount / pageSize);
+	 * int pageNum = 1;
+	 * 
+	 * String pageTemp = request.getParameter("pageNum");
+	 * 
+	 * if(pageTemp != null && !pageTemp.equals("")) pageNum =
+	 * Integer.parseInt(pageTemp);
+	 * 
+	 * int start = (pageNum - 1) * pageSize + 1; int end = pageNum * pageSize;
+	 * param.put("start", start); param.put("end", end);
+	 * 
+	 * List<BoardDTO> boardLists = dao.selectList(param, cate); dao.close(); %>
+	 */
 }
