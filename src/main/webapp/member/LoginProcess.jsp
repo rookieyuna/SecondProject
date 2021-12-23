@@ -42,8 +42,7 @@ if(memberDTO.getId() != null){
 	}
 	
 	//메인 페이지로 이동
-	JSFunction.alertLocation("로그인되었습니다!", "../main/main.jsp", out);
-	//response.sendRedirect("../main/main.jsp");
+	response.sendRedirect("../main/main.jsp");
 }
 else {
 	//인증에 실패한 경우
