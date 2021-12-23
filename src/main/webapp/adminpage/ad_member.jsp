@@ -37,6 +37,7 @@
 	List<MemberDTO> memberLists = dao.selectList(param);
 	dao.close();
 %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,6 +68,7 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     
 </head>
 
@@ -318,7 +320,7 @@
                                         <th class="boardCheckbox">
                                             <input type="checkbox" id="checkedAll" class="form-check-input flex-shrink-0" style="font-size: 1.375em;">
                                         </th>
-                                        <th width="">아이디</th>
+                                        <th>아이디</th>
                                         <th>이름</th>
                                         <th>이메일</th>
                                         <!-- <th>우편번호</th>
@@ -359,8 +361,7 @@
 										<td><%= dto.getPhone2() %></td>
 										<td><%= dto.getIdentity() %></td>
 										<td><%= dto.getRegidate() %></td>
-										<td><button class="btn" type="button" onclick="location.href='ad_member_mod.jsp?user_id=<%= dto.getId() %>'">#</button></td>
-										<!-- <i class="bi bi-pencil-square"></i> -->
+										<td><button class="btn" type="button" onclick="location.href='ad_member_mod.jsp?user_id=<%= dto.getId() %>'"><i class="bi bi-pencil-square"></i></button></td>
 									</tr>
 									<%
 										}
@@ -370,22 +371,22 @@
                             </table>
 
                             <!-- 검색 -->
-                            <form class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
-                                <select class="selectpicker admin-search">
-                                    <option>아이디</option>
-                                    <option>이름</option>
-                                    <option>이메일</option>
+                            <form method="get" class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;" >
+                                <select class="selectpicker admin-search" name="searchField" >
+                                    <option value="id">아이디</option>
+                                    <option value="name">이름</option>
+                                    <option value="email">이메일</option>
                                   </select>
                                   
                                 <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
+                                    <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요" 
+                                    	aria-label="Search" aria-describedby="basic-addon2" name="searchWord">
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
+                                        <button class="btn btn-primary" type="submit">
                                             <i class="fas fa-search fa-sm"></i>
                                         </button>
                                     </div>
                                 </div>
-                                
                             </form>
                         </div>
                     </div>

@@ -235,7 +235,7 @@ public class MemberDAO extends JDBConnect {
 						+ " LIKE '%" + map.get("searchWord") + "%' ";
 				}
 			
-				query += " 		ORDER BY identity desc) "
+				query += " 		ORDER BY id asc) "
 						+ " WHERE rNum BETWEEN ? AND ?";
 				
 			psmt = con.prepareStatement(query);

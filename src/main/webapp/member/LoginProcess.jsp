@@ -26,7 +26,7 @@ if(memberDTO.getId() != null){
 	session.setAttribute("UserPwd", memberDTO.getPass());
 	session.setAttribute("UserName", memberDTO.getName());
 	session.setAttribute("UserEmail", memberDTO.getEmail());
-	session.setAttribute("UserIdentify", memberDTO.getIdentity());
+	session.setAttribute("UserIdentity", memberDTO.getIdentity());
 	
 	//로그인 정보 저장을 위한 쿠키 생성
 	if(save_check != null && save_check.equals("Y")){

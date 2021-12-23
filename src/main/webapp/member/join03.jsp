@@ -198,16 +198,13 @@ String[] emailArr = dto.getEmail().split("@");
 					<tr>
 						<th><img src="../images/join_tit07.gif" /></th>
 						<td>
-<<<<<<< HEAD
+							<%--번호선택 셀렉트형태 
 							<select name="mobile1" value="<%=phone2Arr[0] %> class="userSelect w50" onchange="document.myform.mobile2.focus();">
 		                        <option value=""></option>
 		                        <option value="010">010</option><option value="011">011</option><option value="017">017</option>
 		                        <option value="018">018</option><option value="019">019</option>
-		                    </select> -
-							<!-- <input type="text" name="mobile1" value="" maxlength="3" class="join_input" style="width:50px;" />&nbsp;-&nbsp; -->
-=======
+		                    </select> - --%>
 							<input type="text" name="mobile1" value="<%=phone2Arr[0] %>" maxlength="4" class="join_input" style="width:40px;" onkeyup="fnFocusMove('mobile1','mobile2',3)"/>&nbsp;-&nbsp;
->>>>>>> branch 'main' of https://github.com/rookieyuna/SecondProject.git
 							<input type="text" name="mobile2" value="<%=phone2Arr[1] %>" maxlength="4" class="join_input" style="width:50px;" onkeyup="fnFocusMove('mobile2','mobile3',4)"/>&nbsp;-&nbsp;
 							<input type="text" name="mobile3" value="<%=phone2Arr[2] %>" maxlength="4" class="join_input" style="width:50px;" /></td>
 					</tr>

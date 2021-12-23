@@ -6,7 +6,7 @@ session.removeAttribute("UserId");
 session.removeAttribute("UserPwd");
 session.removeAttribute("UserName");
 session.removeAttribute("UserEmail");
-session.removeAttribute("UserIdentify");
+session.removeAttribute("UserIdentity");
 
 response.sendRedirect("../main/main.jsp");
 %>
