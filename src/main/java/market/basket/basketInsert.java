@@ -1,6 +1,7 @@
 package market.basket;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -28,6 +29,17 @@ public class basketInsert extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		
+		HttpSession session = req.getSession();
+		
+		if(session.getAttribute("UserId") ==null){
+			resp.setContentType("text/html; charset=UTF-8");
+			PrintWriter writer = resp.getWriter(); 
+			writer.println("<script>alert('로그인후이용해주세요'); location.href='../member/login.jsp';</script>");
+			writer.close();
+		
+			return;
+		}
 		int flag = 0;
 		
 		String count_num = req.getParameter("count_num");
@@ -62,7 +74,7 @@ public class basketInsert extends HttpServlet{
 		dto.setPrice(price); 
 		dto.setMilage(Milage);
 		
-		HttpSession session = req.getSession();
+		
 		String id = (String)session.getAttribute("UserId");
 		dto.setId(id);
 		CartDAO dao = new CartDAO();

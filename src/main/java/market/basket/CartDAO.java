@@ -38,21 +38,24 @@ public class CartDAO extends DBConnPool{
 		}
 		catch (Exception e) {
 			System.out.println("게시물 입력 중 예외 발생");
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}
 		return result;
 	}
 	//카트테이블 전체 리스트 불러오기
-	public List<CartDTO> selectList() {
+	public List<CartDTO> selectList(CartDTO dto1) {
+		int result = 0; 
 		List<CartDTO> board = new Vector<CartDTO>();
 
 		String query = "SELECT count_num, total_price, product_no, "
-				+ "id, product_name, price, milage, product_sfile FROM cart"; 	       
+				+ " product_name, price, milage, product_sfile FROM cart"
+				+ " WHERE id=?"; 	       
 
 
 		try {
-			stmt = con.createStatement();    
-			rs = stmt.executeQuery(query);  
+			psmt = con.prepareStatement(query);   
+			psmt.setString(1, dto1.getId());
+			rs = psmt.executeQuery();
 
 			while (rs.next()) {
 				CartDTO dto = new CartDTO();
@@ -60,11 +63,11 @@ public class CartDAO extends DBConnPool{
 				dto.setCount_num(rs.getInt(1));
 				dto.setTotal_price(rs.getInt(2)); 
 				dto.setProduct_no(rs.getString(3));
-				dto.setId(rs.getString(4));
-				dto.setProduct_name(rs.getString(5));
-				dto.setPrice(rs.getString(6));
-				dto.setMilage(rs.getString(7));
-				dto.setProduct_sfile(rs.getString(8));
+				/* dto.setId(rs.getString(4)); */
+				dto.setProduct_name(rs.getString(4));
+				dto.setPrice(rs.getString(5));
+				dto.setMilage(rs.getString(6));
+				dto.setProduct_sfile(rs.getString(7));
 
 				board.add(dto);
 			}
@@ -73,6 +76,7 @@ public class CartDAO extends DBConnPool{
 			System.out.println("게시물 조회 중 예외 발생");
 			e.printStackTrace();
 		}
+		
 		return board;
 	}
 	
@@ -126,7 +130,7 @@ public class CartDAO extends DBConnPool{
 
 	public int updateCart(CartDTO dto) {
 		int result = 0;
-		System.out.println("updateCArt실행");
+		
 		try {
 			String query = "UPDATE cart SET"
 					+ " count_num=?, total_price=?"
