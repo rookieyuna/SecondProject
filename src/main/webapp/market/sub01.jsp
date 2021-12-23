@@ -1,3 +1,4 @@
+<%@page import="utils.JSFunction"%>
 <%@page import="market.MKProductDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -20,29 +21,7 @@
 <meta charset="UTF-8">
 <title></title>
 </head>
-<script>
-	$(function(){
-		//바로 구매 버튼 클릭시
-		/*$('#tempBtn').click(function(){
-			$('#form1').attr("action","../market/basket2.do").submit();			
-		}) */
-	});
-	
-	$(function(){
-	/* 	$('.n_box').change(function(){
-			alert("asdf");
-			
-		}); */
-			
-		//// 온클릭이벤트 안댐 ... 장바구니로 이동
-		/* $('#cartbtn').click(function(){
-			alert("asdf");
-			$('#market_view').attr("action","../market/basketIns.do").submit();			
-		}); */
-		
-		
-	});
-
+<script>	
 	function money(idx){		
 		
 		var price = document.getElementById("price_"+idx).innerHTML;
@@ -63,17 +42,16 @@
 		document.getElementById("pricetotal_"+idx).innerHTML = result;
 					
 	}
-	
+
 	//장바구니 버튼 누르면 zlag라는 히든박스에 idx값이 전달댐! idx = product_no
 	function goCart(idx){
 		
 		document.getElementById("zlag").value = idx;
-		console.log(document.getElementById("zlag").value);
 		document.getElementById("form1").action="../market/basketIns01.do";
 	}
 	
 	//바로 구매 버튼 누르면(위와 동일)  orderIns.do <- 로 가도록 링크 수정하고 서블릿 만들어서 작업해야함
-	function goBuy(idx){
+	function goBuy(idx){ 
 		document.getElementById("zlag").value = idx;
 		document.getElementById("form1").action="../market/basket2.do";
 	}

@@ -43,7 +43,12 @@
 	$(function(){
 		$('#deletebtn').click(function(){
 			$('#orderlist').attr("action","../adminpage/ad_sOrderDelete.do").submit();			
-		})  		
+		})  	
+		
+		//어차피 수정은 한번에 한개씩밖에 안되기때문에 버튼 없앰
+		/* $('#editbtn').click(function(){
+			$('#orderlist').attr("action","../adminpage/ad_sOrderEdit.do").submit();			
+		}) */  		
 	});
 </script>
 
@@ -289,7 +294,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            <form action="" id="orderlist"><!-- 삭제처리할때 form -->
+                            <form action="" id="orderlist"><!-- 삭제/수정 처리할때 form -->
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
@@ -297,41 +302,43 @@
                                                 <input type="checkbox" id="checkedAll" class="form-check-input flex-shrink-0" style="font-size: 1.375em;">
                                             </th>
                                             <th class="numbering">번호</th>
-                                            <th class="boardwriter">상품번호</th>
-                                            <th class="boardwriter">상품 이미지</th>
-                                            <th class="boardtitle">상품명</th>
-                                            <th class="boardwriter">가격</th>
-                                            <th class="boardwriter">적립금</th>
+                                            <th class="numbering">주문번호</th>
+                                            <th class="boardwriter">주문자ID</th>
+                                            <th class="boardwriter">주문상태</th>
+                                            <th class="numbering">상품갯수</th>
+                                            <th class="boardwriter">결제금액</th>
+                                            <th class="boardwriter">결제수단</th>
+                                            <th class="boardwriter">주소</th>
                                         </tr>
                                     </thead>
                                     <!-- 테이블 가공 (공지사항 상세보기) -->
-                               
+                               		
                                     <tbody>
                                      <c:choose>
-										<c:when test="${empty productLists }">
+										<c:when test="${empty orderLists }">
 											<tr>
-												<td colspan="7" align="center">등록된 게시물이 없습니다!</td>
+												<td colspan="9" align="center">등록된 게시물이 없습니다!</td>
 											</tr>
 										</c:when>
 										<c:otherwise> 
+							            	<input type="hidden" name="type" value="mainpage"/>
 											<!-- 게시물이 있을때 -->
-											<c:forEach items="${productLists }" var="row" varStatus="loop">
+											<c:forEach items="${orderLists }" var="row" varStatus="loop">
 												<tr align="center">
-													<td><input type="checkbox" class="form-check-input flex-shrink-0" style="font-size: 1.375em;" name="chk" value="${row.product_no }"></td>
+													<td><input type="checkbox" class="form-check-input flex-shrink-0" style="font-size: 1.375em;" name="chk" value="${row.order_no }"></td>
 													<td class="numbering">
 														<!-- 가상번호 계산하기
 														=> 전체게시물수 - (((페이지번호-1) * 페이지당 게시물수)+ 해당루프의 index)
 														index는 0부터 시작한다. -->
 														${map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
-									            	<td class="numbering">${row.product_no }</td><!-- 상품 번호 -->
-									            	<td class="boardwriter"><!-- 상품 이미지 -->
-									            		<img src="../adminpage/Uploads/${row.product_sfile }" width="100px" height="80px"/>
-									            	</td>
-									            	<td class="boardtitle" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">
-									            		${row.product_name }<!-- 상품명 -->
-									            	</td>
-									            	<td>${row.price }</td><!-- 가격 -->
-									            	<td>${row.milage }</td><!-- 적립금 -->
+									            	<td class="boardtitle" class="numbering" onclick="location.href='../adminpage/ad_sOrderView.do?order_no=${row.order_no}'">
+									            		${row.order_no }</td><!-- 주문번호 -->
+									            	<td>${row.id }</td><!-- 주문자ID -->
+									            	<td>${row.order_state }</td><!-- 주문상태 -->
+									            	<td>${row.total_count }</td><!-- 상품갯수 -->
+									            	<td>${row.total_price }</td><!-- 결제금액 -->
+									            	<td>${row.credit }</td><!-- 결제수단 -->
+									            	<td>${row.addr }</td><!-- 주소 -->
 									        	</tr>
 											</c:forEach>
 										</c:otherwise>
@@ -343,8 +350,8 @@
                                 <!-- 검색 -->
                                 <form method="get" class="form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 admin-table-bottom-tool" style="justify-content: flex-end;">
                                     <select class="selectpicker admin-search" name="searchField">
-                                        <option value="product_name">상품명</option>
-                                        <option value="price">가격</option>
+                                        <option value="order_no">주문번호</option>
+                                        <option value="id">고객ID</option>
                                       </select>
                                       
                                     <div class="input-group">
@@ -363,8 +370,8 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_suaWrite.jsp';">등록</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_suaEdit.jsp';">수정</button></li>
+                            <!-- <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_sOrderWrite.jsp';">등록</button></li> -->
+                            <!-- <li><button type="button" class="btn btn-outline-primary" id="editbtn" >수정</button></li> -->
                             <li><button type="button" class="btn btn-outline-secondary" id="deletebtn" >삭제</button></li>
                         </ul>
                     </div>

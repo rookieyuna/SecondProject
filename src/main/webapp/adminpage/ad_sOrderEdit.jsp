@@ -1,32 +1,74 @@
-<%@page import="utils.BoardPage"%>
-<%@page import="membership.MemberDTO"%>
+<%@page import="board.BoardDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="membership.MemberDAO"%>
+<%@page import="board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%
-String uid = request.getParameter("user_id");
-
-//데이터베이스 연결
-MemberDAO dao = new MemberDAO();
-//받아온 이름을 매개변수로 getMemberDTO()호출. 아이디찾기
-MemberDTO dto = dao.memberInfo(uid);
-//자원반납
-dao.close();
-%>
+<script>
+function validateForm(form) {
+	//console.log("값"+form.order_no.value);
+	if(form.order_no.value==""){
+		alert("주문 번호를 입력하세요.");
+		form.order_no.focus();
+		return false;
+	}
+	if(!form.product_no.value){
+		alert("상품 번호를 입력하세요.");
+		form.product_no.focus();
+		return false;
+	}
+	if(!form.cart_no.value){
+		alert("장바구니 번호를 입력하세요.");
+		form.cart_no.focus();
+		return false;
+	}
+	if(!form.id.value){
+		alert("주문자 ID를 입력하세요.");
+		form.id.focus();
+		return false;
+	}
+	if(!form.addr.value){
+		alert("배송 주소를 입력하세요.");
+		form.addr.focus();
+		return false;
+	}
+	if(!form.credit.value) {
+		alert("결제 수단을 입력하세요.");
+		form.credit.focus();
+		return false;
+	}
+	if(!form.order_state.value) {
+		alert("주문 상태를 입력하세요.");
+		form.order_state.focus();
+		return false;
+	}
+	if(!form.total_price.value) {
+		alert("총 주문 금액을 입력하세요.");
+		form.total_price.focus();
+		return false;
+	}
+	if(!form.total_count.value) {
+		alert("총 주문 수량을 입력하세요.");
+		form.total_count.focus();
+		return false;
+	}
+}
+</script>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+	
+	</script>
     <title>마포구립 장애인직업재활센터 관리자 페이지에 오신 것을 환영합니다.</title>
 
     <!-- Custom fonts for this template -->
@@ -41,28 +83,11 @@ dao.close();
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-	
     <!-- 211218 KBS ADD -->
     <link rel="stylesheet" href="css/style.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    
-    <!-- 제이쿼리 CDN -->
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-    $(function(){
-		$('#deletebtn').click(function(){
-			var answer = window.confirm("회원을 삭제하시겠습니까?");
-            if(answer==true){
-                $('#memberInfo').attr("action","../adminpage/ad_memberDeleteProcess.jsp").submit();	
-            }
-            else if(answer==false){
-            	alert("삭제를 취소하였습니다.");
-            }	
-		});		
-	});
-    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 
 <body id="page-top">
@@ -93,9 +118,9 @@ dao.close();
             <!-- Heading -->
 
 
-        	<!-- 여어어어엉어어기기기기이이이이이이가가가가가 좌측메뉴(LNB)이다라라랄라라라랄-->
+            <!-- 여어어어엉어어기기기기이이이이이이가가가가가 좌측메뉴(LNB)이다라라랄라라라랄-->
             <%@ include file = "./include/ad_LNB_location.jsp" %>
-
+            
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -298,59 +323,100 @@ dao.close();
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">사용자 관리</h1>
-                    <p class="mb-4">User Management</p>
+                    <h1 class="h3 mb-2 text-gray-800">주문 내역 관리</h1>
+                    <p class="mb-4">BOARD MANAGEMENT - EDIT ORDER</p>
 
                     <!-- DataTales Example -->
-                    <form name="myform" action="ad_member_modProcess.jsp" method="get" id="memberInfo">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">회원 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">주문 내역 수정</h6>
                         </div>
-                        
                         <div class="card-body">
-                            <table class="table table-bordered table-hover">
-                            <input type="hidden" name="user_id" value="<%= dto.getId() %>" />
-                                <thead>
-                                    <tr>
-                                        <th width="15%">아이디</th>
-                                        <td width="30%"><%= dto.getId() %></td>
-                                        <th width="15%">이름</th>
-                                        <td width="40%"><%= dto.getName() %></td>
-                                    </tr>    
-                                    <tr>
-                                        <th>이메일</th>
-                                        <td><%= dto.getEmail() %></td>
-                                        <th>주소</th>
-                                        <td><%= dto.getPostcode() %> <%= dto.getAddr1() %> <%= dto.getAddr2() %></td>
-                                    </tr>
-                                   	<tr>
-                                        <th>전화번호</th>
-                                        <td><%= dto.getPhone1() %></td>
-                                        <th>핸드폰번호</th>
-                                        <td><%= dto.getPhone2() %></td>
-                                    </tr>  
-                                    <tr>
-                                        <th>회원등급</th>
-                                        <td><input type="text" name="identity" value="<%= dto.getIdentity() %>" /></td>
-                                        <th>회원등록일</th>
-                                        <td><%= dto.getRegidate() %></td>
-                                    </tr>  
-                                </thead>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <colgroup>
+
+                                    </colgroup>
+                                    
+                            	<form name="editFrm" method="post"
+									action="../adminpage/ad_sOrderEdit.do" onsubmit="return validateForm(this);">
+                                    <!-- 테이블 가공 (공지사항 작성하기) -->
+									
+									<table border="1" width="90%">
+										<tr>
+											<td>주문번호</td>
+											<td>
+												<input type="text" name="order_no" style="width: 70%;" value="${dto.order_no }"/>
+											</td>
+										</tr>
+										<tr>
+											<td>상품번호</td>
+											<td>
+												<input type="text" name="product_no" style="width: 70%;" value="${dto.product_no }"/>
+											</td>
+										</tr>
+										<tr>
+											<td>장바구니번호</td>
+											<td>
+												<input type="text" name="cart_no" style="width: 70%;" value="${dto.cart_no }"/>
+											</td>
+										</tr>
+										<tr>
+											<td>주문자ID</td>
+											<td>
+												<input type="text" name="id" style="width: 70%;" value="${dto.id }"/>
+											</td>
+										</tr>
+										<tr>
+											<td>주소</td>
+											<td>
+												<input type="text" name="addr" style="width: 70%;" value="${dto.addr }"/>
+											</td>
+										</tr>
+										<tr>
+											<td>결제수단</td>
+											<td>
+												<input type="text" name="credit" style="width: 70%;" value="${dto.credit }"/>
+											</td>
+										</tr>
+										<tr>
+											<td>주문상태</td>
+											<td>
+												<input type="text" name="order_state" style="width: 70%;" value="${dto.order_state }"/>
+											</td>
+										</tr>
+										<tr>
+											<td>상품갯수</td>
+											<td>
+												<input type="text" name="total_count" style="width: 70%;" value="${dto.total_count }"/>
+											</td>
+										</tr>
+										<tr>
+											<td>결제금액</td>
+											<td>
+												<input type="text" name="total_price" style="width: 70%;" value="${dto.total_price }"/>
+											</td>
+										</tr>
+									</table>
+									<br />
+									<br />
+									 <!-- 각종버튼 -->
+								    <div class="row mb-3">
+								        <div class="col d-flex justify-content-end">
+								            <button type="button" class="btn btn-warning" onclick="location.href='../adminpage/ad_sOrder.do';">목록보기</button>
+								            <button type="submit" class="btn btn-danger">수정하기</button>
+								            <button type="reset" class="btn btn-dark">다시쓰기</button>
+								        </div>
+								    </div>
+								</form>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- 버튼 -->
-                    <div class="board-btn-group01">
-                        <ul class="d-flex justify-content-end">
-                        	<li><button type="submit" class="btn btn-outline-success">등급저장</button></li>
-                            <li><button type="button" class="btn btn-outline-danger" id="deletebtn">회원삭제</button></li>
-                        </ul>
-                    </div>
-                    </form>
+                    
                 </div>
                 <!-- /.container-fluid -->
+
             </div>
             <!-- End of Main Content -->
 
@@ -411,8 +477,6 @@ dao.close();
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-
-
 
     <!-- BOK table first checkbox - All checked -->
     <script src="js/motion.js"></script>

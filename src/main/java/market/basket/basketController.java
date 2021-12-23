@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import market.MKProductDTO;
 //미완성
@@ -17,10 +18,15 @@ public class basketController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		HttpSession session = req.getSession();
+		
+		CartDTO dto = new CartDTO();
+		String id = (String)session.getAttribute("UserId");
+		dto.setId(id);
 		CartDAO dao = new CartDAO();
 		
 
-		List<CartDTO> carts = dao.selectList();
+		List<CartDTO> carts = dao.selectList(dto);
 		dao.close();
 		
 		

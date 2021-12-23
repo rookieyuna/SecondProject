@@ -17,7 +17,6 @@
 2. 돋보기 어뜨케 처리해
 3. 주문정보 뭐쓰라는거지
 4. 바로구매버튼, 장바구니버튼 나중에 구현되면 연결
-5. 수량이 입력되면 가격이랑, 적립금 계속 수정되게 함수로
  -->
 <script>
 
@@ -32,7 +31,21 @@
     	}); 
     	
 		$('#cartbtn').click(function(){
+			if(sessionStorage.getItem("UserId")== null)
+			{
+				alert("로그인후 이용해주세요");
+				return;
+			} 
 			$('#market_view').attr("action","../market/basketIns.do").submit();			
+		})
+		
+		$('#orderbtn').click(function(){
+			if(sessionStorage.getItem("UserId")== null)
+			{
+				alert("로그인후 이용해주세요");
+				return;
+			} 
+			$('#market_view').attr("action","../market/basket2.do").submit();			
 		})  
 		
 		$('#count').change(function(){
@@ -123,10 +136,11 @@
 								<div style="clear:both;"></div>
 							</li>
 						</ul>
-						
-						<p class="btn_box"><a href=""><img src="../images/market/m_btn01.gif" alt="바로구매" /></a>&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="image"  src="../images/market/m_btn01.gif" alt="바로구매" id="orderbtn" ></input>
+						<!-- <p class="btn_box"><a href=""><img src="../images/market/m_btn01.gif" alt="바로구매" /></a> -->&nbsp;&nbsp;
 						<!-- <img id="cartbtn" src="../images/market/m_btn02.gif" alt="장바구니" /> -->
-						<input type="image"  src="../images/market/m_btn02.gif" alt="장바구니" id="cartbtn" ></input> </p>
+						<input type="image"  src="../images/market/m_btn02.gif" alt="장바구니" id="cartbtn" ></input>
 					</div> 
 					</form>
 				</div>

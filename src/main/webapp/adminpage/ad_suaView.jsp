@@ -345,7 +345,7 @@
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
                             <li><button type="button" class="btn btn-outline-primary" onclick="location.href='../adminpage/ad_suaEdit.do?product_no=${dto.product_no}';">수정</button></li>
-                            <li><button type="button" class="btn btn-outline-secondary" onclick="location.href='../adminpage/ad_suaDelete.do';">삭제</button></li>
+                            <li><button type="button" class="btn btn-outline-secondary" onclick="location.href='../adminpage/ad_suaDelete.do?product_no=${dto.product_no}';">삭제</button></li>
                             <li><button type="button" class="btn btn-warning" onclick="location.href='../adminpage/ad_suaRegist.do';">목록보기</button></li>
                         </ul>
                     </div>

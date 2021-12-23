@@ -1,17 +1,8 @@
-<%@page import="membership.MemberDTO"%>
-<%@page import="java.net.URLEncoder"%>
-<%@page import="javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar"%>
-<%@page import="utils.BoardPage"%>
-<%@page import="javax.swing.text.View"%>
-<%@page import="java.util.List"%>
-<%@page import="board.BoardDTO"%>
-<%@page import="board.BoardDAO"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Map"%>
-<%@page import="membership.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
+<!-- JSTL을 사용하기 위한 tablib 지시어 선언 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	
 	String cate = request.getParameter("cate");	
@@ -39,18 +30,10 @@
 	
 	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
 	
-	if(!cate.equals("photoB")){
-		int start = (pageNum - 1) * pageSize + 1;
-		int end = pageNum * pageSize;
-		param.put("start", start);
-		param.put("end", end);	
-	}else{
-		pageSize = 9;
-		int start = (pageNum - 1) * pageSize + 1;
-		int end = pageNum * pageSize;
-		param.put("start", start);
-		param.put("end", end);
-	}
+	int start = (pageNum - 1) * pageSize + 1;
+	int end = pageNum * pageSize;
+	param.put("start", start);
+	param.put("end", end);
 	
 	List<BoardDTO> boardLists = dao.selectList(param, cate);
 	dao.close();
@@ -66,34 +49,23 @@
 		<div class="contents_box">
 			<div class="left_contents">
 				
-				<%@ include file = "../include/space_leftmenu.jsp" %>
+				<%@ include file = "../include/community_leftmenu.jsp" %>
 			</div>
 			<div class="right_contents">
 				<div class="top_title">
 					<%
-						if(cate.equals("notB")){
+						if(cate.equals("stafB")){
 					%>
-						<img src="../images/space/sub01_title.gif" alt="공지사항" class="con_title" />
-						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;공지사항<p>
+						<img src="../images/community/sub01_title.gif" alt="직원자료실" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;커뮤니티&nbsp;>&nbsp;직원자료실<p>
 					<%		
-						}else if(cate.equals("freeB")){
+						}else if(cate.equals("guardB")){
 					%>
-						<img src="../images/space/sub03_title.gif" alt="자유게시판" class="con_title" />
-						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;자유게시판<p>
-					<%		
-						}else if(cate.equals("photoB")){
-					%>
-						<img src="../images/space/sub04_title.gif" alt="사진게시판" class="con_title" />
-						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;사진게시판<p>
-					<%
-						}else if(cate.equals("infoB")){
-					%>
-						<img src="../images/space/sub05_title.gif" alt="정보자료실" class="con_title" />
-						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;정보자료실<p>
+						<img src="../images/community/sub02_title.gif" alt="보호자 게시판" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;커뮤니티&nbsp;>&nbsp;보호자 게시판<p>
 					<%
 						}
 					%>
-					
 				</div>
 				
 				
@@ -110,15 +82,50 @@
 									<th>작성자</th>
 									<th>작성일</th>
 									<th>조회수</th>
-									<%
-									if(cate.equals("infoB")) {
-									%>
 									<th>첨부파일</th>
-									<%
-									}
-									%>
 								</tr>
 							</thead>
+							<tbody>
+						 <c:choose>
+							<c:when test="${empty boardLists }"><!-- 게시물이 없을 때 -->
+								<tr>
+									<td colspan="6" align="center">
+										등록된 게시물이 없습니다^^*
+									</td>
+								</tr>
+							</c:when>
+							<c:otherwise>	<!-- 출력할 게시물이 있을 때 -->
+								<c:forEach items="${boardLists }" var="row" varStatus="loop">
+								<tr align="center">
+									<td>
+										<!-- 
+										가상번호 계산하기
+										=> 게시물 수 - (((페이지번호-1) * 페이지당 게시물수)+ 해당루프index)
+											index는 0부터 시작한다
+										 -->				
+										${map.totalCount - (((map.pageNum-1) * map.pageSize)+loop.index) }
+									</td>
+									<td align="left"><!-- 제목 -->
+										<a href="../mvcboard/view.do?idx=${row.idx }">${row.title }</a>
+									</td>
+									<td>${row.name }</td><!-- 작성자 -->
+									<td>${row.visitcount }</td><!-- 조회수 -->
+									<td>${row.postdate }</td><!-- 작성일 -->
+									<td><!-- 첨부파일 -->
+									<c:if test="${not empty row.ofile }">
+										<a href="../mvcboard/download.do?ofile=${row.ofile }&sfile=${row.sfile }&idx=${row.idx }">[Down]</a>
+									</c:if>
+									</td>
+								</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+							
+							
+							</tbody>
+							
+							
+							
 							
 							<tbody>
 								<%
@@ -202,7 +209,7 @@
 									
 									<%
 					                	if(totalCount % 4 != 0){
-					                		for(int i=0; i<3-(totalCount % 3); i++){
+					                		for(int i=1; i<totalCount-(totalCount % 4); i++){
 					                		%>
 					                		<li class="photoB_list empty"></li>	
 					                		<%
@@ -224,9 +231,9 @@
 						%>
 						<div class="boardTool">
 							<div class="tool_Paging">
-								<ul>
-									<%= BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, cateUrl, searchField, searchWord) %>
-								</ul>
+								<td>
+									${map.pagingImg}
+								</td>
 							</div>
 							
 							<div class="tool_edit">

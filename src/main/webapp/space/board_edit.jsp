@@ -41,8 +41,20 @@ function validateForm(form){
 		form.content.focus();
 		return false;
 	}
-	
 }
+
+$(function(){
+	var fileTarget = $('.filebox .upload-hidden'); 
+	fileTarget.on('change', function(){ 
+		if(window.FileReader){
+			var filename = $(this)[0].files[0].name;
+		} else { 
+			var filename = $(this).val().split('/').pop().split('\\').pop();
+		} 
+		$(this).siblings('.upload-name').val(filename); 
+	}); 
+});
+
 </script>
 
  <body>
@@ -85,7 +97,17 @@ function validateForm(form){
 				</div>
 				
 				<div>
+					<%
+					if(cate.equals("notB") || cate.equals("freeB"))	{
+					%>
 					<form action="EditProcess.jsp" name="writeFrm" method="post" onsubmit="return validateForm(this);">
+					<%
+					}else{
+					%>
+					<form name="fileForm" method="post" enctype="multipart/form-data" action="FileEditProcess.jsp" onsubmit="return validateForm(this);">
+					<%
+					}
+					%>				
 					<input type="hidden" name="num" value="<%= dto.getNum() %>">
 					<table class="table table-bordered">
 					<colgroup>
@@ -136,12 +158,13 @@ function validateForm(form){
 								style="vertical-align:middle;">첨부파일</th>
 							<td>
 								<!-- <input type="file" class="form-control" /> -->
-								<div class="file_area">
-									<input type="file" id="files" class="hidden" style="display: none;"/>
+								<div class="filebox">
+									<input type="file" id="ex_filename" class="form-control upload-hidden" name="attachedFile" required />
 									<%
 									if(dto.getOfile() != null){
 									%>
-									<label for="files"><%= dto.getOfile() %></label>
+									<input type="text" class="upload-name" value="<%= dto.getOfile() %>" disabled />
+									<label for="ex_filename">업로드</label>
 									<%
 									}else{
 									%>
