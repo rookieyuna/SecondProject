@@ -93,10 +93,14 @@ function validateForm(form){
 	</tr>
 </tbody>
 </table>
-
-<div class="row text-center" style="">
-	<!-- 각종 버튼 부분 -->
+	<input type="hidden" name="num" value="${dto.num }" />
+	<input type="hidden" name="prevOfile" value="${dto.ofile }" />
+	<input type="hidden" name="prevSfile" value="${dto.sfile }" />
 	<input type="hidden" name="cate" value="${param.cate }"/>
+	
+	<!-- 각종 버튼 부분 -->
+<div class="row text-center" style="">
+	
 	<button type="submit" class="btn btn-danger">전송하기</button>
 	<button type="reset" class="btn">다시작성</button>
 	<button type="button" class="btn btn-warning" 

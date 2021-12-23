@@ -37,7 +37,7 @@ public class EditController extends HttpServlet {
 		
 		//일련번호 파라미터 받기
 		String num = req.getParameter("num");
-		String cate = req.getParameter("cate");
+		//String cate = req.getParameter("cate");
 		
 		//게시물 가져오기
 		BoardDTO dto = dao.selectView(num);
@@ -46,7 +46,7 @@ public class EditController extends HttpServlet {
 		//DTO객체를 리퀘스트 영역에 저장
 		req.setAttribute("dto", dto);
 		
-		req.getRequestDispatcher("/community/board2_edit.jsp").forward(req, resp);
+		req.getRequestDispatcher("/community/board2_edit2.jsp").forward(req, resp);
 	}
 	
 	
@@ -85,7 +85,7 @@ public class EditController extends HttpServlet {
 		dto.setName(name);
 		dto.setTitle(title);
 		dto.setContent(content);
-		dto.setPass("1234");
+		dto.setPass("1111");
 		
 		//새롭게 저장된 파일이 있는지 확인하기 위해 파일명을 얻어옴
 		String fileName = mr.getFilesystemName("ofile");
@@ -119,10 +119,10 @@ public class EditController extends HttpServlet {
 		dao.close();
 		
 		if(result==1) { //수정이 완료되었다면...
-			resp.sendRedirect("../board2/view.do?cate="+cate+"&num="+num);
+			resp.sendRedirect("../board2/list.do?cate="+cate);
 		}
 		else {//수정에 실패한 경우...
-			JSFunction.alertLocation(resp, "수정실패여", "../board2/view.do?cate="+cate+"&num="+num);
+			JSFunction.alertLocation(resp, "수정실패여", "../board2/list.do?cate="+cate);
 		}
 	}
 }

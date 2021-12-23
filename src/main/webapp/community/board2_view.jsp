@@ -10,7 +10,7 @@
 		if(confirmed){
 			var form = document.writeFrm;
 			form.method = "get"; // 전송방식을 post로 설정
-			form.action = "DeleteProcess.jsp"; // 전송할 URL
+			form.action = "/board2/download.do"; // 전송할 URL
 			form.submit(); // form값 전송
 		}
 	}
@@ -104,7 +104,7 @@
 						<div class="row text-center" style="">
 						
 						<c:if test="${UserId eq dto.id }">
-							<button type="button" class="btn btn-primary" onclick="location.href='edit.do?cate=${param.cate}&num=${param.num}'">수정하기</button>
+							<button type="button" class="btn btn-primary" onclick="location.href='../board2/edit.do?num=${dto.num}&cate=${param.cate}';">수정하기</button>
 							<button type="button" class="btn btn-success" onclick="deletePost();">삭제하기</button>	
 						</c:if>
 							<button type="button" class="btn btn-warning" 
