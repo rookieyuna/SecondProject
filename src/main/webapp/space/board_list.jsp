@@ -39,10 +39,18 @@
 	
 	if(pageTemp != null && !pageTemp.equals("")) pageNum = Integer.parseInt(pageTemp);
 	
-	int start = (pageNum - 1) * pageSize + 1;
-	int end = pageNum * pageSize;
-	param.put("start", start);
-	param.put("end", end);
+	if(!cate.equals("photoB")){
+		int start = (pageNum - 1) * pageSize + 1;
+		int end = pageNum * pageSize;
+		param.put("start", start);
+		param.put("end", end);	
+	}else{
+		pageSize = 9;
+		int start = (pageNum - 1) * pageSize + 1;
+		int end = pageNum * pageSize;
+		param.put("start", start);
+		param.put("end", end);
+	}
 	
 	List<BoardDTO> boardLists = dao.selectList(param, cate);
 	dao.close();
@@ -194,7 +202,7 @@
 									
 									<%
 					                	if(totalCount % 4 != 0){
-					                		for(int i=1; i<totalCount-(totalCount % 4); i++){
+					                		for(int i=0; i<3-(totalCount % 3); i++){
 					                		%>
 					                		<li class="photoB_list empty"></li>	
 					                		<%

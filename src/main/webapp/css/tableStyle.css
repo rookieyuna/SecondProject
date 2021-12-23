@@ -250,7 +250,7 @@ form[name=writeFrm] .row.text-center button:hover, form[name=fileForm] .row.text
   -webkit-transition: all ease 0.3s;
   transition: all ease 0.3s;
   color: #fff;
-  border: #fff;
+  border: 1px solid #fff;
 }
 
 form[name=fileForm] tr:last-child input {
@@ -297,7 +297,18 @@ form[name=fileForm] tr:last-child input {
 	-moz-appearance: none; 
 	appearance: none; 
 }
-
+.table .filebox input.upload-name{
+	display: inline-block;
+    width: auto !important;
+}
+.filebox label:hover{
+	cursor: pointer;
+    background: #f32308;
+    -webkit-transition: all ease 0.3s;
+    transition: all ease 0.3s;
+    color: #fff;
+    border: 1px solid #fff;
+}
 .fileOk{
     font-family: inherit;
     line-height: normal;
@@ -350,29 +361,34 @@ form[name=fileForm] tr:last-child input {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -ms-flex-line-pack: justify;
-      align-content: space-between;
-  height: 420px;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-line-pack: justify;
+    align-content: space-between;
 }
 
 .photoBoard .photoBoard_wrap ul li.photoB_list {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  width: calc(100%/4.2);
+  width: calc(100%/3.2);
   height: 200px;
+  cursor: pointer;
 }
-
+.photoBoard .photoBoard_wrap ul li.photoB_list:nth-of-type(n+4){
+	margin-top: 20px;
+}
 .photoBoard .photoBoard_wrap ul li.photoB_list .photoB_posi {
   position: relative;
+  width:100%;
   height: 100%;
+  overflow: hidden;
+  border : 1px solid #d9d9d9;
 }
 
 .photoBoard .photoBoard_wrap ul li.photoB_list .photoB_posi .photoB_detail.over-ray {
-  position: absolute;
+  position:absolute;
   width: 100%;
   height: 100%;
   display: -webkit-box;
@@ -388,9 +404,18 @@ form[name=fileForm] tr:last-child input {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background: rgba(11, 51, 70, 0.5);
+  background: rgba(0, 0, 0, 0);
 }
-
+.photoBoard .photoBoard_wrap ul li.photoB_list .photoB_posi .photoB_detail.over-ray *{
+	opacity: 0;
+}
+.photoBoard .photoBoard_wrap ul li.photoB_list:hover .photoB_posi .photoB_detail.over-ray {
+  background: rgba(0, 0, 0, 0.5);
+  transition: all ease 0.3s;
+}
+.photoBoard .photoBoard_wrap ul li.photoB_list:hover .photoB_posi .photoB_detail.over-ray *{
+	opacity: 1;
+}
 .photoBoard .photoBoard_wrap ul li.photoB_list .photoB_posi .photoB_detail.over-ray .pic_label {
   width: 90%;
   overflow: hidden;
@@ -406,33 +431,16 @@ form[name=fileForm] tr:last-child input {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.photoBoard .photoBoard_wrap ul li.photoB_list .photoB_posi .photoB_detail.pic {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+.photoBoard .photoBoard_wrap ul li.photoB_list .photoB_posi .photoB_detail.pic{
+	position: relative;
 }
 
-.photoBoard .photoBoard_wrap ul li.photoB_list .photoB_posi .photoB_detail.pic a {
-  display: block;
-}
-
-.photoBoard .photoBoard_wrap ul li.photoB_list .photoB_posi .photoB_detail.pic a img {
-  display: block;
-  width: 100%;
-  overflow: hidden;
+.photoBoard .photoBoard_wrap ul li.photoB_list .photoB_posi .photoB_detail.pic img{
+	width: 150%;
+    position: absolute;
+    left: 50%;
+    margin-left: -75%;
+    z-index:-1;
 }
 
 .photoBoard .photoBoard_wrap ul li.photoB_list.empty {

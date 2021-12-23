@@ -287,14 +287,6 @@ public class BoardDAO extends JDBConnect {
 			// 2. prepared객체 생성 및 인파라미터 설정
 			psmt = con.prepareStatement(query);
 
-			System.out.println("아이디 : " + dto.getId());
-			System.out.println("제목 : " + dto.getTitle());
-			System.out.println("내용 : " + dto.getContent());
-			System.out.println("기존 : " + dto.getOfile());
-			System.out.println("변경 : " + dto.getSfile());
-			System.out.println("pass : " + dto.getPass());
-			System.out.println("카테 : " + dto.getCategory());
-
 			psmt.setString(1, dto.getId());
 			psmt.setString(2, dto.getTitle());
 			psmt.setString(3, dto.getContent());
@@ -311,6 +303,29 @@ public class BoardDAO extends JDBConnect {
 		return applyResult;
 	}
 
+	// 게시판 - 파일 수정하기
+		public int updateFile(BoardDTO dto) {
+			int result = 0;
+			try {
+				String query = "UPDATE board SET " + " title=?, content=?, ofile=?, sfile=? " + " WHERE num=?";
+				// prepared객체 생성
+				psmt = con.prepareStatement(query);
+				// 인파라미터 설정
+				psmt.setString(1, dto.getTitle());
+				psmt.setString(2, dto.getContent());
+				psmt.setString(3, dto.getOfile());
+				psmt.setString(4, dto.getSfile());
+				psmt.setString(5, dto.getNum());
+				// 쿼리 실행
+				result = psmt.executeUpdate();
+			} catch (Exception e) {
+				System.out.println("INSERT 중 예외 발생");
+				e.printStackTrace();
+			}
+			return result;
+		}
+	
+	
 	// 프로그램 일정 추가하기
 	public int pinsertWrite(BoardDTO dto) {
 		// SimpleDateFormat pdate = new SimpleDateFormat("yyyy-mm");
