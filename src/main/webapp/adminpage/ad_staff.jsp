@@ -45,12 +45,8 @@
 <script>
 $(function(){
 	$('#deletebtn').click(function(){
-		if($("input:checkbox[name=chk]:checked").length == 0){
-			alert("삭제할 항목을 체크해주세요");
-		}else{
-			$('#cleanlist').attr("action","/SecondProject/adminpage/ad_boardCheckingDeleteProcess.jsp").submit();			
-		}
-	})  		
+		$('#cleanlist').attr("action","../adminpage/ad_board2Delete.do").submit();			
+	});	
 });
 </script>
 <body id="page-top">
@@ -286,17 +282,17 @@ $(function(){
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">직원자료실 관리</h1>
+                    <h1 class="h3 mb-2 text-gray-800">직원 자료실 관리</h1>
                     <p class="mb-4">BOARD MANAGEMENT - STAFF</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">직원자료실 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">직원 자료실 정보</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            	<form method="post" id="cleanlist"><!-- 삭제처리할때 form -->                        
+                            	<form action="" id="cleanlist"><!-- 삭제처리할때 form -->                        
                                 <input type="hidden" name="cate" value="stafB" />
                                 <table class="table table-bordered table-hover">
                                     <thead>
@@ -366,12 +362,22 @@ $(function(){
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
                             <li><button type="button" class="btn btn-outline-secondary" id="deletebtn">삭제</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_commWrite.jsp?cate=stafB;">작성</button></li>
+                            <!-- <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_commWrite.jsp?cate=stafB;">작성</button></li> -->
                         </ul>
                     </div>
                 </div>
                 <!-- /.container-fluid -->
 
+			<!-- 페이지번호 출력 -->
+			    <table width="90%">
+			        <tr align="center">
+			        <!-- 페이징 처리 -->
+			        	<td>
+			        		${map.pagingImg }
+			        	</td>
+			        </tr>
+			    </table>
+			    
             </div>
             <!-- End of Main Content -->
 

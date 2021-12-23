@@ -304,16 +304,16 @@
                     </c:choose>
                     </p>
 
-                    <form name="writeFrm" method="post" action="ad_board2ViewProcess.jsp" onsubmit="return validateForm(this);">
+                    <form name="writeFrm" method="post" onsubmit="return validateForm(this);" enctype="multipart/form-data">
                     <input type="hidden" name="num" value="${dto.num }"/>
-                    <input type="hidden" name="cate" value="${dto.cate }"/>
+                    <input type="hidden" name="cate" value="${dto.category }"/>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">
                             <c:choose>
 		                    	<c:when test="${dto.category eq 'stafB'}">직원 자료실 정보</c:when>
-		                    	<c:otherwise>보호자게시판 정보</c:otherwise>
+		                    	<c:otherwise>보호자 게시판 정보</c:otherwise>
 		                    </c:choose>
                             </h6>
                         </div>
@@ -321,7 +321,6 @@
                             <div class="table-responsive">
                             <!-- 게시글 상세보기 -->
                                	
-
                                 <table class="table table-bordered table-hover">
 										<tr>
 											<th class="text-center" 
@@ -364,7 +363,7 @@
 									             -->
 								            	<c:if test="${not empty dto.ofile }">
 								            	${dto.ofile }
-									            	<a href="../space/Download.jsp?oFile=${dto.ofile }&sfile=${dto.sfile}">
+									            	<a href="../adminpage/ad_board2Download?oFile=${dto.ofile }&sfile=${dto.sfile}">
 									            	[다운로드]</a>
 								            	</c:if>
 											</td>
@@ -380,17 +379,11 @@
 					<!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-secondary" onclick="deletePost();">삭제</button></li>
+                            <li><button type="button" class="btn btn-outline-secondary" onclick="location.href='ad_board2Delete.do?cate=${dto.category }&num=${dto.num }'">삭제</button></li>
                             <li><button type="button" class="btn btn-outline-success" onclick="location.href='ad_board2Edit.do?cate=${dto.category }&num=${dto.num }'">수정하기</button></li>                            
-                            <li><button type="button" class="btn btn-outline-primary" 
-                            	onclick="location.href='<c:choose>
-									                    	<c:when test="${dto.category eq 'stafB'}">ad_staff.do?cate=</c:when>
-									                    	<c:otherwise>ad_guardian.do?cate=</c:otherwise>
-		                    							</c:choose>
-		                    							${dto.category }';">목록보기</button></li>
+                            <li><button type="button" class="btn btn-outline-success" onclick="location.href='ad_staff.do?cate=${dto.category }'">목록보기</button></li>
                         </ul>
                     </div>
-                     
 					</form>
                     
                 </div>

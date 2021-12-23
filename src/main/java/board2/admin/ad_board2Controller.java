@@ -72,9 +72,18 @@ public class ad_board2Controller extends HttpServlet
 		//자원 반납
 		dao.close();
 		
+		
+		String pagingImg;
 		//페이지 번호를 생성하기 위해 메서드 호출
-		String pagingImg = BoardPage.pagingStr(totalCount, pageSize,
-				blockPage, pageNum, "../adminpage/ad_staff.do");
+		if(cate.equals("stafB")) {
+			pagingImg = BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, 
+					"../adminpage/ad_staff.do?cate=stafB", searchField, searchWord);
+		}
+		else {
+			pagingImg = BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, 
+					"../adminpage/ad_staff.do?cate=guardB", searchField, searchWord);
+			
+		}
 		//View로 전달할 데이터를 Map컬렉션에 저장
 		map.put("pagingImg", pagingImg); //페이지 번호
 		map.put("totalCount", totalCount); //전체 게시물의 갯수
@@ -85,7 +94,13 @@ public class ad_board2Controller extends HttpServlet
 		//View로 전달할 객체들을 request 영역에 저장
 		req.setAttribute("boardLists", boardLists);
 		req.setAttribute("map", map);
+		
 		//View로 포워드를 걸어준다.
-		req.getRequestDispatcher("/adminpage/ad_staff.jsp").forward(req, resp);
+		if(cate.equals("stafB")) {
+			req.getRequestDispatcher("/adminpage/ad_staff.jsp").forward(req, resp);
+		}
+		else {
+			req.getRequestDispatcher("/adminpage/ad_guardian.jsp").forward(req, resp);
+		}
 	}
 }

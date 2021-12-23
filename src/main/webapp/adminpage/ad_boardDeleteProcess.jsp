@@ -37,6 +37,8 @@ if(sessionId.equals(dto.getId())){
 		if(cate.equals("freeB")) JSFunction.alertLocation("삭제되었습니다.", "ad_freeboard.jsp?cate="+cate, out);
 		if(cate.equals("photoB")) JSFunction.alertLocation("삭제되었습니다.", "ad_photo.jsp?cate="+cate, out);
 		if(cate.equals("infoB")) JSFunction.alertLocation("삭제되었습니다.", "ad_information.jsp?cate="+cate, out);
+		if(cate.equals("stafB")) JSFunction.alertLocation("삭제되었습니다.", "ad_staff.do?cate="+cate, out);
+		if(cate.equals("guardB")) JSFunction.alertLocation("삭제되었습니다.", "ad_staff.do?cate="+cate, out);
 		
 	}else{
 		JSFunction.alertBack("삭제에 실패하였습니다.", out);
