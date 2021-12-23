@@ -17,6 +17,7 @@
  			document.getElementById("total_"+idx).innerHTML = (total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
  			
  			var price = document.getElementById("price_"+idx).innerHTML;
+ 			console.log(price);
  			document.getElementById("price_"+idx).innerHTML = (price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+ "원");			
 
  		}
@@ -30,20 +31,19 @@
  		
 		function changePrice(idx) {
 			
+			console.log(idx);
 			var count = document.getElementById("count_"+idx).value;
 			var price = document.getElementById("price1_"+idx).value;
 			var result = count * price ;
+			console.log("count:"+count+"price:"+price+"result1:"+result);
 			document.getElementById("total_"+idx).innerHTML = (result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-				
+			document.getElementById("total1_"+idx).value = result;
 			//최종합계 구현
 			var i = document.getElementById("count1_"+idx).value; //바꾸기전 갯수		
 			document.getElementById("count1_"+idx).value = count;
 			
 			//바꾼후 갯수랑 바꾸기전 갯수랑 비교해서 
-			var j = count - i;
-			
-			
-			
+			var j = count - i;			
 			var sum = document.getElementById("org_sum").value; 
 			var sum_r = parseInt(sum) + parseInt( price * j);
 	
@@ -53,7 +53,13 @@
 		
 		}
 		
-		
+		function goCart(idx){
+			console.log("goCart눌림");
+			document.getElementById("zlag").value = idx;
+			console.log("zlag:"+ document.getElementById("zlag").value);
+			 document.getElementById("form1").action="../market/basketUpDelete.do";
+			document.getElementById("form1").submit(); 
+		}
 		
 		
 	</script>
@@ -107,36 +113,44 @@
 						</tr>
 					</c:when>
 					<c:otherwise>
-					
-						<c:forEach items="${ carts }" var="row" varStatus="loop"> 						
+						 <form action="" id="form1"> 
+						<c:forEach items="${ carts }" var="row" varStatus="loop"> 
+						<input type="hidden" id="zlag" name="zlag" value="${row.product_no }" />						
 						<c:set var="sum" value="${sum+row.total_price }"/>
 						<tr>
 							
 							<td><input type="checkbox" name="" value="" /></td>
-							<td><img src="../images/market/${row.product_sfile }" width="50px" height="50px"/></td>
-							<td >${ row.product_name }</td>
+							<td><img src="../images/market/${row.product_sfile }" width="50px" height="50px"/>
+							 <input type="hidden" name="sfile_${row.product_no }" value="${row.product_sfile }" /> </td>
+							<td >${ row.product_name }
+							 <input type="hidden" name="name_${row.product_name }" value="${row.product_name }" /> </td>
 							<td ><span id ="price_${row.product_no }">${ row.price }</span>
-							<input type="hidden" id ="price1_${row.product_no }" value="${ row.price }"/>
+							<!-- 제품의 고유 가격  -->
+							<input type="hidden" id ="price1_${row.product_no }" name ="price1_${row.product_no }" value="${ row.price }"/>
 							</td>
-							<td><img src="../images/market/j_icon.gif" />&nbsp;${ row.milage }원</td>
+							<td><img src="../images/market/j_icon.gif" />&nbsp;${ row.milage }원
+							 <input type="hidden" id="milage_${row.milage }" value="${row.milage }"/> </td>
 							
 							
-							 
-							<td><input type="text" id="count_${row.product_no }" width="60px"
+							 <!-- 상품갯수 -->
+							<td><input type="text" id="count_${row.product_no }" name="count_${row.product_no }" width="60px"
 							 onchange="changePrice(${row.product_no })" value="${row.count_num }" class="basket_num" />
 							&nbsp;
 							<!-- 수정버튼을 누르면 update -->
-							<a href=""><img src="../images/market/m_btn.gif" /></a>
+							<!-- <a href=""><img src="../images/market/m_btn.gif" /></a> -->
+							<input type="image" onclick="goCart(${row.product_no})" src="../images/market/m_btn.gif" ></input>
 							<input type="hidden" id="count1_${row.product_no }" value="${row.count_num }" />
 							</td>
 							<td>무료배송</td>
 							<td>[조건]</td>
 							<td><span id="total_${row.product_no }">
-							 ${ row.total_price }</span></td>
+							 ${ row.total_price }</span>
+							 <input type="hidden" id="total1_${row.product_no }" name="total_${row.product_no }" value=" ${ row.total_price }"/></td>
 							
 						</tr>
-						<<script>money(${row.product_no });</script>
+						<script>money(${row.product_no });</script>
 						</c:forEach> 
+					 	</form> 
 					</c:otherwise>
 				</c:choose>
 					</tbody>
@@ -145,8 +159,9 @@
 				<p class="basket_text">[ 기본 배송 ] <span>상품구매금액</span> 
 				<span id="sum1">${ sum }</span> + <span>배송비</span> 0 = 합계 : 
 				<span class="money" id="sum">${ sum }</span><br /><br />
-				<<script>money1();</script>
-				<a href=""><img src="../images/market/basket_btn01.gif" /></a>&nbsp;<a href="basket02.jsp"><img src="../images/market/basket_btn02.gif" /></a></p>
+				<script>money1();</script>
+				<a href="../market/sub01.do"><img src="../images/market/basket_btn01.gif" /></a>&nbsp;
+				<a href="basket02.jsp"><img src="../images/market/basket_btn02.gif" /></a></p>
 			</div> 
 		</div>
 		<%@ include file="../include/quick.jsp" %>

@@ -12,14 +12,16 @@
 5. 이메일 보내는거 디자인? 레이아웃
 
  -->
- <%-- <%
-	if (session.getAttribute("UserId") == null) {
-		alert("로그인 하세요");
-		response.sendRedirect("../main/main.jsp");
-	}
-	
- %> --%>
+
 <script>
+<% 
+	if (session.getAttribute("UserId") == null) {
+		%>
+		alert("로그인 하세요");
+		location.href = "../main/main.jsp";
+		<% 
+	}
+	%>
 
 $(function(){
 	
@@ -40,9 +42,9 @@ function validateForm(form) {
 		form.name.focus();
 		return false;
 	}
-	if(form.addr1.value ==""){
+	if(form.zip1.value ==""){
 		alert("주소를 입력하세요.");
-		form.addr1.focus();
+		form.zip1.focus();
 		return false;
 	}
 	
@@ -108,8 +110,20 @@ $(function() {
 
 
 
-
-
+</script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+	//주소찾기 DAUM API
+    function addressFind(){
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var frm = document.cleanFrm;
+                frm.zip1.value = data.zonecode;//12345(우편번호)
+                frm.addr1.value = data.address;//서울시 금천구 가산동(기본주소)
+                frm.addr2.focus();
+            }
+        }).open();
+    }
 </script>
  <body>
 
@@ -149,9 +163,9 @@ $(function() {
 						<tr>
 							<th>청소할 곳 주소</th>
 							<td style="text-align:left;">
-								<input type="text" name="zip1" value=""  class="join_input" style="width:50px;" />&nbsp;-&nbsp;
-								<input type="text" name="zip2" value=""  class="join_input" style="width:50px;" />
-								<a href="javascript:;" title="새 창으로 열림" onclick="zipFind('zipFind', '<?=$_Common[bbs_path]?>member_zipcode_find.php', 590, 500, 0);" onkeypress="">[우편번호검색]</a>
+								<input type="text" name="zip1" value=""  class="join_input" style="width:100px;" /><!-- &nbsp;-&nbsp;
+								<input type="text" name="zip2" value=""  class="join_input" style="width:50px;" /> -->
+								<a href="javascript:;" title="새 창으로 열림" onClick="addressFind();" onkeypress="">[우편번호검색]</a>
 								<br/>
 						
 								<input type="text" name="addr1" value=""  class="join_input" style="width:550px; margin-top:5px;" /><br>

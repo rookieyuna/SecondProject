@@ -20,11 +20,11 @@ public class marketApplicationDAO extends DBConnPool{
     	
         int totalCount = 0;
         String query = "SELECT COUNT(*) FROM marketApplication";
+        query += "   WHERE  app_type LIKE 'cleaning'";
         if (map.get("searchWord") != null) {
-            query += " WHERE " + map.get("searchField") + " "
+            query += " AND " + map.get("searchField") + " "
                    + " LIKE '%" + map.get("searchWord") + "%'";
         }
-        query += "   AND  app_type LIKE 'cleaning'";
         try {
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);

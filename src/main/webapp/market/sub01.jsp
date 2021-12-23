@@ -51,9 +51,10 @@
 	}
 
 	function changePrice(idx) {
-		
+		console.log(idx);
 		console.log("changeprice");
 		var count = document.getElementById("count_"+idx).value;
+		console.log(count);
 		var price = document.getElementById("price1_"+idx).value;
 					
 		var result = count * price ;
@@ -71,7 +72,7 @@
 		document.getElementById("form1").action="../market/basketIns01.do";
 	}
 	
-	//바로 구매 버튼 누르면(위와 동일)
+	//바로 구매 버튼 누르면(위와 동일)  orderIns.do <- 로 가도록 링크 수정하고 서블릿 만들어서 작업해야함
 	function goBuy(idx){
 		document.getElementById("zlag").value = idx;
 		document.getElementById("form1").action="../market/basket2.do";
@@ -139,6 +140,7 @@
 										 	 <input type="hidden" name="name_${row.product_no }" value="${row.product_name }" />
 										 	 <input type="hidden" name="milage_${row.product_no }" value="${row.milage }" />
 										 	 <input type="hidden" name="sfile_${row.product_no }" value="${row.product_sfile }"/>
+										 	 <!-- 제품 고유 가격 -->
 										 	 <input type="hidden" name="price1_${row.product_no }" id="price1_${row.product_no}" value="${ row.price }" />
 										 	 <input  type="hidden" name="product_${row.product_no }" value="${ row.product_no }" />
 										 	 <input type="hidden" id="zlag" name="zlag" value="0"/>
@@ -155,7 +157,7 @@
 										<!-- 구매버튼2개 -->
 										<td>
 											<!-- 최종 구매 버튼 -->
-	1										<input type="image" onclick="goBuy(${row.product_no})" class="cart" src="../images/market/btn01.gif" alt="바로구매" ></input><br />
+											<input type="image" onclick="goBuy(${row.product_no})" class="cart" src="../images/market/btn01.gif" alt="바로구매" ></input><br />
 											<!-- 장바구니버튼 !  온클릭이벤트 ! -->
 											<input type="image" onclick="goCart(${row.product_no})" class="cart" src="../images/market/btn02.gif" alt="장바구니" ></input>
 										</td>

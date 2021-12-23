@@ -65,13 +65,6 @@ public class basketInsert01 extends HttpServlet{
 				 dto.setTotal_price();
 				 */
 				CartDTO cart1 = dao.selectView(product_no);
-				
-				/*
-				 sub01.jsp와 market_viewjsp에서 이동할떄는 그냥 더하면되는데
-				 basket.jsp에서 들어온 거라면 아예 바뀌어야되는데 
-				 파라미터를 두개 보내면되는거지뭐
-				 */
-				
 				int count1 = count+ cart1.getCount_num();
 				int total1 = total_price + cart1.getTotal_price();
 				dto.setCount_num(count1);
