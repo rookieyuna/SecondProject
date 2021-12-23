@@ -72,7 +72,7 @@
 		document.getElementById("form1").action="../market/basketIns01.do";
 	}
 	
-	//바로 구매 버튼 누르면(위와 동일)
+	//바로 구매 버튼 누르면(위와 동일)  orderIns.do <- 로 가도록 링크 수정하고 서블릿 만들어서 작업해야함
 	function goBuy(idx){
 		document.getElementById("zlag").value = idx;
 		document.getElementById("form1").action="../market/basket2.do";
