@@ -277,13 +277,13 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">상품 등록 관리</h1>
-                    <p class="mb-4">BOARD MANAGEMENT - EDIT PRODUCT</p>
+                    <h1 class="h3 mb-2 text-gray-800">주문 내역 관리</h1>
+                    <p class="mb-4">BOARD MANAGEMENT - ORDER LIST</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">상품 정보 수정</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">주문 내역 보기</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -297,43 +297,59 @@
                                
                                     <tbody>
                                         <tr>
-											<td>상품명</td>
+											<td>주문번호</td>
 											<td>
-												${dto.product_name }
+												${dto.order_no }
+											</td>
+										</tr>
+                                        <tr>
+											<td>상품번호</td>
+											<td>
+												${dto.product_no }
+											</td>
+										</tr>
+                                        <tr>
+											<td>장바구니번호</td>
+											<td>
+												${dto.cart_no }
 											</td>
 										</tr>
 										<tr>
-											<td>상품설명</td>
+											<td>주문자ID</td>
 											<td>
-												<textarea name="" style="width:70%; height: 100px;" readonly>${dto.product_info }</textarea>
+												${dto.id }
 											</td>
 										</tr>
 										<tr>
-											<td>가격</td>
+											<td>주소</td>
 											<td>
-												${dto.price }
+												${dto.addr }
 											</td>
 										</tr>
 										<tr>
-											<td>적립금</td>
+											<td>결제수단</td>
 											<td>
-												${dto.milage }
+												${dto.credit }
 											</td>
 										</tr>
 										<tr>
-											<td>첨부파일</td>
+											<td>주문상태</td>
 											<td>
-									            <!-- 
-									            첨부된 파일이 있는 경우에는 파일명과 다운로드 링크를 출력한다.
-									            다운로드가 완료되면 카운트 하기 위해 idx(일련번호)를 파라미터로 받는다.
-									             -->
-								            	<c:if test="${not empty dto.product_ofile }">
-								            	${dto.product_ofile }
-									            	<a href="../adminpage/ad_suaDownload.do?ofile=${dto.product_ofile }&sfile=${dto.product_sfile}">
-									            	[다운로드]</a>
-								            	</c:if>
-								            </td>
-        								</tr>
+												${dto.order_state }
+											</td>
+										</tr>
+										<tr>
+											<td>상품갯수</td>
+											<td>
+												${dto.total_count }
+											</td>
+										</tr>
+										<tr>
+											<td>결제금액</td>
+											<td>
+												${dto.total_price }
+											</td>
+										</tr>
                                     </tbody>
                                 </table>
                                 </form>
@@ -344,9 +360,9 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='../adminpage/ad_suaEdit.do?product_no=${dto.product_no}';">수정</button></li>
-                            <li><button type="button" class="btn btn-outline-secondary" onclick="location.href='../adminpage/ad_suaDelete.do?product_no=${dto.product_no}';">삭제</button></li>
-                            <li><button type="button" class="btn btn-warning" onclick="location.href='../adminpage/ad_suaRegist.do';">목록보기</button></li>
+                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='../adminpage/ad_sOrderEdit.do?order_no=${dto.order_no}';">수정</button></li>
+                            <li><button type="button" class="btn btn-outline-secondary" onclick="location.href='../adminpage/ad_sOrderDelete.do?order_no=${dto.order_no}';">삭제</button></li>
+                            <li><button type="button" class="btn btn-warning" onclick="location.href='../adminpage/ad_sOrder.do';">목록보기</button></li>
                         </ul>
                     </div>
                 </div>

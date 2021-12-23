@@ -59,7 +59,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Market Management:</h6>
                         <a class="collapse-item" href="../adminpage/ad_suaRegist.do">상품등록 관리</a>
-                        <a class="collapse-item" href="ad_sOrder.jsp">주문내역 관리</a>
+                        <a class="collapse-item" href="../adminpage/ad_sOrder.do">주문내역 관리</a>
                         <a class="collapse-item" href="../adminpage/ad_requst.do">견적의뢰 관리</a>
                         <a class="collapse-item" href="../adminpage/ad_experience.do">체험학습 관리</a>
                     </div>
