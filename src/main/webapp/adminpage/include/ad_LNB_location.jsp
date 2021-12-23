@@ -65,3 +65,12 @@
                     </div>
                 </div>
             </li>
+            
+                        
+            <li class="nav-item">
+                <a class="nav-link" href="../main/main.jsp"  data-target="#d" 
+                    aria-expanded="true" aria-controls="d">
+                    <i class="bi bi-infinity" color="white"></i>
+                    <span class="text-white">일하러가기</span>
+                </a>
+            </li>
