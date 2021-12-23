@@ -75,7 +75,10 @@ public class ad_requstController extends HttpServlet{
         map.put("totalCount", totalCount);//전체 게시물의 갯수
         map.put("pageSize", pageSize);//한페이지에 출력할 게시물의 갯수
         map.put("pageNum", pageNum);//페이지 번호
-
+		/*
+		 * System.out.println("pagingImg:"+pagingImg
+		 * +" totalCount:"+totalCount+" pageSize:"+pageSize+" pageNum:"+pageNum);
+		 */
         //View로 전달할 객체들을 request영역에 저장
         req.setAttribute("boardLists", boardLists);
         req.setAttribute("map", map);

@@ -184,7 +184,25 @@ public class CartDAO extends DBConnPool{
         return board;
     }
 	
-	
+	public int deleteProduct(String to) { 
+        int result = 0;
+
+        try {
+        	//쿼리문 작성
+            String query = "DELETE FROM cart WHERE product_no=?"; 
+            //prepared객체 생성 및 인파라미터 설정
+            psmt = con.prepareStatement(query); 
+            psmt.setString(1, to);  
+            //쿼리실행
+            result = psmt.executeUpdate(); 
+        } 
+        catch (Exception e) {
+            System.out.println("게시물 삭제 중 예외 발생");
+            e.printStackTrace();
+        }
+
+        return result;  
+    }
 	
 	
 	
