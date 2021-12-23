@@ -394,7 +394,7 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
-                            <li><button type="button" class="btn btn-outline-danger">회원삭제</button></li>
+                         <!--    <li><button type="button" class="btn btn-outline-danger">회원삭제</button></li> -->
                         </ul>
                     </div>
                     <!-- 페이지 번호 -->

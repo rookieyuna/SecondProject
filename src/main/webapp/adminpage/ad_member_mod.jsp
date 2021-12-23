@@ -47,7 +47,22 @@ dao.close();
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     
-    
+    <!-- 제이쿼리 CDN -->
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    $(function(){
+		$('#deletebtn').click(function(){
+			var answer = window.confirm("회원을 삭제하시겠습니까?");
+            if(answer==true){
+                $('#memberInfo').attr("action","../adminpage/ad_memberDeleteProcess.jsp").submit();	
+            }
+            else if(answer==false){
+            	alert("삭제를 취소하였습니다.");
+            }	
+		});		
+	});
+    </script>
 </head>
 
 <body id="page-top">
@@ -287,7 +302,7 @@ dao.close();
                     <p class="mb-4">User Management</p>
 
                     <!-- DataTales Example -->
-                    <form name="myform" action="ad_member_modProcess.jsp" method="get">
+                    <form name="myform" action="ad_member_modProcess.jsp" method="get" id="memberInfo">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">회원 정보</h6>
@@ -330,7 +345,7 @@ dao.close();
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
                         	<li><button type="submit" class="btn btn-outline-success">등급저장</button></li>
-                            <li><button type="button" class="btn btn-outline-danger">회원삭제</button></li>
+                            <li><button type="button" class="btn btn-outline-danger" id="deletebtn">회원삭제</button></li>
                         </ul>
                     </div>
                     </form>

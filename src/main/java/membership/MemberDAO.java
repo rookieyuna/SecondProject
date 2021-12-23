@@ -302,7 +302,7 @@ public class MemberDAO extends JDBConnect {
 		return dto;
 	}
 	
-	// [회원관리페이지]회원등급 수정을 위한 메섣
+	// [회원관리페이지]회원등급 수정을 위한 메서드
 	public int modifyIdentity(MemberDTO dto) {
 		//입력결과 확인용 변수
 		int result=0;
@@ -327,7 +327,27 @@ public class MemberDAO extends JDBConnect {
 		return result;
 	}
 
-	
-	
-	
+	// [회원관리페이지]회원삭제를 위한 메서드
+	public int deleteMember(MemberDTO dto) {
+		//입력결과 확인용 변수
+		int result=0;
+		try {
+			//delete from member WHERE id='아이디';
+			String query = " DELETE from member "
+						+ " WHERE id=? ";
+				
+			//동적쿼리문 실행을 위한 prepared 객체 생성
+			psmt = con.prepareStatement(query);
+			//인파라미터 설정
+			psmt.setString(1, dto.getId());
+			
+			//쿼리문 실행 : 입력에 성공하면 1, 실패하면 0 반환
+			result = psmt.executeUpdate();
+		}
+		catch (Exception e) {
+			System.out.println("회원정보 수정 중 예외 발생");
+			e.printStackTrace();
+		}	
+		return result;
+	}
 }
