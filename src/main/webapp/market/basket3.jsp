@@ -10,6 +10,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <% pageContext.setAttribute("temp", 1); %>
 
+<script>
+	function money(idx){
+		var total = document.getElementById("total_"+idx).innerHTML;
+		document.getElementById("total_"+idx).innerHTML = (total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+		
+		var price = document.getElementById("price_"+idx).innerHTML;
+		console.log(price);
+		document.getElementById("price_"+idx).innerHTML = (price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+ "원");			
+
+	}
+
+	
+</script>
  <body>
 <!-- 	<center> -->
 	<div id="wrap">
@@ -61,25 +74,29 @@
 							</tr>
 						</c:when>
 						<c:otherwise>
+							<form action="" id="order">
+						 <c:forEach items="${ dto }" var="row" varStatus="loop"> 						
+							<input type="hidden" id="total_price" value="${ row.total_price }" />
+							<c:set var="sum" value="${sum+row.total_price }"/>
 							<tr>
 								<td><input type="checkbox" name="" value="" /></td>
-								<td><img src="../images/market/${dto.product_sfile }" width="50px" height="50px"/></td>
-								<td>${ dto.product_name }</td>
-								<td><fmt:formatNumber value="${ dto.price }" pattern="#,###"/>원
-								</td>
-								<td><img src="../images/market/j_icon.gif" />&nbsp;${ dto.milage }원</td>
-								<td><input type="text" name="" value="${quantity }" class="basket_num" />
+								<td><img src="../images/market/${row.product_sfile }" width="50px" height="50px"/></td>
+								<td>${ row.product_name }</td>
+								<td><span id ="price_${row.product_no }">${ row.price }</span></td>
+								<td><img src="../images/market/j_icon.gif" />&nbsp;${ row.milage }원</td>
+								<td><input type="text" id="count_${row.product_no }" name="" value="${row.count_num }" class="basket_num" />
 								</td>
 								<td>무료배송</td>
 								<td>[조건]</td>
-								<td><span>
-								<fmt:formatNumber value="${ total_price }" pattern="#,###"/>원
-								 </span></td>
+								<td><span id="total_${row.product_no }">
+								 ${ row.total_price }</span></td>
 							</tr>
-						
+							<script>money(${row.product_no });</script>
+							</c:forEach>
+							</form>
 						</c:otherwise>
 						</c:choose>
-						
+
 					</tbody>
 				</table>
 
@@ -139,7 +156,7 @@
 						</tr>
 					</tbody>
 				</table>
-
+				
 				<p class="con_tit"><img src="../images/market/basket_title04.gif" /></p>
 				<table cellpadding="0" cellspacing="0" border="0" class="con_table" style="width:100%;" style="margin-bottom:30px;">
 					<colgroup>
@@ -149,9 +166,10 @@
 					<tbody>
 						<tr>
 							<th>결제금액</th>
-							<td style="text-align:left;"><span class="money">
-								<fmt:formatNumber value="${ total_price }" pattern="#,###"/>원
-								 </span></td>
+							
+							<td style="text-align:left;"><span class="money" id="sum">
+							<fmt:formatNumber value="${sum }" pattern="#,###"/>원		
+							</span></td>
 						</tr>
 						<tr>
 							<th>결제방식선택</th>

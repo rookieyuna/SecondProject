@@ -31,20 +31,12 @@
     	}); 
     	
 		$('#cartbtn').click(function(){
-			if(sessionStorage.getItem("UserId")== null)
-			{
-				alert("로그인후 이용해주세요");
-				return;
-			} 
+		
 			$('#market_view').attr("action","../market/basketIns.do").submit();			
 		})
 		
 		$('#orderbtn').click(function(){
-			if(sessionStorage.getItem("UserId")== null)
-			{
-				alert("로그인후 이용해주세요");
-				return;
-			} 
+			
 			$('#market_view').attr("action","../market/basket2.do").submit();			
 		})  
 		
@@ -101,8 +93,9 @@
 					</div>
 					<div class="market_right">
 					<!-- 장바구니에 저장할 데이터 파라미터 전달용 -->
-						<input type="hidden" name="product_no" value="${boardList.product_no}"/>
-						<input type="hidden" name="price" value="${boardList.price}"/>
+						<input type="hidden" name="zlag" value="" />
+						<input type="hidden" name="product_" value="${boardList.product_no}"/>
+						<input type="hidden" name="price1_" value="${boardList.price}"/>
 						<input type="hidden" name="milage" value="${boardList.milage}"/>
 						<input type="hidden" name="product_name" value="${boardList.product_name}"/>
 						<input type="hidden" name="product_sfile" value="${boardList.product_sfile}"/>
@@ -127,7 +120,7 @@
 								</dl> 
 								<dl>
 									<dt>수량</dt>
-									<dd><input type="text" id="count" name="count_num" value="1" class="n_box" /></dd>
+									<dd><input type="text" id="count" name="count_" value="1" class="n_box" /></dd>
 								</dl>
 								<dl style="border-bottom:0px;">
 									<dt>주문정보</dt>

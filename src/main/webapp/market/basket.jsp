@@ -54,13 +54,20 @@
 		}
 		
 		function goCart(idx){
-			console.log("goCart눌림");
 			document.getElementById("zlag").value = idx;
-			console.log("zlag:"+ document.getElementById("zlag").value);
 			 document.getElementById("form1").action="../market/basketUpDelete.do";
 			document.getElementById("form1").submit(); 
 		}
 		
+		$(function(){
+			$('#orderbtn').click(function(){
+			/* 	if(('.chk').val == null){
+					alert("주문을 진행할 항목을 선택해주세요");
+					return;
+				} */
+				 $('#form1').attr("action","../market/basket3.do").submit();		 
+			})  		
+		});
 		
 	</script>
  <body>
@@ -113,13 +120,14 @@
 						</tr>
 					</c:when>
 					<c:otherwise>
-						 <form action="" id="form1"> 
+						 <form action="" id="form1">  <!-- 폼 시작 -->
 						<c:forEach items="${ carts }" var="row" varStatus="loop"> 
-						<input type="hidden" id="zlag" name="zlag" value="${row.product_no }" />						
+						<input type="hidden" id="zlag" name="zlag" value="${row.product_no }" />	
+						<%-- <input type="hidden" name="cart_no_${row.product_no }" value="${row.cart_no }" />	 --%>				
 						<c:set var="sum" value="${sum+row.total_price }"/>
 						<tr>
 							
-							<td><input type="checkbox" name="" value="" /></td>
+							<td><input type="checkbox" name="chk" value="${row.cart_no }" /></td>
 							<td><img src="../images/market/${row.product_sfile }" width="50px" height="50px"/>
 							 <input type="hidden" name="sfile_${row.product_no }" value="${row.product_sfile }" /> </td>
 							<td >${ row.product_name }
@@ -161,7 +169,8 @@
 				<span class="money" id="sum">${ sum }</span><br /><br />
 				<script>money1();</script>
 				<a href="../market/sub01.do"><img src="../images/market/basket_btn01.gif" /></a>&nbsp;
-				<a href="basket02.jsp"><img src="../images/market/basket_btn02.gif" /></a></p>
+				<input type="image"  src="../images/market/basket_btn02.gif" alt="결제" id="orderbtn" ></input>
+				</p>
 			</div> 
 		</div>
 		<%@ include file="../include/quick.jsp" %>

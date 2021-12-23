@@ -48,7 +48,7 @@ public class CartDAO extends DBConnPool{
 		List<CartDTO> board = new Vector<CartDTO>();
 
 		String query = "SELECT count_num, total_price, product_no, "
-				+ " product_name, price, milage, product_sfile FROM cart"
+				+ " product_name, price, milage, product_sfile, cart_no FROM cart"
 				+ " WHERE id=?"; 	       
 
 
@@ -68,6 +68,7 @@ public class CartDAO extends DBConnPool{
 				dto.setPrice(rs.getString(5));
 				dto.setMilage(rs.getString(6));
 				dto.setProduct_sfile(rs.getString(7));
+				dto.setCart_no(rs.getString(8)); 
 
 				board.add(dto);
 			}
@@ -81,15 +82,18 @@ public class CartDAO extends DBConnPool{
 	}
 	
 	//cart테이블의 product_no만 뽑아오기 (distinct)
-	public List<String> selectProduct(){
+	public List<String> selectProduct(CartDTO dto1){
 		
 		List<String> productList = new ArrayList<>();
 		
-		String query = "SELECT DISTINCT product_no FROM cart";
+		String query = "SELECT DISTINCT product_no FROM cart"
+		+ " WHERE id=?";
 				
 		try {
-			stmt = con.createStatement();    
-			rs = stmt.executeQuery(query); 
+			psmt = con.prepareStatement(query);   
+			psmt.setString(1, dto1.getId());
+			rs = psmt.executeQuery();
+			
 			
 			while(rs.next()) {
 				productList.add(rs.getString(1));
@@ -103,13 +107,15 @@ public class CartDAO extends DBConnPool{
 		return productList;
 	}
 	//특정행 하나 뽑아오기
-	 public CartDTO selectView(String idx) {
+	 public CartDTO selectView(String idx, CartDTO dto1) {
 	    	
 		 CartDTO dto = new CartDTO(); //DTO 객체 생성
-	        String query = "SELECT count_num, total_price FROM cart WHERE product_no=?";  
+	        String query = "SELECT count_num, total_price FROM cart WHERE product_no=?"
+	        		+ " WHERE id=?";  
 	        try {
 	            psmt = con.prepareStatement(query);  
 	            psmt.setString(1, idx); 
+	            psmt.setString(2,dto1.getId());
 	            rs = psmt.executeQuery(); 
 
 	            if (rs.next()) {//결과를 DTO에 저장 
@@ -134,13 +140,15 @@ public class CartDAO extends DBConnPool{
 		try {
 			String query = "UPDATE cart SET"
 					+ " count_num=?, total_price=?"
-					+ " WHERE product_no=?";
+					+ " WHERE product_no=?"
+					+ " AND id=?";
 			
 			psmt = con.prepareStatement(query);
 			
 			psmt.setInt(1, dto.getCount_num());
             psmt.setInt(2, dto.getTotal_price());
             psmt.setString(3, dto.getProduct_no());
+            psmt.setString(4,dto.getId());
             
             result = psmt.executeUpdate();
             System.out.println("result:"+result);
@@ -207,7 +215,35 @@ public class CartDAO extends DBConnPool{
 
         return result;  
     }
-	
-	
+	//cartno 기준 하나 뽑아오기 
+	 public CartDTO selectCartView(String idx) {
+	    	
+		 CartDTO dto = new CartDTO(); //DTO 객체 생성
+	        String query = "SELECT count_num, total_price, product_no, "
+	        		+ " product_name, price, milage, product_sfile "
+	        		+ " FROM cart WHERE cart_no=?";  
+	        try {
+	            psmt = con.prepareStatement(query);  
+	            psmt.setString(1, idx); 
+	            rs = psmt.executeQuery(); 
+
+	            if (rs.next()) {//결과를 DTO에 저장 
+	    			dto.setCount_num(rs.getInt(1));
+					dto.setTotal_price(rs.getInt(2)); 
+					dto.setProduct_no(rs.getString(3));
+					/* dto.setId(rs.getString(4)); */
+					dto.setProduct_name(rs.getString(4));
+					dto.setPrice(rs.getString(5));
+					dto.setMilage(rs.getString(6));
+					dto.setProduct_sfile(rs.getString(7));
+	               
+	            }
+	        }
+	        catch (Exception e) {
+	            System.out.println("게시물 상세보기 중 예외 발생");
+	            e.printStackTrace();
+	        }
+	        return dto;  
+	    }
 	
 }

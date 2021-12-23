@@ -61,8 +61,9 @@ public class basketInsert01 extends HttpServlet{
 		dto.setId(id);
 		
 		CartDAO dao = new CartDAO();
-		
-		List<String> productList = dao.selectProduct();
+		 
+
+		List<String> productList = dao.selectProduct(dto);
 		
 		for(String var : productList) { //  cart테이블에서 product_no 전부 가져와서 하나씩 비교한다.
 			
@@ -76,8 +77,8 @@ public class basketInsert01 extends HttpServlet{
 				 product_no를 를 가진 select를 한줄 뽑아와서 
 				 dto.setCount_num();
 				 dto.setTotal_price();
-				 */
-				CartDTO cart1 = dao.selectView(product_no);
+				 */ 
+				CartDTO cart1 = dao.selectView(product_no,dto);
 				int count1 = count+ cart1.getCount_num();
 				int total1 = total_price + cart1.getTotal_price();
 				dto.setCount_num(count1);

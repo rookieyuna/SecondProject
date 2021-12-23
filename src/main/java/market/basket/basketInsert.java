@@ -42,9 +42,9 @@ public class basketInsert extends HttpServlet{
 		}
 		int flag = 0;
 		
-		String count_num = req.getParameter("count_num");
-		String product_no = req.getParameter("product_no");
-		String price = req.getParameter("price");
+		String count_num = req.getParameter("count_");
+		String product_no = req.getParameter("product_");
+		String price = req.getParameter("price1_");
 		String product_sfile = req.getParameter("product_sfile");
 		String product_name = req.getParameter("product_name");
 		String Milage = req.getParameter("milage");
@@ -79,7 +79,7 @@ public class basketInsert extends HttpServlet{
 		dto.setId(id);
 		CartDAO dao = new CartDAO();
 		
-		List<String> productList = dao.selectProduct();
+		List<String> productList = dao.selectProduct(dto);
 		
 		for(String var : productList) { //  cart테이블에서 product_no 전부 가져와서 하나씩 비교한다.
 			
@@ -94,7 +94,7 @@ public class basketInsert extends HttpServlet{
 				 dto.setCount_num();
 				 dto.setTotal_price();
 				 */
-				CartDTO cart1 = dao.selectView(product_no);
+				CartDTO cart1 = dao.selectView(product_no,dto);
 				
 				/*
 				 sub01.jsp와 market_viewjsp에서 이동할떄는 그냥 더하면되는데
