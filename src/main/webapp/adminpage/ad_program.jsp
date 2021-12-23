@@ -400,7 +400,7 @@ BoardDAO dao = new BoardDAO();
 									    		
 									    	}
 									    	
-									    	// 페이지 소스에서 확인하려고 만든 코드
+									    	// 페이지 소스에서 출력 날짜 확인하려고 만든 코드
 									    	String jj = (j<10) ? "0"+j : ""+j;
 									    	String key = y+"-"+mo+"-"+jj;
 									    %>

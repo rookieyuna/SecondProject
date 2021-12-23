@@ -97,8 +97,9 @@
 						&nbsp;&nbsp;&nbsp;
 						<%=y %>년 <%=m %>월
 						&nbsp;&nbsp;&nbsp;
-						<a href="?cate=proB&y=<%=nextY %>&m=<%=nextM%>">▷</a>									
+						<a href="?cate=proB&y=<%=nextY %>&m=<%=nextM%>">▷</a>							
 					</div>
+					<br />		
 					
 					<table cellpadding="0" cellspacing="0" border="1" class="calendar"
 						style="width:100%; height: 350px;">
@@ -109,7 +110,7 @@
 					   	 <col width="14%" />
 					   	 <col width="14%" />
 					   	 <col width="14%" />
-					   	 <col width="*" />
+					   	 <col width="14%" />
 					    </colgroup>
 					    <tr>
 					    <%
@@ -142,15 +143,16 @@
 					    		
 					    	}
 					    	
+					    	// 페이지 소스에서 출력 날짜 확인하려고 만든 코드
 					    	String jj = (j<10) ? "0"+j : ""+j;
 					    	String key = y+"-"+mo+"-"+jj;
 					    %>
 					   	<!-- 날짜가 출력되는 부분  <%=key%>-->
-					   	<td class="dayCell">
+					   	<td style="height: 80px;">
 						   	<div><%=j%></div>
 					   		<div>
 					   			<% if(calendar.get(key) != null) { %>
-					   				<a href="./ad_boardView.jsp?y=<%=y %>&m=<%=m-1 %>&num=<%=calendar.get(key).getNum() %>&cate=proB"><%=calendar.get(key).getTitle() %></a>
+					   				<a href="./board_view.jsp?y=<%=y %>&m=<%=m-1 %>&num=<%=calendar.get(key).getNum() %>&cate=proB"><%=calendar.get(key).getTitle() %></a>
 					   			<% }%>
 					   		</div>
 					   	</td>

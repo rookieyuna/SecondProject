@@ -44,6 +44,11 @@
 						<img src="../images/space/sub01_title.gif" alt="공지사항" class="con_title" />
 						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;공지사항<p>
 					<%		
+						}else if(cate.equals("proB")){
+					%>
+						<img src="../images/space/sub02_title.gif" alt="프로그램 일정" class="con_title" />
+						<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;프로그램 일정<p>
+					<%		
 						}else if(cate.equals("freeB")){
 					%>
 						<img src="../images/space/sub03_title.gif" alt="자유게시판" class="con_title" />
@@ -159,6 +164,14 @@
         				%>
 							<button type="button" class="btn btn-warning" 
 								onclick="location.href='board_list.jsp?cate=<%= cate %>';">리스트보기</button>
+						<%
+						if(cate.equals("proB")) {
+						%>
+							<button type="button" class="btn btn-warning" 
+								onclick="location.href='calendar.jsp?cate=<%= cate %>';">달력보기</button>
+						<%
+						}
+						%>
 						</div>
 					</form> 
 				</div>

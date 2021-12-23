@@ -419,8 +419,11 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
     </div>
 
     <!-- Bootstrap core JavaScript-->
+    <!-- 이 부분 잇으면 datepicker가 안먹음.. 근데 없애면 좌측메뉴 클릭 안됨...  -->
+    <!-- 
     <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> 
+    -->
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
