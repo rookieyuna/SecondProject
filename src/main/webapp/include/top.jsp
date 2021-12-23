@@ -11,10 +11,7 @@
 		<%	
 		}
 		else{//로그인상태
-			String grade = session.getAttribute("UserIdentity").toString();//콘솔체크용
-			System.out.println(session.getAttribute("UserIdentity"));//콘솔체크용
-			System.out.println(grade);
-			if(grade!="1") { //직원로그인 된 상태
+			if(!session.getAttribute("UserIdentity").equals("1")) { //직원로그인 된 상태
 		%>
 			<li><a href="../adminpage/index.jsp"><img src="../images/lnb00.gif" alt="ADMIN" /></a></li>	
 		<%
