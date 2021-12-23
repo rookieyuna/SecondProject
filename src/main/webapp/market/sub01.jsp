@@ -51,9 +51,10 @@
 	}
 
 	function changePrice(idx) {
-		
+		console.log(idx);
 		console.log("changeprice");
 		var count = document.getElementById("count_"+idx).value;
+		console.log(count);
 		var price = document.getElementById("price1_"+idx).value;
 					
 		var result = count * price ;
@@ -139,6 +140,7 @@
 										 	 <input type="hidden" name="name_${row.product_no }" value="${row.product_name }" />
 										 	 <input type="hidden" name="milage_${row.product_no }" value="${row.milage }" />
 										 	 <input type="hidden" name="sfile_${row.product_no }" value="${row.product_sfile }"/>
+										 	 <!-- 제품 고유 가격 -->
 										 	 <input type="hidden" name="price1_${row.product_no }" id="price1_${row.product_no}" value="${ row.price }" />
 										 	 <input  type="hidden" name="product_${row.product_no }" value="${ row.product_no }" />
 										 	 <input type="hidden" id="zlag" name="zlag" value="0"/>

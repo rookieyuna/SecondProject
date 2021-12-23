@@ -17,6 +17,7 @@
  			document.getElementById("total_"+idx).innerHTML = (total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
  			
  			var price = document.getElementById("price_"+idx).innerHTML;
+ 			console.log(price);
  			document.getElementById("price_"+idx).innerHTML = (price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+ "원");			
 
  		}
@@ -30,9 +31,11 @@
  		
 		function changePrice(idx) {
 			
+			console.log(idx);
 			var count = document.getElementById("count_"+idx).value;
 			var price = document.getElementById("price1_"+idx).value;
 			var result = count * price ;
+			console.log("count:"+count+"price:"+price+"result:"+result);
 			document.getElementById("total_"+idx).innerHTML = (result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
 				
 			//최종합계 구현
@@ -135,7 +138,7 @@
 							 ${ row.total_price }</span></td>
 							
 						</tr>
-						<<script>money(${row.product_no });</script>
+						<script>money(${row.product_no });</script>
 						</c:forEach> 
 					</c:otherwise>
 				</c:choose>
@@ -145,7 +148,7 @@
 				<p class="basket_text">[ 기본 배송 ] <span>상품구매금액</span> 
 				<span id="sum1">${ sum }</span> + <span>배송비</span> 0 = 합계 : 
 				<span class="money" id="sum">${ sum }</span><br /><br />
-				<<script>money1();</script>
+				<script>money1();</script>
 				<a href=""><img src="../images/market/basket_btn01.gif" /></a>&nbsp;<a href="basket02.jsp"><img src="../images/market/basket_btn02.gif" /></a></p>
 			</div> 
 		</div>
