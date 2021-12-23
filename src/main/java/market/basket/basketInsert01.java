@@ -1,6 +1,7 @@
 package market.basket;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utils.JSFunction;
 
 @WebServlet("/market/basketIns01.do")
 public class basketInsert01 extends HttpServlet{
@@ -16,6 +18,19 @@ public class basketInsert01 extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		
+		HttpSession session = req.getSession();
+		String id = (String)session.getAttribute("UserId");
+	
+		if(session.getAttribute("UserId") ==null){
+			resp.setContentType("text/html; charset=UTF-8");
+			PrintWriter writer = resp.getWriter(); 
+			writer.println("<script>alert('로그인후이용해주세요'); location.href='../member/login.jsp';</script>");
+			writer.close();
+		
+			return;
+		}
 		
 		int flag = 0;
 		
@@ -43,10 +58,8 @@ public class basketInsert01 extends HttpServlet{
 		dto.setProduct_name(product_name);
 		dto.setPrice(price); 
 		dto.setMilage(Milage);
-		
-		HttpSession session = req.getSession();
-		String id = (String)session.getAttribute("UserId");
 		dto.setId(id);
+		
 		CartDAO dao = new CartDAO();
 		
 		List<String> productList = dao.selectProduct();
