@@ -155,7 +155,7 @@
 										<!-- 구매버튼2개 -->
 										<td>
 											<!-- 최종 구매 버튼 -->
-	1										<input type="image" onclick="goBuy(${row.product_no})" class="cart" src="../images/market/btn01.gif" alt="바로구매" ></input><br />
+											<input type="image" onclick="goBuy(${row.product_no})" class="cart" src="../images/market/btn01.gif" alt="바로구매" ></input><br />
 											<!-- 장바구니버튼 !  온클릭이벤트 ! -->
 											<input type="image" onclick="goCart(${row.product_no})" class="cart" src="../images/market/btn02.gif" alt="장바구니" ></input>
 										</td>
