@@ -75,8 +75,7 @@ public class BoardDAO extends JDBConnect {
 				dto.setId(rs.getString("id"));
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
-				dto.setPostdate(rs.getDate("postdate"));
-				dto.setPdate(rs.getString("pdate"));
+				dto.setPostdate(rs.getString("postdate"));
 				dto.setOfile(rs.getString("ofile"));
 				dto.setSfile(rs.getString("sfile"));
 				dto.setDowncount(rs.getString("downcount"));
@@ -110,8 +109,7 @@ public class BoardDAO extends JDBConnect {
 				dto.setId(rs.getString("id"));
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
-				dto.setPostdate(rs.getDate("postdate"));
-				dto.setPdate(rs.getString("pdate"));
+				dto.setPostdate(rs.getString("postdate"));
 				dto.setOfile(rs.getString("ofile"));
 				dto.setSfile(rs.getString("sfile"));
 				dto.setDowncount(rs.getString("downcount"));
@@ -157,8 +155,7 @@ public class BoardDAO extends JDBConnect {
 				dto.setId(rs.getString("id"));
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
-				dto.setPostdate(rs.getDate("postdate"));
-				dto.setPdate(rs.getString("pdate"));
+				dto.setPostdate(rs.getString("postdate"));
 				dto.setOfile(rs.getString("ofile"));
 				dto.setSfile(rs.getString("sfile"));
 				dto.setDowncount(rs.getString("downcount"));
@@ -313,18 +310,17 @@ public class BoardDAO extends JDBConnect {
 
 	// 프로그램 일정 추가하기
 	public int pinsertWrite(BoardDTO dto) {
-		// SimpleDateFormat pdate = new SimpleDateFormat("yyyy-mm");
 		int result = 0;
 		try {
 			String query = "INSERT INTO board ( " 
-					+ " num, id, pass, title, content, pdate, visitcount, category) "
+					+ " num, id, pass, title, content, postdate, visitcount, category) "
 					+ " VALUES ( " + " seq_board_num.NEXTVAL, ?, ?, ?, ?, ?, 0, ?)";
 
 			psmt = con.prepareStatement(query);
 			System.out.println("아이디 : " + dto.getId());
 			System.out.println("비번 : " + dto.getPass());
 			System.out.println("제목 : " + dto.getTitle());
-			System.out.println("날짜 : " + dto.getPdate());
+			System.out.println("날짜 : " + dto.getPostdate());
 			System.out.println("내용 : " + dto.getContent());
 			System.out.println("카테 : " + dto.getCategory());
 
@@ -332,7 +328,7 @@ public class BoardDAO extends JDBConnect {
 			psmt.setString(2, dto.getPass());
 			psmt.setString(3, dto.getTitle());
 			psmt.setString(4, dto.getContent());
-			psmt.setString(5, dto.getPdate());
+			psmt.setString(5, dto.getPostdate());
 			psmt.setString(6, dto.getCategory());
 
 			result = psmt.executeUpdate();
@@ -343,59 +339,36 @@ public class BoardDAO extends JDBConnect {
 		return result;
 	}
 
-	// 프로그램 일정 상세보기
-	public BoardDTO pselectView(String num) {
-		BoardDTO dto = new BoardDTO();
-
-		String query = "SELECT B.*, M.name, M.email " + " FROM member M INNER JOIN board B " + " ON M.id=B.id "
-				+ " WHERE num=?";
-		try {
-			psmt = con.prepareStatement(query);
-			psmt.setString(1, num);
-			rs = psmt.executeQuery();
-			if (rs.next()) {
-				dto.setNum(rs.getString("num"));
-				dto.setId(rs.getString("id"));
-				dto.setTitle(rs.getString("title"));
-				dto.setContent(rs.getString("content"));
-				dto.setPostdate(rs.getDate("postdate"));
-				dto.setPdate(rs.getString("pdate"));
-				dto.setCategory(rs.getString("category"));
-			}
-		} catch (Exception e) {
-			System.out.println("게시물 상세보기 중 예외 발생");
-			e.printStackTrace();
-		}
-		return dto;
-	}
-
-	// 프로그램 값 받아오기 (달력에 뿌려주기) 미완
-	/*
-	public Map<String, BoardDTO> clist(String BoardDTO) { 
-		Map<String, BoardDTO> map = new HashMap<String, BoardDTO>();
+	// 프로그램 값 받아오기 (달력에 뿌려주기) 
+	public Map<String, BoardDTO> calList(String data) { 
+	
+		Map<String, BoardDTO> calendar = new HashMap<String, BoardDTO>();
 		
-		String query = "SELECT * FROM board " 
-				+ " WHERE to_char(pdate, 'yyyy-mm')='2021-12' " 
-				+ " ORDER BY pdate asc";
-	 
+		String query = "SELECT B.*, to_char(postdate, 'yyyy-mm-dd') pdate "
+		 		+ " FROM board B "
+				+ " WHERE category='proB' AND to_char(postdate, 'yyyy-mm')='"+data+"' " 
+				+ " ORDER BY postdate ASC";
+		System.out.println("쿼리문:"+query);
+		
 		try { 
 			psmt = con.prepareStatement(query); 
 			rs = psmt.executeQuery();
 			while(rs.next()) {
-				System.out.println(rs.getString("pdate")+" "+rs.getString("title"));
+				System.out.println(rs.getString("pdate")+""+rs.getString("title"));
 				
 				BoardDTO dto = new BoardDTO();
 				dto.setNum(rs.getString("num"));
 				dto.setTitle(rs.getString("title"));
-				dto.setPdate(rs.getString("pdate"));
+				dto.setPostdate(rs.getString("pdate"));
 				
-				map.put(rs.getString("pdate"),dto);
+				calendar.put(rs.getString("pdate"),dto);
 			}
 		} 
 		catch (Exception e) { 
 			System.out.println("값 조회 중 예외 발생");
 			e.printStackTrace(); 
 		} 
+		return calendar;
 	}
-	*/
+	
 }

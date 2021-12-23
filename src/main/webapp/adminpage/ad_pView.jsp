@@ -341,7 +341,7 @@ dao.close();
                         <ul class="d-flex justify-content-end">
                             <li><button type="button" class="btn btn-outline-secondary">삭제</button></li>
                             <li><button type="button" class="btn btn-outline-success">수정하기</button></li>                            
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_program.jspcate=<%= cate %>';">목록보기</button></li>
+                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_program.jsp?cate=<%= cate %>';">목록보기</button></li>
                         </ul>
                     </div>
                 </div>

@@ -18,14 +18,14 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
 %>
 <script type="text/javascript">
 	function validateForm(form) {
-		if(form.id.value == ""){
-			alert("아이디를 입력하세요.");
-			form.id.focus();
-			return false;
-		}
 		if(form.title.value == ""){
 			alert("제목을 입력하세요.");
 			form.title.focus();
+			return false;
+		}
+		if(form.pass.value == ""){
+			alert("패스워드를 입력하세요.");
+			form.pass.focus();
 			return false;
 		}
 		if(form.content.value == "") {
@@ -339,7 +339,7 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
 										<td><input type="text" name="id"  style="width: 30%;" value="<%= mDto.getId() %>" /></td>
 									</tr>
 									<tr>
-										<td>비밀번호</td>
+										<td>패스워드</td>
 										<td><input type="password" name="pass"  style="width: 30%;" /></td>
 									</tr>
 									<tr>
@@ -348,7 +348,7 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
 									</tr>
 									<tr>
 										<td>작성일</td>
-										<td><input type="text" name="pdate" id="datepicker" style="width: 20%;"></td>
+										<td><input type="text" name="postdate" id="datepicker" style="width: 20%;"></td>
 									</tr>
 									<tr>
 										<td>내용</td>
@@ -418,7 +418,6 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
         </div>
     </div>
 
-    
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

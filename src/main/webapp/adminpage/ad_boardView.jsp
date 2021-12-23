@@ -302,6 +302,7 @@ dao.close();
                     <h1 class="h3 mb-2 text-gray-800">
                     <% 
                    	if(cate.equals("notB")) out.write("공지사항 관리");
+                   	if(cate.equals("proB")) out.write("프로그램 일정 관리");
                    	if(cate.equals("freeB")) out.write("자유게시판 관리");
                    	if(cate.equals("photoB")) out.write("사진게시판 관리");
                    	if(cate.equals("infoB")) out.write("정보자료실 관리");
@@ -310,6 +311,7 @@ dao.close();
                     <p class="mb-4">BOARD MANAGEMENT - 
                     <% 
                    	if(cate.equals("notB")) out.write("NOTICE");
+                   	if(cate.equals("proB")) out.write("PROGRAM");
                    	if(cate.equals("freeB")) out.write("FREEBOARD");
                    	if(cate.equals("photoB")) out.write("PHOTO");
                    	if(cate.equals("infoB")) out.write("INFORMATION");
@@ -325,6 +327,7 @@ dao.close();
                             <h6 class="m-0 font-weight-bold text-primary">
                             <% 
 		                   	if(cate.equals("notB")) out.write("공지사항 상세보기");
+		                   	if(cate.equals("proB")) out.write("프로그램 일정 상세보기");
 		                   	if(cate.equals("freeB")) out.write("자유게시판 상세보기");
 		                   	if(cate.equals("photoB")) out.write("사진게시판 상세보기");
 		                   	if(cate.equals("infoB")) out.write("정보자료실 상세보기");
@@ -413,6 +416,7 @@ dao.close();
                             <li><button type="button" class="btn btn-outline-success" onclick="location.href='ad_boardEdit.jsp?cate=<%= cate %>&num=<%= dto.getNum() %>'">수정하기</button></li>                            
                             <li><button type="button" class="btn btn-outline-primary" 
                             	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
+														                   	if(cate.equals("proB")) out.write("ad_program.jsp?cate=");
 														                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
 														                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
 														                   	if(cate.equals("infoB")) out.write("ad_information.jsp?cate=");%><%= cate %>';">목록보기</button>
