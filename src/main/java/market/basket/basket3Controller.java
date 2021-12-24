@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 
 import market.MKProductDAO;
 import market.MKProductDTO;
+import membership.MemberDAO;
+import membership.MemberDTO;
 
 @WebServlet("/market/basket3.do") 
 public class basket3Controller extends HttpServlet{
@@ -48,8 +50,14 @@ public class basket3Controller extends HttpServlet{
         //커넥션풀에 자원 반납
         dao.close();  
         
+        MemberDAO Mdao  = new MemberDAO();
+        String id = (String)session.getAttribute("UserId");
+        MemberDTO Mdto = Mdao.memberInfo(id); 
+
         //View로 전달할 객체 request영역에 저장
         req.setAttribute("dto", board);
+        req.setAttribute("member_info", Mdto);
+
         //View로 포워드를 걸어준다. 
         req.getRequestDispatcher("/market/basket3.jsp").forward(req, resp);
 	}

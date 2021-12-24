@@ -29,23 +29,20 @@ if (!loginId.equals("")){
 @import url("../css/sub.css");
 </style>
 <script>
-
-/* 
-오픈마켓에서 케이크 주문 완료하면 
-main.jsp로 이동하게 하고 싶어서요
-*/
-$(function(){
-	
-	<%
-	if((request.getAttribute("OrderSuccess") != null) ){
-	 %> 		
-		alert("주문 완료");
-	
-	<%
-	}
-	%>
-});
-
+	/* 
+	오픈마켓에서 케이크 주문 완료하면 
+	main.jsp로 이동하게 하고 싶어서요
+	*/
+	$(function(){
+		
+		<%
+		if((request.getAttribute("OrderSuccess") != null) ){
+		 %> 		
+			alert("주문 완료");
+		<%
+		}
+		%>
+	});
 
 function validateForm(form) {
 	if(!form.user_id.value){

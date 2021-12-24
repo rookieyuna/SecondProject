@@ -5,7 +5,8 @@
 <%@ include file="../include/global_head.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!--
 
@@ -21,7 +22,8 @@
 <meta charset="UTF-8">
 <title></title>
 </head>
-<script>	
+<script>
+
 	function money(idx){		
 		
 		var price = document.getElementById("price_"+idx).innerHTML;
