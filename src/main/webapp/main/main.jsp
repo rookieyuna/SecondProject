@@ -30,11 +30,9 @@ if (!loginId.equals("")){
 </style>
 <script>
 	/* 
-	오픈마켓에서 케이크 주문 완료하면 
-	main.jsp로 이동하게 하고 싶어서요
+	오픈마켓에서 케이크 주문 완료하면 main.jsp로 이동하게 하고 싶어서요
 	*/
 	$(function(){
-		
 		<%
 		if((request.getAttribute("OrderSuccess") != null) ){
 		 %> 		
@@ -43,19 +41,19 @@ if (!loginId.equals("")){
 		}
 		%>
 	});
-
-function validateForm(form) {
-	if(!form.user_id.value){
-		alert("아이디를 입력하세요.");
-		form.user_id.focus();
-		return false;
+		
+	function validateForm(form) {
+		if(!form.user_id.value){
+			alert("아이디를 입력하세요.");
+			form.user_id.focus();
+			return false;
+		}
+		if(form.user_pw.value==""){
+			alert("패스워드를 입력하세요.");
+			form.user_pw.focus();
+			return false;
+		}
 	}
-	if(form.user_pw.value==""){
-		alert("패스워드를 입력하세요.");
-		form.user_pw.focus();
-		return false;
-	}
-}
 </script>
 </head>
 <body>
@@ -122,7 +120,9 @@ function validateForm(form) {
 					for(BoardDTO dto : lists){
 						if(dto.getTitle()!=null){
 				%>
-					<li><p><a href="../space/board_view.jsp?cate=notB&num=<%= dto.getNum() %>"><%=dto.getTitle() %></a><span><%=dto.getPostdate()%></span></p></li>
+					<li><p><a href="../space/board_view.jsp?cate=notB&num=<%= dto.getNum() %>">
+					<div style="width:160px; overflow:hidden;text-overflow:ellipsis; white-space:nowrap;"><%=dto.getTitle() %></div></a>
+					<span><%=dto.getPostdate()%></span></p></li>
 				<%	
 						}
 					}
@@ -139,7 +139,11 @@ function validateForm(form) {
 					for(BoardDTO dto : lists){
 						if(dto.getTitle()!=null){
 				%>
-					<li><p><a href="../space/board_view.jsp?cate=freetB&num=<%= dto.getNum() %>"><%=dto.getTitle() %></a><span><%=dto.getPostdate()%></span></p></li>
+					<li >
+						<a href="../space/board_view.jsp?cate=freetB&num=<%= dto.getNum() %>">
+						<div style="width:160px; overflow:hidden;text-overflow:ellipsis; white-space:nowrap;"><%=dto.getTitle() %></div></a>
+						<span><%=dto.getPostdate()%></span>
+					</li>
 				<%
 						}
 					}
@@ -258,8 +262,12 @@ function validateForm(form) {
 					%>					
 					<li>
 						<dl>
-							<dt><a href=""><img src="../Uploads/<%= dto.getSfile() %>" alt="" width=95 height=63></a></dt>
-							<dd><a href=""><%=dto.getTitle() %></a></dd>
+							<dt><a href="../space/board_view.jsp?cate=photoB&num=<%= dto.getNum() %>"><img src="../Uploads/<%= dto.getSfile() %>" alt="" width=95 height=63></a></dt>
+							<dd style="padding:0 2px; overflow:hidden;text-overflow:ellipsis; white-space:nowrap;"><a href=""><%=dto.getTitle() %></a></dd>
+							<!--
+							overflow:hidden : 넓이가 70px를 넒어서는 내용에 대해서는 보이지 않게 처리함
+							text-overflow:ellipsis : 글자가 넓이 70px를 넘을 경우 생략부호를 표시함
+							white-space:nowrap : 공백문자가 있는 경우 줄바꿈하지 않고 한줄로 나오게 처리함 (\A로 줄바꿈가능) -->
 						</dl>
 					</li>
 					<%

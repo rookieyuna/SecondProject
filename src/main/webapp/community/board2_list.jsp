@@ -81,15 +81,18 @@
 						
 						<div class="boardTool">
 							<div class="tool_Paging">
-								<td>
+								<ul>
 									${map.pagingImg}
-								</td>
+								</ul>
 							</div>
 							
 							<c:if test="${UserId ne null }">
 							<div class="tool_edit">
-								<button type="button" class="btn btn-primary" onclick="location.href='../board2/write.do?cate=${param.cate}';">글쓰기</button>
+								<ul>
+								<li><button type="button" class="btn btn-primary" onclick="location.href='../board2/write.do?cate=${param.cate}';">글쓰기</button></li>
+								<ul>
 							</div>
+							
 							</c:if>	
 								
 							<div class="tool_Search">

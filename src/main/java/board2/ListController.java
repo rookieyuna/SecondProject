@@ -11,10 +11,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import board.BoardDAO;
 import board.BoardDTO;
 import utils.BoardPage;
+import utils.JSFunction;
 
 @WebServlet("/board2/list.do")
 public class ListController extends HttpServlet{
@@ -22,10 +24,11 @@ public class ListController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		String cate = req.getParameter("cate");
+		String cateUrl = req.getRequestURI() + "?cate=" + cate;
+
 		//커넥션풀을 이용한 DB연결
 		BoardDAO dao = new BoardDAO();
-		String cate = req.getParameter("cate");
-		
 		//파라미터 및 View로 전달할 데이터 저장용 Map컬렉션 생성
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -71,8 +74,10 @@ public class ListController extends HttpServlet{
 		dao.close();
 		
 		//페이지 번호를 생성하기 위해 메서드 호출
-		String pagingImg = BoardPage.pagingStr(totalCount, pageSize, 
-				blockPage, pageNum, "../board2/list.do");
+		String pagingImg =BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, cateUrl, searchField, searchWord); 
+			//[기존]BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, "../board2/list.do");
+		//[보드1] BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, cateUrl, searchField, searchWord)
+		
 		//View로 전달할 데이터를 Map컬렉션에 저장
 		map.put("pagingImg", pagingImg);//페이지 번호
 		map.put("totalCount", totalCount);//전체 게시물의 개수
@@ -83,34 +88,28 @@ public class ListController extends HttpServlet{
 		req.setAttribute("boardLists", boardLists);
 		req.setAttribute("map", map);
 		//View로 포워드를 걸어준다
-		req.getRequestDispatcher("/community/board2_list.jsp").forward(req, resp);
+	
+		
+		//세션정보 얻어오기
+		HttpSession session = req.getSession();
+		
+		//직원계정 로그인시에만 접근 허용
+		if(cate.equals("stafB")){
+			if(session.getAttribute("UserId") != null) {
+				String identity = (String) session.getAttribute("UserIdentity");
+				if(identity.equals("1")) { 
+					JSFunction.alertBack(resp, "직원만 접근 가능합니다");
+				}
+				else {
+					req.getRequestDispatcher("/community/board2_list.jsp").forward(req, resp);
+				}
+			}
+			else {
+				JSFunction.alertBack(resp, "직원만 접근 가능합니다");
+			}
+		}
+		else {
+			req.getRequestDispatcher("/community/board2_list.jsp").forward(req, resp);
+		}
 	}
-	/*
-	 * <%
-	 * String cate = request.getParameter("cate"); String cateUrl =
-	 * request.getRequestURI() + "?cate=" + cate;
-	 * 
-	 * BoardDAO dao = new BoardDAO(); Map<String, Object> param = new
-	 * HashMap<String, Object>();
-	 * 
-	 * String searchField = request.getParameter("searchField"); String searchWord =
-	 * request.getParameter("searchWord");
-	 * 
-	 * if(searchWord != null){ param.put("searchField", searchField);
-	 * param.put("searchWord", searchWord); param.put("cate", cate); }
-	 * 
-	 * int totalCount = dao.selectCount(param, cate); int pageSize = 10; int
-	 * blockPage = 5; int totalPage = (int)Math.ceil((double)totalCount / pageSize);
-	 * int pageNum = 1;
-	 * 
-	 * String pageTemp = request.getParameter("pageNum");
-	 * 
-	 * if(pageTemp != null && !pageTemp.equals("")) pageNum =
-	 * Integer.parseInt(pageTemp);
-	 * 
-	 * int start = (pageNum - 1) * pageSize + 1; int end = pageNum * pageSize;
-	 * param.put("start", start); param.put("end", end);
-	 * 
-	 * List<BoardDTO> boardLists = dao.selectList(param, cate); dao.close(); %>
-	 */
 }

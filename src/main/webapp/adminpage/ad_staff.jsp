@@ -300,8 +300,8 @@ $(function(){
                                             <th class="boardCheckbox">
                                                 <input type="checkbox" id="checkedAll" class="form-check-input flex-shrink-0" style="font-size: 1.375em;">
                                             </th>
-                                            <th class="numbering">번호</th>
-                                            <th class="boardtitle">제목</th>
+                                            <th class="numbering" >번호</th>
+                                            <th class="boardtitle" >제목</th>
                                             <th class="boardwriter">작성자</th>
                                             <th class="boarddate">작성일</th>
                                             <th class="numbering">조회수</th>
@@ -368,16 +368,14 @@ $(function(){
                 </div>
                 <!-- /.container-fluid -->
 
-			<!-- 페이지번호 출력 -->
-			    <table width="90%">
-			        <tr align="center">
-			        <!-- 페이징 처리 -->
-			        	<td>
-			        		${map.pagingImg }
-			        	</td>
-			        </tr>
-			    </table>
-			    
+		        <!-- 페이징 처리 -->
+				<div class="row mt-3">
+	                <div class="col">
+	                	<ul class="pagination justify-content-center">
+		                	${map.pagingImg }
+	                	</ul>
+	                </div>
+                </div>  
             </div>
             <!-- End of Main Content -->
 

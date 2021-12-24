@@ -4,17 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../include/global_head.jsp" %>
 
- <script type="text/javascript">
-	 function deletePost(){
-		var confirmed = confirm("정말로 삭제하시겠습니까?");
-		if(confirmed){
-			var form = document.writeFrm;
-			form.method = "get"; // 전송방식을 post로 설정
-			form.action = "/board2/download.do"; // 전송할 URL
-			form.submit(); // form값 전송
-		}
-	}
-</script>
  <body>
 	<!-- <center>  -->
 	<div id="wrap">
@@ -105,7 +94,8 @@
 						
 						<c:if test="${UserId eq dto.id }">
 							<button type="button" class="btn btn-primary" onclick="location.href='../board2/edit.do?num=${dto.num}&cate=${param.cate}';">수정하기</button>
-							<button type="button" class="btn btn-success" onclick="deletePost();">삭제하기</button>	
+							<button type="button" class="btn btn-success" onclick="location.href='../board2/delete.do?num=${dto.num}&cate=${param.cate}';">삭제하기</button>
+							<!-- <button type="button" class="btn btn-success" onclick="deletePost();">삭제하기</button>	 -->
 						</c:if>
 							<button type="button" class="btn btn-warning" 
 								onclick="location.href='../board2/list.do?cate=${param.cate}';">리스트보기</button>

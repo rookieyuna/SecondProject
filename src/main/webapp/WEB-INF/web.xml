@@ -57,12 +57,12 @@
   <!-- 한 페이지에 출력할 게시물의 갯수 -->
   <context-param>
     <param-name>POSTS_PER_PAGE</param-name>
-    <param-value>3</param-value>
+    <param-value>10</param-value>
   </context-param>
   <!-- 한 블럭당 출력할 페이지 번호의 갯수 -->
   <context-param>
     <param-name>PAGES_PER_BLOCK</param-name>
-    <param-value>2</param-value>
+    <param-value>5</param-value>
   </context-param>
   
 </web-app>
