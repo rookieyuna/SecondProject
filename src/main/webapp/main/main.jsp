@@ -1,6 +1,13 @@
+<%@page import="java.util.List"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="board.BoardDTO"%>
+<%@page import="board.BoardDAO"%>
 <%@page import="utils.CookieManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <% 
 //쿠키값 읽어오기
 String loginId = CookieManager.readCookie(request, "loginId");
@@ -22,6 +29,24 @@ if (!loginId.equals("")){
 @import url("../css/sub.css");
 </style>
 <script>
+
+/* 
+오픈마켓에서 케이크 주문 완료하면 
+main.jsp로 이동하게 하고 싶어서요
+*/
+$(function(){
+	
+	<%
+	if((request.getAttribute("OrderSuccess") != null) ){
+	 %> 		
+		alert("주문 완료");
+	
+	<%
+	}
+	%>
+});
+
+
 function validateForm(form) {
 	if(!form.user_id.value){
 		alert("아이디를 입력하세요.");
@@ -91,21 +116,37 @@ function validateForm(form) {
 				</form>
 			</div>
 			<div class="main_con_center">
-				<p class="main_title"><img src="../images/main_title02.gif" alt="공지사항 NOTICE" /><a href="/space/sub01.jsp"><img src="../images/more.gif" alt="more" class="more_btn" /></a></p>
+				<p class="main_title"><img src="../images/main_title02.gif" alt="공지사항 NOTICE" /><a href="../space/board_list.jsp?cate=notB"><img src="../images/more.gif" alt="more" class="more_btn" /></a></p>
 				<ul class="main_board_list">
-					<li><p><a href="">마포 구립 장애인 직업재활센터 홈페이지</a><span>2012.01.26</span></p></li>
-					<li><a href="">마포 구립 장애인 직업재활센터 홈페이지</a><span>2012.01.26</span></li>
-					<li><a href="">마포 구립 장애인 직업재활센터 홈페이지</a><span>2012.01.26</span></li>
-					<li><a href="">마포 구립 장애인 직업재활센터 홈페이지</a><span>2012.01.26</span></li>
+				<%
+				    BoardDAO dao = new BoardDAO();
+					List<BoardDTO> lists = dao.mainViewtList("notB");
+
+					for(BoardDTO dto : lists){
+						if(dto.getTitle()!=null){
+				%>
+					<li><p><a href="../space/board_view.jsp?cate=notB&num=<%= dto.getNum() %>"><%=dto.getTitle() %></a><span><%=dto.getPostdate()%></span></p></li>
+				<%	
+						}
+					}
+					
+				%>
 				</ul>
 			</div>
 			<div class="main_con_right">
-				<p class="main_title"><img src="../images/main_title03.gif" alt="자유게시판 FREE BOARD" /><a href="/space/sub03.jsp"><img src="../images/more.gif" alt="more" class="more_btn" /></a></p>
+				<p class="main_title"><img src="../images/main_title03.gif" alt="자유게시판 FREE BOARD" /><a href="../space/board_list.jsp?cate=freeB"><img src="../images/more.gif" alt="more" class="more_btn" /></a></p>
 				<ul class="main_board_list">
-					<li><p><a href="">마포 구립 장애인 직업재활센터 홈페이지</a><span>2012.01.26</span></p></li>
-					<li><a href="">마포 구립 장애인 직업재활센터 홈페이지마포 구립 장애인 직업재활센터 홈페이지마포 구립 장애인 직업재활센터 홈페이지</a><span>2012.01.26</span></li>
-					<li><a href="">마포 구립 장애인 직업재활센터 홈페이지</a><span>2012.01.26</span></li>
-					<li><a href="">마포 구립 장애인 직업재활센터 홈페이지</a><span>2012.01.26</span></li>
+				<%
+					lists = dao.mainViewtList("freeB");
+				
+					for(BoardDTO dto : lists){
+						if(dto.getTitle()!=null){
+				%>
+					<li><p><a href="../space/board_view.jsp?cate=freetB&num=<%= dto.getNum() %>"><%=dto.getTitle() %></a><span><%=dto.getPostdate()%></span></p></li>
+				<%
+						}
+					}
+				%>
 				</ul>
 			</div>
 		</div>
@@ -209,44 +250,26 @@ function validateForm(form) {
 				</div>
 			</div>
 			<div class="main_con_right">
-				<p class="main_title"><img src="../images/main_title06.gif" alt="사진게시판 PHOTO BOARD" /><a href="/space/sub04.jsp"><img src="../images/more.gif" alt="more" class="more_btn" /></a></p>
+				<p class="main_title"><img src="../images/main_title06.gif" alt="사진게시판 PHOTO BOARD" /><a href="../space/board_list.jsp?cate=photoB"><img src="../images/more.gif" alt="more" class="more_btn" /></a></p>
 				<ul class="main_photo_list">
+					
+					<%
+					lists = dao.mainViewtList("photoB");
+				
+					for(BoardDTO dto : lists){
+						if(dto.getTitle()!=null){
+					%>					
 					<li>
 						<dl>
-							<dt><a href=""><img src="../images/g_img.gif" /></a></dt>
-							<dd><a href="">마포 구립 장애인...</a></dd>
+							<dt><a href=""><img src="../Uploads/<%= dto.getSfile() %>" alt="" width=95 height=63></a></dt>
+							<dd><a href=""><%=dto.getTitle() %></a></dd>
 						</dl>
 					</li>
-					<li>
-						<dl>
-							<dt><a href=""><img src="../images/g_img.gif" /></a></dt>
-							<dd><a href="">마포 구립 장애인...</a></dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt><a href=""><img src="../images/g_img.gif" /></a></dt>
-							<dd><a href="">마포 구립 장애인...</a></dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt><a href=""><img src="../images/g_img.gif" /></a></dt>
-							<dd><a href="">마포 구립 장애인...</a></dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt><a href=""><img src="../images/g_img.gif" /></a></dt>
-							<dd><a href="">마포 구립 장애인...</a></dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt><a href=""><img src="../images/g_img.gif" /></a></dt>
-							<dd><a href="">마포 구립 장애인...</a></dd>
-						</dl>
-					</li>
+					<%
+						}
+					}
+					dao.close();
+					%>
 				</ul>
 			</div>
 		</div>

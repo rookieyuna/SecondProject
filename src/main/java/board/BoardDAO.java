@@ -389,4 +389,67 @@ public class BoardDAO extends JDBConnect {
 		return calendar;
 	}
 	
+	
+	public BoardDTO mainView(String cate) {
+		BoardDTO dto = new BoardDTO();
+
+		//select * from (select * from board where category='stafB' order by postdate desc) where rownum = 1;
+		String query = "SELECT * FROM (SELECT * FROM board WHERE category=? order by postdate desc) ";
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, cate);
+			
+			System.out.println(cate);
+			
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				dto.setNum(rs.getString("num"));
+				dto.setId(rs.getString("id"));
+				dto.setTitle(rs.getString("title"));
+				dto.setPostdate(rs.getString("postdate"));
+				dto.setCategory(rs.getString("Category"));
+
+			}
+		} catch (Exception e) {
+			System.out.println("메인게시물 보기 중 예외 발생");
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
+
+	
+	
+	public List<BoardDTO> mainViewtList(String cate) {
+		List<BoardDTO> boardBox = new Vector<BoardDTO>();
+
+		try {
+			String query = "SELECT tb.*, rownum FROM (SELECT * FROM board WHERE category=? order by postdate desc) tb where rownum between 1 and 4";
+			
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, cate);
+			rs = psmt.executeQuery();
+
+			while (rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				
+				dto.setNum(rs.getString("num"));
+				dto.setId(rs.getString("id"));
+				dto.setTitle(rs.getString("title"));
+				dto.setOfile(rs.getString("ofile"));
+				dto.setSfile(rs.getString("sfile"));
+				dto.setPostdate(rs.getString("postdate"));
+				dto.setCategory(rs.getString("category"));
+
+				boardBox.add(dto);
+			}
+
+		} catch (Exception e) {
+			System.out.println("메인게시물 보기중 오류발생");
+			e.printStackTrace();
+		}
+		return boardBox;
+	}
+	
 }
