@@ -1,6 +1,9 @@
 <%@page import="utils.CookieManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <% 
 //쿠키값 읽어오기
 String loginId = CookieManager.readCookie(request, "loginId");
@@ -22,6 +25,24 @@ if (!loginId.equals("")){
 @import url("../css/sub.css");
 </style>
 <script>
+/* 
+오픈마켓에서 케이크 주문 완료하면 
+main.jsp로 이동하게 하고 싶어서요
+*/
+$(function(){
+	
+	<%
+	if((request.getAttribute("OrderSuccess") != null) ){
+	 %> 		
+		alert("주문 완료");
+	
+	<%
+	}
+	%>
+});
+
+
+
 function validateForm(form) {
 	if(!form.user_id.value){
 		alert("아이디를 입력하세요.");

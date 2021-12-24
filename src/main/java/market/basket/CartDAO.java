@@ -111,7 +111,7 @@ public class CartDAO extends DBConnPool{
 	    	
 		 CartDTO dto = new CartDTO(); //DTO 객체 생성
 	        String query = "SELECT count_num, total_price FROM cart WHERE product_no=?"
-	        		+ " WHERE id=?";  
+	        		+ " AND id=?";  
 	        try {
 	            psmt = con.prepareStatement(query);  
 	            psmt.setString(1, idx); 
@@ -221,7 +221,7 @@ public class CartDAO extends DBConnPool{
 		 CartDTO dto = new CartDTO(); //DTO 객체 생성
 	        String query = "SELECT count_num, total_price, product_no, "
 	        		+ " product_name, price, milage, product_sfile "
-	        		+ " FROM cart WHERE cart_no=?";  
+	        		+ ", cart_no FROM cart WHERE cart_no=?";  
 	        try {
 	            psmt = con.prepareStatement(query);  
 	            psmt.setString(1, idx); 
@@ -236,6 +236,7 @@ public class CartDAO extends DBConnPool{
 					dto.setPrice(rs.getString(5));
 					dto.setMilage(rs.getString(6));
 					dto.setProduct_sfile(rs.getString(7));
+					dto.setCart_no(rs.getString(8));
 	               
 	            }
 	        }
@@ -245,5 +246,26 @@ public class CartDAO extends DBConnPool{
 	        }
 	        return dto;  
 	    }
+	 
+	 public int deleteCart(String to) { 
+	        int result = 0;
+
+	        try {
+	            String query = "DELETE FROM cart WHERE cart_no=?"; 
+	            
+	            psmt = con.prepareStatement(query); 
+	            psmt.setString(1, to);  
+	            
+	            result = psmt.executeUpdate(); 
+	        } 
+	        catch (Exception e) {
+	            System.out.println("장바구니 삭제 중 예외 발생");
+	            e.printStackTrace();
+	        }
+
+	        return result;  
+	    }
+	 
+	 
 	
 }

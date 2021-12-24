@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 
 import market.MKProductDAO;
 import market.MKProductDTO;
+import membership.MemberDAO;
+import membership.MemberDTO;
 
 @WebServlet("/market/basket2.do") 
 public class basket2Controller extends HttpServlet{
@@ -45,13 +47,23 @@ public class basket2Controller extends HttpServlet{
         //커넥션풀에 자원 반납
         dao.close();  
         
+        MemberDAO Mdao  = new MemberDAO();
+        String id = (String)session.getAttribute("UserId");
+        MemberDTO Mdto = Mdao.memberInfo(id); 
+
+        
         //View로 전달할 객체 request영역에 저장
         req.setAttribute("quantity", quantity);
         req.setAttribute("dto", dto);
         req.setAttribute("total_price", total_price);
+        req.setAttribute("member_info", Mdto);
+
         //View로 포워드를 걸어준다. 
         req.getRequestDispatcher("/market/basket2.jsp").forward(req, resp);
 	}
+	
+	
+	
 	
 	
 	//체크박스 선택하여 구매하는 경우 메서드 구현_KJS
