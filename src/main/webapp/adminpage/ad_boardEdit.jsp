@@ -311,6 +311,7 @@ $(function(){
                     <h1 class="h3 mb-2 text-gray-800">
                     <% 
                    	if(cate.equals("notB")) out.write("공지사항 관리");
+                   	if(cate.equals("proB")) out.write("프로그램 일정 관리");
                    	if(cate.equals("freeB")) out.write("자유게시판 관리");
                    	if(cate.equals("photoB")) out.write("사진게시판 관리");
                    	if(cate.equals("infoB")) out.write("정보자료실 관리");
@@ -319,6 +320,7 @@ $(function(){
                     <p class="mb-4">BOARD MANAGEMENT - 
                     <% 
                    	if(cate.equals("notB")) out.write("NOTICE");
+                   	if(cate.equals("proB")) out.write("PROGRAM");
                    	if(cate.equals("freeB")) out.write("FREEBOARD");
                    	if(cate.equals("photoB")) out.write("PHOTO");
                    	if(cate.equals("infoB")) out.write("INFORMATION");
@@ -328,7 +330,7 @@ $(function(){
 					
 					
 					<%
-					if(cate.equals("notB") || cate.equals("freeB"))	{
+					if(cate.equals("notB") ||  cate.equals("proB") || cate.equals("freeB"))	{
 					%>
 					<form name="writeFrm" method="post"  action="ad_boardEditProcess.jsp" onsubmit="return validateForm(this);">
 					<%
@@ -347,6 +349,7 @@ $(function(){
                             <h6 class="m-0 font-weight-bold text-primary">
                             <% 
 		                   	if(cate.equals("notB")) out.write("공지사항 수정");
+		                   	if(cate.equals("proB")) out.write("프로그램 일정 수정");
 		                   	if(cate.equals("freeB")) out.write("자유게시판 수정");
 		                   	if(cate.equals("photoB")) out.write("사진게시판 수정");
 		                   	if(cate.equals("infoB")) out.write("정보자료실 수정");
