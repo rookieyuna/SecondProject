@@ -431,6 +431,7 @@ $(function(){
                             <li><button type="submit" class="btn btn-outline-success">수정완료</button></li>                            
                             <li><button type="button" class="btn btn-outline-primary" 
                             	onclick="location.href='<% if(cate.equals("notB")) out.write("ad_notice.jsp?cate=");
+										                   	if(cate.equals("proB")) out.write("ad_program.jsp?cate=");
 										                   	if(cate.equals("freeB")) out.write("ad_freeboard.jsp?cate=");
 										                   	if(cate.equals("photoB")) out.write("ad_photo.jsp?cate=");
 										                   	if(cate.equals("infoB")) out.write("ad_information.jsp?cate=");%><%= cate %>';">목록보기</button>

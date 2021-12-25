@@ -12,7 +12,6 @@ String cate = request.getParameter("cate");
 String cateUrl = request.getRequestURI() + "?cate=" + cate;
 
 BoardDAO dao = new BoardDAO();
-
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,8 +43,7 @@ BoardDAO dao = new BoardDAO();
     <link rel="stylesheet" href="css/style.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-   
-
+   		
 </head>
 
 <body id="page-top">
@@ -352,13 +350,13 @@ BoardDAO dao = new BoardDAO();
 								%>
 									<!-- 이전달,다음달로 넘기는 부분 -->
 									<div class="text-center" >
-										<a href="?cate=proB&y=<%=prevY%>&m=<%=prevM%>">◁</a>
+										<a href="./ad_program.jsp?cate=proB&y=<%=prevY%>&m=<%=prevM%>">◁</a>
 										&nbsp;&nbsp;&nbsp;
 										<%=y %>년 <%=m %>월
 										&nbsp;&nbsp;&nbsp;
-										<a href="?cate=proB&y=<%=nextY %>&m=<%=nextM%>">▷</a>									
+										<a href="./ad_program.jsp?cate=proB&y=<%=nextY %>&m=<%=nextM%>">▷</a>									
 									</div>
-									
+									<br />
 									<table class="table table-borderd" style="width:100%; height: 420px; ">
 									    <colgroup>
 									   	 <col width="14%" />
@@ -369,18 +367,32 @@ BoardDAO dao = new BoardDAO();
 									   	 <col width="14%" />
 									   	 <col width="*" />
 									    </colgroup>
+									    <!-- 상단 요일 표시 -->
 									    <tr>
 									    <%
 									    int yoill = yo;
 									    String[] a = { "일", "월", "화", "수", "목", "금", "토" };
 									    for (int i = 0; i < 7; i++) {
+									    	if(i%7 == 0) {
 									    %>
 									   	 <%-- <th style="padding:5px 0;"><img src="../images/day0<%=i+1 %>.gif" alt="<%=a[i]%>" /></th> --%>
-									   	 <th style="padding:5px 0;"><%=a[i]%></th>
+									   	 <th style="padding:5px 0; color: red;"><%=a[i]%></th>
 									    <%
 									    }
-									    %>   	 
+									    	else if(i%7 == 6) {
+									    %>
+									     <th style="padding:5px 0; color: #58b0d8;"><%=a[i]%></th>   	 
+									    <%
+									    	}
+									    	else {
+									    %>
+									     <th style="padding:5px 0; color: black;"><%=a[i]%></th>
+									    <%
+									    	}
+									    }
+									    %>	
 									    </tr>
+									    <!-- 날짜 -->
 									    <tr>
 									    <%
 									    for (int k = 1; k < yo; k++) {
@@ -390,28 +402,35 @@ BoardDAO dao = new BoardDAO();
 									    }
 									    %>
 									    <%
-									   
+									    String tColor;
 									    for (int j = 1; j <= last_day; j++) {
 									    	yoill++; //날짜가 반복될때 증가
 									    	if((yo+j-1) % 7 == 0) {
-									    		
+									    		tColor="text-danger";
 									    	}
 									    	else if((yo+j-1) % 7 == 1) {
-									    		
+									    		tColor="text-primary";
 									    	}
+									    	else tColor="";
 									    	
 									    	// 페이지 소스에서 출력 날짜 확인하려고 만든 코드
 									    	String jj = (j<10) ? "0"+j : ""+j;
 									    	String key = y+"-"+mo+"-"+jj;
 									    %>
-									   	<!-- 날짜가 출력되는 부분  <%=key%>-->
-									   	
-									   	<td style="height: 80px;">
+									   	<!-- 날짜확인 <%=key%>-->
+									   	<td style="height: 80px;'">
 										   	<div><%=j%></div>
 									   		<div>
 									   			<% if(calendar.get(key) != null) { %>
-									   				<a href="./ad_boardView.jsp?y=<%=y %>&m=<%=m-1 %>&num=<%=calendar.get(key).getNum() %>&cate=proB"><%=calendar.get(key).getTitle() %></a>
-									   			<% }%>
+									   				<a style="color: #skyblue;" href="./ad_boardView.jsp?y=<%=y %>&m=<%=m-1 %>&num=<%=calendar.get(key).getNum() %>&cate=proB"><%=calendar.get(key).getTitle() %></a>
+									   			<% 
+									   				}
+									   			else {
+									   			%>
+									   				<div style="visibility: hidden;">center</div>
+									   			<% 
+									   			}
+									   			%>
 									   		</div>
 									   	</td>
 									    <%if ((yo+j-1) % 7 == 0) {%>
@@ -421,7 +440,8 @@ BoardDAO dao = new BoardDAO();
 									    	yoill = 0;
 									   		}
 									    }
-									    for(int e=1;e<(7-yo)-1;e++){
+									    /* 공백 만들어주는 부분 */
+									    for(int e=1; e<(7-yo)-1; e++){
 									    %>
 									   	 <td></td>
 									    <%

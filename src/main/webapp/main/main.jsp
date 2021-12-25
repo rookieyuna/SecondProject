@@ -1,3 +1,5 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="board.BoardDTO"%>
@@ -160,93 +162,160 @@ if (!loginId.equals("")){
 			<div class="main_con_center">
 				<p class="main_title" style="border:0px; margin-bottom:0px;"><img src="../images/main_title05.gif" alt="월간일정 CALENDAR" /></p>
 				<div class="cal_top">
-					<table cellpadding="0" cellspacing="0" border="0">
-						<colgroup>
-							<col width="13px;" />
-							<col width="*" />
-							<col width="13px;" />
-						</colgroup>
-						<tr>
-							<td><a href=""><img src="../images/cal_a01.gif" style="margin-top:3px;" /></a></td>
-							<td><img src="../images/calender_2012.gif" />&nbsp;&nbsp;<img src="../images/calender_m1.gif" /></td>
-							<td><a href=""><img src="../images/cal_a02.gif" style="margin-top:3px;" /></a></td>
-						</tr>
-					</table>
+					<%
+					//현재 년/월/일을 구하기 위한 인스턴스 생성
+					Calendar tDay = Calendar.getInstance();
+					
+					/*
+					파라미터가 있는 경우 : 파라미터에 해당하는 년/월을 표현
+					파라미터가 없는 경우 : 무조건 현재 년/월을 표현
+					*/
+					int y = (request.getParameter("y")==null) ?
+					    tDay.get(Calendar.YEAR) :
+					    Integer.parseInt(request.getParameter("y"));
+					int m = (request.getParameter("m")==null) ?
+					    tDay.get(Calendar.MONTH) :
+					    Integer.parseInt(request.getParameter("m"));
+					int d = tDay.get(Calendar.DATE);
+					
+					/*
+					날자설정을 위한 객체생성 : 현재 년/월 그리고 1일로 설정
+					한다. 즉 현재월의 1일로 설정한다.
+					*/
+					Calendar dSet = Calendar.getInstance();
+					
+					dSet.set(y, m, 1);//현재 년/월/1 일로 설정함
+					//오늘이 어떤 요일인지 구한다.
+					int yo = dSet.get(Calendar.DAY_OF_WEEK);
+					//현재월의 마지막 날자를 구한다.(7월->31, 9월->30)
+					int last_day = dSet.getActualMaximum(Calendar.DATE);
+					
+					int prevY, prevM, nextY, nextM;
+					
+					
+					if(m==0) {
+						prevY = y-1;
+						prevM = 11;
+					}
+					else {
+						prevY = y;
+						prevM = m-1;
+					}
+					
+					if(m==11) {
+						nextY = y+1;
+						nextM = 0;
+					}
+					else {
+						nextY = y;
+						nextM = m+1;
+					}
+					
+					
+					
+					m++;
+				    String mo = (m<10) ? "0"+m : ""+m;
+				    String data = y+"-"+mo;
+				    Map<String, BoardDTO> calendar = dao.calList(data);
+				    dao.close();
+					%>
+					
+					<!-- 이전달,다음달로 넘기는 부분 -->
+					<div style="text-align: center; font-size: 1em;">
+						<a href="./main.jsp?cate=proB&y=<%=prevY%>&m=<%=prevM%>">◀</a>
+						&nbsp;&nbsp;&nbsp;
+						<%=y %>년 <%=m %>월
+						&nbsp;&nbsp;&nbsp;
+						<a href="./main.jsp?cate=proB&y=<%=nextY %>&m=<%=nextM%>">▶</a>							
+					</div>
 				</div>
 				<div class="cal_bottom">
-					<table cellpadding="0" cellspacing="0" border="0" class="calendar">
-						<colgroup>
-							<col width="14%" />
-							<col width="14%" />
-							<col width="14%" />
-							<col width="14%" />
-							<col width="14%" />
-							<col width="14%" />
-							<col width="*" />
-						</colgroup>
-						<tr>
-							<th><img src="../images/day01.gif" alt="S" /></th>
-							<th><img src="../images/day02.gif" alt="M" /></th>
-							<th><img src="../images/day03.gif" alt="T" /></th>
-							<th><img src="../images/day04.gif" alt="W" /></th>
-							<th><img src="../images/day05.gif" alt="T" /></th>
-							<th><img src="../images/day06.gif" alt="F" /></th>
-							<th><img src="../images/day07.gif" alt="S" /></th>
-						</tr>
-						<tr>
-							<td><a href="">&nbsp;</a></td>
-							<td><a href="">&nbsp;</a></td>
-							<td><a href="">&nbsp;</a></td>
-							<td><a href="">&nbsp;</a></td>
-							<td><a href="">1</a></td>
-							<td><a href="">2</a></td>
-							<td><a href="">3</a></td>
-						</tr>
-						<tr>
-							<td><a href="">4</a></td>
-							<td><a href="">5</a></td>
-							<td><a href="">6</a></td>
-							<td><a href="">7</a></td>
-							<td><a href="">8</a></td>
-							<td><a href="">9</a></td>
-							<td><a href="">10</a></td>
-						</tr>
-						<tr>
-							<td><a href="">11</a></td>
-							<td><a href="">12</a></td>
-							<td><a href="">13</a></td>
-							<td><a href="">14</a></td>
-							<td><a href="">15</a></td>
-							<td><a href="">16</a></td>
-							<td><a href="">17</a></td>
-						</tr>
-						<tr>
-							<td><a href="">18</a></td>
-							<td><a href="">19</a></td>
-							<td><a href="">20</a></td>
-							<td><a href="">21</a></td>
-							<td><a href="">22</a></td>
-							<td><a href="">23</a></td>
-							<td><a href="">24</a></td>
-						</tr>
-						<tr>
-							<td><a href="">25</a></td>
-							<td><a href="">26</a></td>
-							<td><a href="">27</a></td>
-							<td><a href="">28</a></td>
-							<td><a href="">29</a></td>
-							<td><a href="">30</a></td>
-							<td><a href="">31</a></td>
-						</tr>
-						<tr>
-							<td><a href="">&nbsp;</a></td>
-							<td><a href="">&nbsp;</a></td>
-							<td><a href="">&nbsp;</a></td>
-							<td><a href="">&nbsp;</a></td>
-							<td><a href="">&nbsp;</a></td>
-							<td><a href="">&nbsp;</a></td>
-							<td><a href="">&nbsp;</a></td>
-						</tr>
+					<table cellpadding="0" cellspacing="0" border="1" class="calendar"
+						style="width:90%; height: 25px;">
+					    <colgroup>
+					   	 <col width="14%" />
+					   	 <col width="14%" />
+					   	 <col width="14%" />
+					   	 <col width="14%" />
+					   	 <col width="14%" />
+					   	 <col width="14%" />
+					   	 <col width="14%" />
+					    </colgroup>
+					    <tr>
+    					<%
+					    int yoill = yo;
+					    String[] a = { "일", "월", "화", "수", "목", "금", "토" };
+					    for (int i = 0; i < 7; i++) {
+					    	if(i%7 == 0) {
+					    %>
+					   	 <%-- <th style="padding:5px 0;"><img src="../images/day0<%=i+1 %>.gif" alt="<%=a[i]%>" /></th> --%>
+					   	 <th style="padding: 0; color: red;"><%=a[i]%></th>
+					    <%
+					    	}
+					    	else if(i%7 == 6) {
+					    %>
+					     <th style="padding:0; color: #58b0d8;"><%=a[i]%></th>   	 
+					    <%
+					    	}
+					    	else {
+					    %>
+					     <th style="padding:0; color: black;"><%=a[i]%></th>
+					    <%
+					    	}
+					    }
+					    %>		 
+					    </tr>
+					    <tr>
+					    <%
+					    for (int k = 1; k < yo; k++) {
+					    %>
+					   	 <td></td>
+					    <%
+					    }
+					    %>
+					    <%
+					    String tColor;
+					    for (int j = 1; j <= last_day; j++) {
+					    	yoill++; //날짜가 반복될때 증가
+					    	if((yo+j-1) % 7 == 0) {
+					    		tColor="text-danger";
+					    	}
+					    	else if((yo+j-1) % 7 == 1) {
+					    		tColor="text-primary";
+					    	}
+					    	else tColor="";
+					    	
+					    	// 페이지 소스에서 출력 날짜 확인하려고 만든 코드
+					    	String jj = (j<10) ? "0"+j : ""+j;
+					    	String key = y+"-"+mo+"-"+jj;
+					    %>
+					   	<!-- 날짜가 출력되는 부분  <%=key%>-->
+				   		<td>
+				   			<% if(calendar.get(key) != null) { %>
+						   	<div style="color: orange;" onclick="location.href='../space/board_view.jsp?y=<%=y%>&m=<%=m-1 %>&num=<%=calendar.get(key).getNum()%>&cate=proB';"><%=j%></div>
+						   	<% 
+						   		}
+				   			else {
+				   			%>
+					   		<div><%=j%></div>
+					   		<% 
+					    	}	
+					   		%>
+					   	</td>
+					    <%if ((yo+j-1) % 7 == 0) {%>
+					    </tr>
+					    <tr>
+					    <%
+					    	yoill = 0;
+					   	 }
+					    }
+					    for(int e=1; e<(7-yo)-1; e++){
+					    %>
+					   	 <td></td>
+					    <%
+					    }
+					    %>
+					    </tr>
 					</table>
 				</div>
 			</div>
