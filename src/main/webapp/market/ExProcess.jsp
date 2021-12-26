@@ -19,9 +19,26 @@ String cel = request.getParameter("cel1")+"-"+					//연락처
 String eCel = request.getParameter("eCel1")+"-"+				//담당자 휴대폰
 			request.getParameter("eCel2")+"-"+request.getParameter("eCel3"); 
 String email = request.getParameter("email1")+"@"+request.getParameter("email2"); //이메일
-String exp_sel = request.getParameter("exp_sel"); 				//체험 내용
+String exp_sel = null;
+//체험 내용
+	if((request.getParameter("exp_sel")).equals("bread")){
+		exp_sel = "빵 만들기";
+	}
+	else if((request.getParameter("exp_sel")).equals("cookie")){
+		exp_sel = "쿠키 만들기";
+	}
+	else if((request.getParameter("exp_sel")).equals("cake")){
+		exp_sel = "케익 만들기";
+	}
 String date = request.getParameter("date"); 					//체험 희망 날짜
-String type = request.getParameter("type"); 					//접수 종류
+//접수 종류
+	String type = null;
+	if((request.getParameter("type")).equals("rsvn")){
+		type = "예약 신청";
+	}
+	else if((request.getParameter("type")).equals("estm")){
+		type = "견적 문의";
+	}
 String others = request.getParameter("others"); 				//기타 사항
 
 //폼값 DTO 속성 저장
@@ -87,7 +104,6 @@ Map<String, String> emailInfo = new HashMap<String, String>();
 
 emailInfo.put("subject", request.getParameter("subject")); 	//제목
 emailInfo.put("to", request.getParameter("to")); 			//받는 사람
-
 emailInfo.put("content", htmlContent);						//내용
 emailInfo.put("format", "text/html;charset=UTF-8");
 emailInfo.put("from", "secondpj@naver.com");				//보내는 사람
@@ -95,7 +111,9 @@ emailInfo.put("from", "secondpj@naver.com");				//보내는 사람
 try{
 	NaverSMTP smtpServer = new NaverSMTP(); //메일 전송 클래스 생성
 	smtpServer.emailSending(emailInfo); //전송
-	out.print("이메일 전송 성공");
+	/* out.print("이메일 전송 성공"); */
+	request.setAttribute("EmailSuccess", "이메일 전송 성공");
+	request.getRequestDispatcher("sub05.jsp").forward(request, response);
 }
 catch(Exception e){
 	out.print("이메일 전송 실패");

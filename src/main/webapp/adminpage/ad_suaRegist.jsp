@@ -328,7 +328,7 @@
 									            	<td class="numbering" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">${row.product_no }</td>
 									            	<!-- 상품 이미지 -->
 									            	<td class="boardwriter" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">
-									            		<img src="../adminpage/Uploads/${row.product_sfile }" width="100px" height="80px"/></td>
+									            		<img src="../images/market/${row.product_sfile}<%-- ../adminpage/Uploads/${row.product_sfile } --%>" width="100px" height="80px"/></td>
 									            	<!-- 상품명 -->
 									            	<td class="boardtitle" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">${row.product_name }</td>
 									            	<!-- 가격 -->
@@ -374,15 +374,14 @@
                 </div>
                 <!-- /.container-fluid -->
 			
-			<!-- 페이지번호 출력 -->
-			    <table width="90%">
-			        <tr align="center">
-			        <!-- 페이징 처리 -->
-			        	<td>
-			        		${map.pagingImg }
-			        	</td>
-			        </tr>
-			    </table>
+			<!-- 페이징 처리 -->
+				<div class="row mt-3">
+	                <div class="col">
+	                	<ul class="pagination justify-content-center">
+		                	${map.pagingImg }
+	                	</ul>
+	                </div>
+                </div>  
 			    
             </div>
             <!-- End of Main Content -->

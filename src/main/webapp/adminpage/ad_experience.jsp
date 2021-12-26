@@ -307,15 +307,15 @@
                                                 <input type="checkbox" id="checkedAll" class="form-check-input flex-shrink-0" style="font-size: 1.375em;">
                                             </th>
                                             <th class="numbering">번호</th>
-                                            <th class="boardwriter">고객명/회사명</th>
-                                            <th class="numbering">장애 유무</th>
-                                            <th class="numbering">보장구 사용 유무</th>
-                                            <th class="boardwriter">연락처</th>
-                                            <th class="boardwriter">담당자 연락처</th>
-                                            <th class="boardwriter">이메일</th>
-                                            <th class="boardwriter">체험 내용</th>
-                                            <th class="boardwriter">체험 희망 날짜</th>
-                                            <th class="boardwriter">접수 종류</th>
+                                            <th>고객명/회사명</th>
+                                            <th>장애 유무</th>
+                                            <th>보장구 사용 유무</th>
+                                            <th>연락처</th>
+                                            <th>담당자 연락처</th>
+                                            <th>이메일</th>
+                                            <th>체험 내용</th>
+                                            <th>체험 희망 날짜</th>
+                                            <th>접수 종류</th>
                                         </tr>
                                     </thead>
                                     <!-- 테이블 가공 (정보자료실) -->
@@ -336,7 +336,7 @@
 														=> 전체게시물수 - (((페이지번호-1) * 페이지당 게시물수)+ 해당루프의 index)
 														index는 0부터 시작한다. -->
 														${map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
-									            	<td  class="boardtitle">${row.name }</td><!-- 작성자 -->
+									            	<td>${row.name }</td><!-- 작성자 -->
 									            	<td>${row.ex_disabled }</td><!-- 장애 유무 -->
 									            	<td>${row.ex_helpingtool }</td><!-- 보장구 유무 -->
 									            	<td>${row.phone1 }</td><!-- 연락처 -->
@@ -384,15 +384,14 @@
                 <!-- /.container-fluid -->
 			
 			
-				<!-- 페이지번호 출력 -->
-			    <table width="90%">
-			        <tr align="center">
-			        <!-- 페이징 처리 -->
-			        	<td>
-			        		${map.pagingImg }
-			        	</td>
-			        </tr>
-			    </table>
+				<!-- 페이징 처리 -->
+				<div class="row mt-3">
+	                <div class="col">
+	                	<ul class="pagination justify-content-center">
+		                	${map.pagingImg }
+	                	</ul>
+	                </div>
+                </div>  
 			
 			
 			

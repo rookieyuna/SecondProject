@@ -17,6 +17,15 @@ if (session.getAttribute("UserId") == null) {
 }
 %>
 
+$(function(){
+	<%
+	if((request.getAttribute("EmailSuccess") != null) && (request.getAttribute("InsertSuccess") != null) ){
+	 %> 		
+		alert("체험 학습 신청 완료");
+	<%
+	}
+	%>
+});
 
 //폼값 입력 여부 체크
 function validateForm(form) {
