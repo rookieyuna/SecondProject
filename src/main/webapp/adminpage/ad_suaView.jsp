@@ -305,7 +305,7 @@
 										<tr>
 											<td>상품설명</td>
 											<td>
-												<textarea name="" style="width:70%; height: 100px;" readonly>${dto.product_info }</textarea>
+												${dto.product_info }
 											</td>
 										</tr>
 										<tr>

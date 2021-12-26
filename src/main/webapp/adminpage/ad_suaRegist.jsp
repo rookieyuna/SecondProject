@@ -318,21 +318,23 @@
 											<!-- 게시물이 있을때 -->
 											<c:forEach items="${productLists }" var="row" varStatus="loop">
 												<tr align="center">
-													<td><input type="checkbox" class="form-check-input flex-shrink-0" style="font-size: 1.375em;" name="chk" value="${row.product_no }"></td>
-													<td class="numbering">
-														<!-- 가상번호 계산하기
-														=> 전체게시물수 - (((페이지번호-1) * 페이지당 게시물수)+ 해당루프의 index)
-														index는 0부터 시작한다. -->
-														${map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
-									            	<td class="numbering">${row.product_no }</td><!-- 상품 번호 -->
-									            	<td class="boardwriter"><!-- 상품 이미지 -->
-									            		<img src="../adminpage/Uploads/${row.product_sfile }" width="100px" height="80px"/>
-									            	</td>
-									            	<td class="boardtitle" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">
-									            		${row.product_name }<!-- 상품명 -->
-									            	</td>
-									            	<td>${row.price }</td><!-- 가격 -->
-									            	<td>${row.milage }</td><!-- 적립금 -->
+													<td>
+														<input type="checkbox" class="form-check-input flex-shrink-0" style="font-size: 1.375em;" name="chk" value="${row.product_no }">
+													</td>
+													<td class="numbering" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">
+														${map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}
+													</td>
+													<!-- 상품 번호 -->
+									            	<td class="numbering" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">${row.product_no }</td>
+									            	<!-- 상품 이미지 -->
+									            	<td class="boardwriter" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">
+									            		<img src="../adminpage/Uploads/${row.product_sfile }" width="100px" height="80px"/></td>
+									            	<!-- 상품명 -->
+									            	<td class="boardtitle" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">${row.product_name }</td>
+									            	<!-- 가격 -->
+									            	<td onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">${row.price }</td>
+									            	<!-- 적립금 -->
+									            	<td onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">${row.milage }</td>
 									        	</tr>
 											</c:forEach>
 										</c:otherwise>
@@ -365,7 +367,7 @@
                     <div class="board-btn-group01">
                         <ul class="d-flex justify-content-end">
                             <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_suaWrite.jsp';">등록</button></li>
-                            <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_suaEdit.jsp';">수정</button></li>
+                            <!-- <li><button type="button" class="btn btn-outline-primary" onclick="location.href='ad_suaEdit.jsp';">수정</button></li> -->
                             <li><button type="button" class="btn btn-outline-secondary" id="deletebtn" >삭제</button></li>
                         </ul>
                     </div>

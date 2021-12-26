@@ -325,20 +325,25 @@
 											<!-- 게시물이 있을때 -->
 											<c:forEach items="${orderLists }" var="row" varStatus="loop">
 												<tr align="center">
-													<td><input type="checkbox" class="form-check-input flex-shrink-0" style="font-size: 1.375em;" name="chk" value="${row.order_no }"></td>
+													<td>
+														<input type="checkbox" class="form-check-input flex-shrink-0" style="font-size: 1.375em;" name="chk" value="${row.order_no }">													
+													</td>
 													<td class="numbering">
-														<!-- 가상번호 계산하기
-														=> 전체게시물수 - (((페이지번호-1) * 페이지당 게시물수)+ 해당루프의 index)
-														index는 0부터 시작한다. -->
 														${map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}</td>
-									            	<td class="boardtitle" class="numbering" onclick="location.href='../adminpage/ad_sOrderView.do?order_no=${row.order_no}'">
-									            		${row.order_no }</td><!-- 주문번호 -->
-									            	<td>${row.id }</td><!-- 주문자ID -->
-									            	<td>${row.order_state }</td><!-- 주문상태 -->
-									            	<td>${row.total_count }</td><!-- 상품갯수 -->
-									            	<td>${row.total_price }</td><!-- 결제금액 -->
-									            	<td>${row.credit }</td><!-- 결제수단 -->
-									            	<td>${row.addr }</td><!-- 주소 -->
+													<!-- 주문번호 -->
+									            	<td class="numbering" onclick="location.href='../adminpage/ad_sOrderView.do?order_no=${row.order_no}'">${row.order_no }</td>
+									            	<!-- 주문자ID -->
+									            	<td onclick="location.href='../adminpage/ad_sOrderView.do?order_no=${row.order_no}'">${row.id }</td>
+									            	<!-- 주문상태 -->
+									            	<td onclick="location.href='../adminpage/ad_sOrderView.do?order_no=${row.order_no}'">${row.order_state }</td>
+									            	<!-- 상품갯수 -->
+									            	<td onclick="location.href='../adminpage/ad_sOrderView.do?order_no=${row.order_no}'">${row.total_count }</td>
+									            	<!-- 결제금액 -->
+									            	<td onclick="location.href='../adminpage/ad_sOrderView.do?order_no=${row.order_no}'">${row.total_price }</td>
+									            	<!-- 결제수단 -->
+									            	<td onclick="location.href='../adminpage/ad_sOrderView.do?order_no=${row.order_no}'">${row.credit }</td>
+									            	<!-- 주소 -->
+									            	<td onclick="location.href='../adminpage/ad_sOrderView.do?order_no=${row.order_no}'">${row.addr }</td>
 									        	</tr>
 											</c:forEach>
 										</c:otherwise>
