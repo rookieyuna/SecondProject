@@ -9,9 +9,6 @@ String cate = request.getParameter("cate");
 String num = request.getParameter("num");
 String title = request.getParameter("title");
 String content = request.getParameter("content");
-System.out.println("num : " + request.getParameter("num"));
-System.out.println("title : " + title);
-System.out.println("content : " + content);
 
 BoardDTO dto = new BoardDTO();
 dto.setNum(num);

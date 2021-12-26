@@ -177,11 +177,6 @@ public class BoardDAO extends JDBConnect {
 					+ " VALUES ( seq_board_num.NEXTVAL, ?, ?, ?, ?)";
 
 			psmt = con.prepareStatement(query);
-			System.out.println("아이디 : " + dto.getId());
-			System.out.println("제목 : " + dto.getTitle());
-			System.out.println("내용 : " + dto.getContent());
-			System.out.println("카테 : " + dto.getCategory());
-
 
 			psmt.setString(1, dto.getId());
 			psmt.setString(2, dto.getTitle());
@@ -211,7 +206,6 @@ public class BoardDAO extends JDBConnect {
 			psmt.setString(3, dto.getNum());
 			// 쿼리 실행
 			result = psmt.executeUpdate();
-			System.out.println(result);
 		} catch (Exception e) {
 			System.out.println("게시물 수정 중 예외 발생");
 			e.printStackTrace();
@@ -330,11 +324,6 @@ public class BoardDAO extends JDBConnect {
 					+ " VALUES ( " + " seq_board_num.NEXTVAL, ?, ?, ?, ?, ?)";
 
 			psmt = con.prepareStatement(query);
-			System.out.println("아이디 : " + dto.getId());
-			System.out.println("제목 : " + dto.getTitle());
-			System.out.println("날짜 : " + dto.getPostdate());
-			System.out.println("내용 : " + dto.getContent());
-			System.out.println("카테 : " + dto.getCategory());
 
 			psmt.setString(1, dto.getId());
 			psmt.setString(2, dto.getTitle());
@@ -359,7 +348,6 @@ public class BoardDAO extends JDBConnect {
 		 		+ " FROM board B "
 				+ " WHERE category='proB' AND to_char(postdate, 'yyyy-mm')='"+data+"' " 
 				+ " ORDER BY postdate ASC";
-		System.out.println("쿼리문:"+query);
 		
 		try { 
 			psmt = con.prepareStatement(query); 
@@ -393,7 +381,6 @@ public class BoardDAO extends JDBConnect {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, cate);
 			
-			System.out.println(cate);
 			
 			rs = psmt.executeQuery();
 			if (rs.next()) {

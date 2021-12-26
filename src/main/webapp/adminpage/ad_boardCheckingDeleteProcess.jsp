@@ -11,8 +11,6 @@
 	BoardDAO dao = new BoardDAO();
 	int res = dao.deletePost(bd_no);
 	dao.close();
-	System.out.println("res : " + res);
-	System.out.println("bd_no.length  : " + bd_no.length);
 	
 	if(res == bd_no.length){
 		// 게시물 삭제에 성공하면 리스트로 이동한다.

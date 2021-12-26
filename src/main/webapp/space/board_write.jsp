@@ -36,7 +36,7 @@ function validateForm(form){
 </script>
 
  <body>
-	<!--  <center> -->
+	<center>
 	<div id="wrap">
 		<%@ include file="../include/top.jsp" %>
 
@@ -109,6 +109,6 @@ function validateForm(form){
 
 
 	<%@ include file="../include/footer.jsp" %>
-	<!--  </center> -->
+	</center>
  </body>
 </html>
