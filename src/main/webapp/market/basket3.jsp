@@ -74,7 +74,7 @@ String[] emailArr = dto.getEmail().split("@");
 	}
 </script>
  <body>
-<!-- 	<center> -->
+<center>
 	<div id="wrap">
 		<%@ include file="../include/top.jsp" %>
 
@@ -258,6 +258,6 @@ String[] emailArr = dto.getEmail().split("@");
 	
 
 	<%@ include file="../include/footer.jsp" %>
-<!-- 	</center> -->
+</center>
  </body>
 </html>
