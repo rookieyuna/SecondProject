@@ -79,17 +79,17 @@ else {
     	if(i%7 == 0) {
     %>
    	 <%-- <th style="padding:5px 0;"><img src="../images/day0<%=i+1 %>.gif" alt="<%=a[i]%>" /></th> --%>
-   	 <th style="padding:5px 0; color: red;"><%=a[i]%></th>
+   	 <th style="padding:0; color: red;"><%=a[i]%></th>
     <%
     	}
     	else if(i%7 == 6) {
     %>
-     <th style="padding:5px 0; color: #58b0d8;"><%=a[i]%></th>   	 
+     <th style="padding:0; color: #58b0d8;"><%=a[i]%></th>   	 
     <%
     	}
     	else {
     %>
-     <th style="padding:5px 0; color: black;"><%=a[i]%></th>
+     <th style="padding:0; color: black;"><%=a[i]%></th>
     <%
     	}
     }
