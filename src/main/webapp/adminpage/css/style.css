@@ -329,3 +329,8 @@ table td.boardphoto img {
 .filebox label[for=ex_filename]{
 	margin-bottom:0;
 }
+
+.admin-icon svg{
+	width:50px;
+	height:50px;
+}
