@@ -102,14 +102,14 @@ $(function(){
 								<th class="text-center" 
 									style="vertical-align:middle;">작성자</th>
 								<td>
-									<input type="text" class="form-control" style="width:100px;" name="name" value="<%= mDto.getName() %>"/>
+									<input type="text" class="form-control" style="width:100px;" name="name" value="<%= mDto.getName() %>" readonly/>
 								</td>
 							</tr>
 							<tr>
 								<th class="text-center" 
 									style="vertical-align:middle;">이메일</th>
 								<td>
-									<input type="text" class="form-control" style="width:400px;" name="email" value="<%= mDto.getEmail() %>"/>
+									<input type="text" class="form-control" style="width:400px;" name="email" value="<%= mDto.getEmail() %>" readonly/>
 								</td>
 							</tr>
 							<tr>

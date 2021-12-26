@@ -446,3 +446,6 @@ form[name=fileForm] tr:last-child input {
 .photoBoard .photoBoard_wrap ul li.photoB_list.empty {
   height: 0;
 }
+
+input:-moz-read-only {background-color: #f0f0f0;}  /* Firefox */
+input:read-only {background-color: #f0f0f0;}
