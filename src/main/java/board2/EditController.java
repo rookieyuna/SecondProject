@@ -85,7 +85,6 @@ public class EditController extends HttpServlet {
 		dto.setName(name);
 		dto.setTitle(title);
 		dto.setContent(content);
-		dto.setPass("1111");
 		
 		//새롭게 저장된 파일이 있는지 확인하기 위해 파일명을 얻어옴
 		String fileName = mr.getFilesystemName("ofile");

@@ -9,7 +9,6 @@ public class BoardDTO {
 	private String ofile;			// 기존파일명
 	private String sfile;			// 서버파일명
 	private String downcount;		// 다운로드횟수
-	private String pass;			// 비밀번호
 	private String visitcount;		// 조회수
 	private String category;		// 게시판 카테고리
 									/*
@@ -73,12 +72,6 @@ public class BoardDTO {
 	}
 	public void setDowncount(String downcount) {
 		this.downcount = downcount;
-	}
-	public String getPass() {
-		return pass;
-	}
-	public void setPass(String pass) {
-		this.pass = pass;
 	}
 	public String getVisitcount() {
 		return visitcount;

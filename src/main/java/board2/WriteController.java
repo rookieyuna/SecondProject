@@ -60,7 +60,6 @@ public class WriteController extends HttpServlet {
 		dto.setTitle(mr.getParameter("title"));
 		dto.setContent(mr.getParameter("content"));
 		dto.setCategory(mr.getParameter("cate"));
-		dto.setPass("1234");
 		
 		String category = mr.getParameter("cate");
 		
