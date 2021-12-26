@@ -45,7 +45,7 @@ public class ad_suaEditController extends HttpServlet
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 		{
 			//물리적 경로 얻어오기
-			String saveDirectory = req.getServletContext().getRealPath("/adminpage/Uploads");
+			String saveDirectory = req.getServletContext().getRealPath("/images/market");
 			
 			//application 내장객체를 통해 web.xml에 등록된 초기화 파라미터 얻어옴
 			ServletContext application = this.getServletContext();
@@ -107,7 +107,7 @@ public class ad_suaEditController extends HttpServlet
 				dto.setProduct_sfile(newFileName);
 				
 				//새로운 파일이 등록되었으므로 기존에 등록한 파일은 삭제처리
-				FileUtil.deleteFile(req, "/adminpage/Uploads", prevSfile);
+				FileUtil.deleteFile(req, "/images/market", prevSfile);
 			}
 			//새롭게 등록한 파일이 없는 경우
 			else {

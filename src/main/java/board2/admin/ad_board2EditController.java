@@ -17,8 +17,6 @@ import com.oreilly.servlet.MultipartRequest;
 import board.BoardDAO;
 import board.BoardDTO;
 import fileupload.FileUtil;
-import market.MKProductDAO;
-import market.MKProductDTO;
 import utils.JSFunction;
 
 @WebServlet("/adminpage/ad_board2Edit.do")
@@ -35,9 +33,6 @@ public class ad_board2EditController extends HttpServlet
 		BoardDTO dto = dao.selectView(num);
 		
         dao.close();  
-        
-        //줄바꿈 처리
-        dto.setContent(dto.getContent().replaceAll("\r\n", "<br>"));
         
         //View로 전달할 객체 request영역에 저장
         req.setAttribute("dto", dto);

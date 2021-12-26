@@ -33,7 +33,7 @@ public class ad_suaWriteController extends HttpServlet
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
 		//디렉토리의 물리적 경로 얻어오기
-		String saveDirectory = req.getServletContext().getRealPath("/adminpage/Uploads");
+		String saveDirectory = req.getServletContext().getRealPath("/images/market");
 		
 		//application 내장객체를 통해 web.xml에 등록된 초기화 파라미터 얻어옴.
 		ServletContext application = getServletContext();

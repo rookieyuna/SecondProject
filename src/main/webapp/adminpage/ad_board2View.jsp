@@ -363,7 +363,7 @@
 									             -->
 								            	<c:if test="${not empty dto.ofile }">
 								            	${dto.ofile }
-									            	<a href="../adminpage/ad_board2Download?oFile=${dto.ofile }&sfile=${dto.sfile}">
+									            	<a href="../adminpage/ad_board2Download.do?ofile=${dto.ofile }&sfile=${dto.sfile}">
 									            	[다운로드]</a>
 								            	</c:if>
 											</td>
