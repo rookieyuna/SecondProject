@@ -40,7 +40,8 @@ dao.close();
 
 if(iResult == 1){
 	//회원가입 성공시 메인 페이지로 이동
-	response.sendRedirect("../main/main.jsp");
+	JSFunction.alertLocation("회원가입이 완료되었습니다", "../main/main.jsp", out) ;
+	//response.sendRedirect("../main/main.jsp");
 } else{
 	//실패 시 글쓰기 페이지로 back(즉, 뒤로 이동)
 	JSFunction.alertBack("회원가입에 실패하였습니다.", out);

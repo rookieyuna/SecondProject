@@ -68,8 +68,8 @@ if(memberDTO.getId() != null){
 		    e.printStackTrace();
 		}
 		
-		
-		JSFunction.alertLocation("비밀번호: "+ memberDTO.getPass(), "login.jsp", out);
+		JSFunction.alertLocation("비밀번호가 메일로 발송되었습니다", "login.jsp", out);
+		//JSFunction.alertLocation("비밀번호: "+ memberDTO.getPass(), "login.jsp", out);
 	}
 }
 else {

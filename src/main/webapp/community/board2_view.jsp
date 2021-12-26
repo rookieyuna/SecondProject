@@ -5,7 +5,7 @@
 <%@ include file="../include/global_head.jsp" %>
 
  <body>
-	<!-- <center>  -->
+	<center>
 	<div id="wrap">
 		<%@ include file="../include/top.jsp" %>
 
@@ -109,6 +109,6 @@
 
 
 	<%@ include file="../include/footer.jsp" %>
-	<!-- </center>  -->
+	</center>
  </body>
 </html>
