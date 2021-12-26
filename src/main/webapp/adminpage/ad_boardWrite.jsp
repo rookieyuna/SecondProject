@@ -13,7 +13,6 @@
 String num = request.getParameter("num");
 String cate = request.getParameter("cate");
 String userid = session.getAttribute("UserId").toString();
-String pass = request.getParameter("pass");
 
 BoardDAO dao = new BoardDAO();
 BoardDTO dto = dao.getId(userid);

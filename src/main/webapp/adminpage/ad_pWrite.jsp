@@ -313,13 +313,13 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">프로그램일정 관리</h1>
+                    <h1 class="h3 mb-2 text-gray-800">프로그램 일정 관리</h1>
                     <p class="mb-4">BOARD MANAGEMENT - PROGRAM</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">프로그램일정 정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">프로그램 일정 정보</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -329,33 +329,56 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
                                     
                                     
                                     <!--------------프로그램 일정 작성하기 폼------------------>
-                                    <tr>
-										<td>작성자</td>
-										<td><input type="text" name="id"  style="width: 30%;" value="<%= mDto.getId() %>"  readonly/></td>
-									</tr>
+									
 									<tr>
-										<td>제목</td>
-										<td><input type="text" name="title" style="width: 30%;"/></td>
-									</tr>
-									<tr>
-										<td>작성일</td>
-										<td><input type="text" name="postdate" id="datepicker" style="width: 20%;"></td>
-									</tr>
-									<tr>
-										<td>내용</td>
+										<th class="text-center" 
+											style="vertical-align:middle;">작성자</th>
 										<td>
-											<textarea name="content" style="width:90%; height: 100px;"></textarea>
+											
+											<input type="text" class="form-control" style="width:100px;" name="name" value="<%= mDto.getName() %>" readonly/>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">이메일</th>
+										<td>
+											<input type="text" class="form-control" style="width:400px;" name="email" value="<%= mDto.getEmail() %>" readonly/>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">작성일</th>
+										<td>
+											<input type="text" name="postdate" id="datepicker" class="form-control" style="width:400px;" >
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">제목</th>
+										<td>
+											<input type="text" class="form-control" name="title" "/>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center" 
+											style="vertical-align:middle;">내용</th>
+										<td>
+											<textarea rows="6" class="form-control" name="content"></textarea>
 										</td>
 									</tr>
 								</table>
 									
 								<!-- 각종버튼 -->
-							    <div class="row mb-3">
-							        <div class="col d-flex justify-content-end">
-							        <input type="hidden" name="cate" value="<%= cate %>"/>
-							            <button type="button" class="btn btn-warning" onclick="location.href='ad_program.jsp?cate=<%= cate %>'">목록보기</button>
-							            <button type="submit" class="btn btn-danger">전송하기</button>
-							            <button type="reset" class="btn btn-dark">다시쓰기</button>
+							    <input type="hidden" name="id" value="<%= mDto.getId() %>"/>
+			                    <input type="hidden" name="cate" value="<%= cate %>"/>
+								<!-- 버튼 -->
+			                    <div class="board-btn-group01">
+			                        <ul class="d-flex justify-content-end">
+			                        	<li><button type="button" class="btn btn-outline-success" onclick="location.href='ad_program.jsp?cate=<%= cate %>'">목록보기</button></li>
+			                            <li><button type="submit" class="btn btn-outline-primary">전송하기</button></li>                            
+			                            <li><button type="reset" class="btn btn-outline-danger">다시쓰기</button></li>       
+			                        </ul>
+			                    </div>
 							        </div>
 							    </div>
                             </form>
