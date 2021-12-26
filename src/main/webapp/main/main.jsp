@@ -142,7 +142,7 @@ if (!loginId.equals("")){
 						if(dto.getTitle()!=null){
 				%>
 					<li >
-						<a href="../space/board_view.jsp?cate=freetB&num=<%= dto.getNum() %>">
+						<a href="../space/board_view.jsp?cate=freeB&num=<%= dto.getNum() %>">
 						<div style="width:160px; overflow:hidden;text-overflow:ellipsis; white-space:nowrap;"><%=dto.getTitle() %></div></a>
 						<span><%=dto.getPostdate()%></span>
 					</li>
