@@ -52,9 +52,9 @@
 			dto.setSfile(newFileName);	
 		}else{
 			BoardDAO dao = new BoardDAO();
-			dto = dao.selectView(num);
-			dto.setOfile(dto.getOfile());
-			dto.setSfile(dto.getSfile());
+			BoardDTO orgFile = dao.selectView(num);
+			dto.setOfile(orgFile.getOfile());
+			dto.setSfile(orgFile.getSfile());
 		}
 		// DAO객체 생성 및 insert 처리
 		BoardDAO dao = new BoardDAO();
