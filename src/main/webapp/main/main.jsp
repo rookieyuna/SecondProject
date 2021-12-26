@@ -117,7 +117,7 @@ if (!loginId.equals("")){
 				<ul class="main_board_list">
 				<%
 				    BoardDAO dao = new BoardDAO();
-					List<BoardDTO> lists = dao.mainViewtList("notB");
+					List<BoardDTO> lists = dao.mainViewtList("notB", 4);
 
 					for(BoardDTO dto : lists){
 						if(dto.getTitle()!=null){
@@ -136,7 +136,7 @@ if (!loginId.equals("")){
 				<p class="main_title"><img src="../images/main_title03.gif" alt="자유게시판 FREE BOARD" /><a href="../space/board_list.jsp?cate=freeB"><img src="../images/more.gif" alt="more" class="more_btn" /></a></p>
 				<ul class="main_board_list">
 				<%
-					lists = dao.mainViewtList("freeB");
+					lists = dao.mainViewtList("freeB", 4);
 				
 					for(BoardDTO dto : lists){
 						if(dto.getTitle()!=null){
@@ -217,7 +217,7 @@ if (!loginId.equals("")){
 				    String mo = (m<10) ? "0"+m : ""+m;
 				    String data = y+"-"+mo;
 				    Map<String, BoardDTO> calendar = dao.calList(data);
-				    dao.close();
+				   
 					%>
 					
 					<!-- 이전달,다음달로 넘기는 부분 -->
@@ -324,7 +324,7 @@ if (!loginId.equals("")){
 				<ul class="main_photo_list">
 					
 					<%
-					lists = dao.mainViewtList("photoB");
+					lists = dao.mainViewtList("photoB", 6);
 				
 					for(BoardDTO dto : lists){
 						if(dto.getTitle()!=null){

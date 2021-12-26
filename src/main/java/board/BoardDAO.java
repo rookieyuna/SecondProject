@@ -421,14 +421,17 @@ public class BoardDAO extends JDBConnect {
 
 	
 	
-	public List<BoardDTO> mainViewtList(String cate) {
+	public List<BoardDTO> mainViewtList(String cate, int a) {
 		List<BoardDTO> boardBox = new Vector<BoardDTO>();
 
 		try {
-			String query = "SELECT tb.*, rownum FROM (SELECT * FROM board WHERE category=? order by postdate desc) tb where rownum between 1 and 4";
+			String query = "SELECT tb.*, rownum FROM (SELECT * FROM board WHERE category=? order by postdate desc) tb where rownum between 1 and ?";
 			
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, cate);
+			psmt.setInt(2, a);
+			
+			
 			rs = psmt.executeQuery();
 
 			while (rs.next()) {
