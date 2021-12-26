@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 
 public class MKOrdersDTO {
 
-	private String order_no;
+	private int order_no;
 	private String product_no;
 	private String cart_no;
 	private String id;
@@ -15,12 +15,11 @@ public class MKOrdersDTO {
 	private int total_count;
 	
 	
-	public String getOrder_no()
-	{
+	
+	public int getOrder_no() {
 		return order_no;
 	}
-	public void setOrder_no(String order_no)
-	{
+	public void setOrder_no(int order_no) {
 		this.order_no = order_no;
 	}
 	public String getProduct_no()

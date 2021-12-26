@@ -61,7 +61,7 @@ public class MKOrdersDAO extends DBConnPool{
             while (rs.next()) {
             	MKOrdersDTO dto = new MKOrdersDTO();
             	
-                dto.setOrder_no(rs.getString(1));
+                dto.setOrder_no(rs.getInt(1));
                 dto.setProduct_no(rs.getString(2));
                 dto.setCart_no(rs.getString(3));
                 dto.setId(rs.getString(4));
@@ -82,17 +82,17 @@ public class MKOrdersDAO extends DBConnPool{
     }
     
     
-    public MKOrdersDTO orderView(String idx) {
+    public MKOrdersDTO orderView(int idx) {
 
     	MKOrdersDTO dto = new MKOrdersDTO(); //DTO 객체 생성
     	String query = "SELECT * FROM orders WHERE order_no=?";  
     	try {
     		psmt = con.prepareStatement(query);  
-    		psmt.setString(1, idx); 
+    		psmt.setInt(1, idx); 
     		rs = psmt.executeQuery(); 
 
     		if (rs.next()) {//결과를 DTO에 저장 
-    			dto.setOrder_no(rs.getString(1));
+    			dto.setOrder_no(rs.getInt(1));
                 dto.setProduct_no(rs.getString(2));
                 dto.setCart_no(rs.getString(3));
                 dto.setId(rs.getString(4));
@@ -141,15 +141,15 @@ public class MKOrdersDAO extends DBConnPool{
 
     
     //주문 삭제
-    public int deleteOrder(String to) { 
+    public int deleteOrder(int to) { 
         int result = 0;
 
         try {
             String query = "DELETE FROM orders WHERE order_no=?"; 
             
             psmt = con.prepareStatement(query); 
-            psmt.setString(1, to);  
-            
+            psmt.setInt(1, to);  
+             
             result = psmt.executeUpdate(); 
         } 
         catch (Exception e) {
@@ -181,7 +181,7 @@ public class MKOrdersDAO extends DBConnPool{
             psmt.setString(6, dto.getOrder_state());
             psmt.setInt(7, dto.getTotal_price());
             psmt.setInt(8, dto.getTotal_count());
-            psmt.setString(9, dto.getOrder_no());
+            psmt.setInt(9, dto.getOrder_no());
   			
   			result = psmt.executeUpdate();
   		} 

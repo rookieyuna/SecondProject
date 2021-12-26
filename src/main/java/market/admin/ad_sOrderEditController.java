@@ -28,11 +28,11 @@ public class ad_sOrderEditController extends HttpServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
 		String order_no = req.getParameter("order_no");
-		
+		int order_no1 = Integer.parseInt(order_no);
 		MKOrdersDAO dao = new MKOrdersDAO();
 
         //현재 페이지에 출력할 게시물을 얻어옴.
-		MKOrdersDTO dto = dao.orderView(order_no);
+		MKOrdersDTO dto = dao.orderView(order_no1);
         //커넥션풀에 자원 반납
         dao.close();  
 
@@ -48,7 +48,7 @@ public class ad_sOrderEditController extends HttpServlet
 	{
 		//수정페이지에서 새롭게 입력한 폼값
 		String order_no = req.getParameter("order_no");
-		String product_no = req.getParameter("product_no");
+		int order_no1 = Integer.parseInt(order_no);		String product_no = req.getParameter("product_no");
 		String cart_no = req.getParameter("cart_no");
 		String id = req.getParameter("id");
 		String addr = req.getParameter("addr");
@@ -60,7 +60,7 @@ public class ad_sOrderEditController extends HttpServlet
 		
 		//DTO에 데이터 세팅
 		MKOrdersDTO dto = new MKOrdersDTO();
-		dto.setOrder_no(order_no);
+		dto.setOrder_no(order_no1);
 		dto.setProduct_no(product_no);
 		dto.setCart_no(cart_no);
 		dto.setId(id);
