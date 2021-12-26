@@ -74,6 +74,6 @@ if(memberDTO.getId() != null){
 }
 else {
 	//찾기에 실패한 경우
-	//JSFunction.alertBack("정보를 찾을 수 없습니다", out);
+	JSFunction.alertBack("정보를 찾을 수 없습니다", out);
 }
 %>
