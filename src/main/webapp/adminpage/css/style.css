@@ -334,3 +334,22 @@ table td.boardphoto img {
 	width:50px;
 	height:50px;
 }
+.container-fluid .row .col-xl-6.col-md-6.mb-4 a:hover{
+	text-decoration: none;
+}
+.card.shadow.h-100.py-2:hover {
+    box-shadow: 10px 10px 10px #d4d4d4 !important;
+    transition: all 0.3s ease;
+}
+.card.border-left-primary.shadow.h-100.py-2:hover {
+    background: #edf2ff;
+}
+.card.border-left-success.shadow.h-100.py-2:hover {
+    background: #f1fffa;
+}
+.card.border-left-info.shadow.h-100.py-2:hover {
+    background: #36b9cc1f;
+}
+.card.border-left-danger.shadow.h-100.py-2:hover {
+    background: #e74a3b0f;
+}
