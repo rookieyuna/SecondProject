@@ -17,7 +17,7 @@
 	try{
 		
 		MultipartRequest mr = new MultipartRequest(request, saveDirectory, maxPostSize, encoding);
-
+		
 		String fileName = mr.getFilesystemName("attachedFile");
 
 		String ext = fileName.substring(fileName.lastIndexOf("."));

@@ -20,16 +20,6 @@
 		
 		String fileName = mr.getFilesystemName("attachedFile");
 
-		String ext = fileName.substring(fileName.lastIndexOf("."));
-
-		String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
-
-		String newFileName = now + ext;
-		
-		File oldFile = new File(saveDirectory + File.separator + fileName);
-		File newFile = new File(saveDirectory + File.separator + newFileName);
-		oldFile.renameTo(newFile);
-		
 		String userid = session.getAttribute("UserId").toString();
 		String num = mr.getParameter("num");
 		String title = mr.getParameter("title");
@@ -38,14 +28,32 @@
 		
 		BoardDTO dto = new BoardDTO();
 		
-		dto.setNum(num);
 		dto.setId(userid);
 		dto.setTitle(title);
 		dto.setContent(content);
 		dto.setCategory(cate);
-		dto.setOfile(fileName);
-		dto.setSfile(newFileName);
 		
+
+		dto.setNum(num);
+		
+		if( fileName != null ){
+			String ext = fileName.substring(fileName.lastIndexOf("."));
+
+			String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
+
+			String newFileName = now + ext;
+			
+			File oldFile = new File(saveDirectory + File.separator + fileName);
+			File newFile = new File(saveDirectory + File.separator + newFileName);
+			oldFile.renameTo(newFile);
+			dto.setOfile(fileName);
+			dto.setSfile(newFileName);	
+		}else{
+			BoardDAO dao = new BoardDAO();
+			dto = dao.selectView(num);
+			dto.setOfile(dto.getOfile());
+			dto.setSfile(dto.getSfile());
+		}
 		// DAO객체 생성 및 insert 처리
 		BoardDAO dao = new BoardDAO();
 		dao.updateFileEdit(dto);

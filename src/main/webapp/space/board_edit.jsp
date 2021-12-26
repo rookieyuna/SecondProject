@@ -147,7 +147,7 @@ $(function(){
 							<td>
 								<!-- <input type="file" class="form-control" /> -->
 								<div class="filebox">
-									<input type="file" id="ex_filename" class="form-control upload-hidden" name="attachedFile" required />
+									<input type="file" id="ex_filename" class="form-control upload-hidden" name="attachedFile" />
 									<%
 									if(dto.getOfile() != null){
 									%>

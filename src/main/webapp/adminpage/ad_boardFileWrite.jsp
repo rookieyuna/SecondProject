@@ -18,24 +18,7 @@ BoardDAO dao = new BoardDAO();
 BoardDTO dto = dao.getId(userid);
 
 %>
-<script type="text/javascript">
-function validateForm(form){
-	if(form.title.value==""){
-		alert("제목을 입력하세요")
-		form.title.focus();
-		return false;
-	}
-	if(form.content.value==""){
-		alert("내용을 입력하세요")
-		form.content.focus();
-		return false;
-	}
-	if(form.attachedFile.value ==""){
-		alert("첨부파일은 필수 입력입니다.")
-		return false;
-	}
-}
-</script>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,6 +49,37 @@ function validateForm(form){
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!-- jquery add KSB -->
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+		function validateForm(form){
+			if(form.title.value==""){
+				alert("제목을 입력하세요")
+				form.title.focus();
+				return false;
+			}
+			if(form.content.value==""){
+				alert("내용을 입력하세요")
+				form.content.focus();
+				return false;
+			}
+			if(form.attachedFile.value ==""){
+				alert("첨부파일은 필수 입력입니다.")
+				return false;
+			}
+		}
+		$(function(){
+			var fileTarget = $('.filebox .upload-hidden'); 
+			fileTarget.on('change', function(){ 
+				if(window.FileReader){
+					var filename = $(this)[0].files[0].name;
+				} else { 
+					var filename = $(this).val().split('/').pop().split('\\').pop();
+				} 
+				$(this).siblings('.upload-name').val(filename); 
+			}); 
+		});
+</script>
 </head>
 
 <body id="page-top">
@@ -379,7 +393,11 @@ function validateForm(form){
 										<th class="text-center" 
 											style="vertical-align:middle;">첨부파일</th>
 										<td>
-											<input type="file" class="form-control" name="attachedFile" />
+											<div class="filebox">
+												<input type="text" class="upload-name" value="파일선택" disabled />
+												<label for="ex_filename">업로드</label>
+												<input type="file" id="ex_filename" class="form-control upload-hidden" name="attachedFile" />
+											</div>								
 										</td>
 									</tr>
 								</table>

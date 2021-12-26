@@ -1,4 +1,5 @@
 
+<%@page import="javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar"%>
 <%@page import="board.BoardDAO"%>
 <%@page import="board.BoardDTO"%>
 <%@page import="java.io.File"%>
@@ -9,8 +10,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-System.out.println("여기까진 들어오늕지 확인");
-
 
 	String saveDirectory = application.getRealPath("/Uploads");
 	int maxPostSize = 1024 * 1000;
@@ -19,37 +18,44 @@ System.out.println("여기까진 들어오늕지 확인");
 	try{
 		
 		MultipartRequest mr = new MultipartRequest(request, saveDirectory, maxPostSize, encoding);
-
-		String fileName = mr.getFilesystemName("attachedFile");
-
-		String ext = fileName.substring(fileName.lastIndexOf("."));
-
-		String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
-
-		String newFileName = now + ext;
 		
-		File oldFile = new File(saveDirectory + File.separator + fileName);
-		File newFile = new File(saveDirectory + File.separator + newFileName);
-		oldFile.renameTo(newFile);
+		String fileName = mr.getFilesystemName("attachedFile");
 		
 		String userid = session.getAttribute("UserId").toString();
-		/* String pass = mr.getParameter("pass"); */
 		String title = mr.getParameter("title");
 		String content = mr.getParameter("content");
 		String cate = mr.getParameter("cate");
 		String num = mr.getParameter("num");
 		
+		
 		BoardDTO dto = new BoardDTO();
 		
 		dto.setId(userid);
-		/* dto.setPass(pass); */
 		dto.setTitle(title);
 		dto.setContent(content);
 		dto.setCategory(cate);
-		dto.setOfile(fileName);
-		dto.setSfile(newFileName);
+		
+
 		dto.setNum(num);
 		
+		if( fileName != null ){
+			String ext = fileName.substring(fileName.lastIndexOf("."));
+
+			String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
+
+			String newFileName = now + ext;
+			
+			File oldFile = new File(saveDirectory + File.separator + fileName);
+			File newFile = new File(saveDirectory + File.separator + newFileName);
+			oldFile.renameTo(newFile);
+			dto.setOfile(fileName);
+			dto.setSfile(newFileName);	
+		}else{
+			BoardDAO dao = new BoardDAO();
+			dto = dao.selectView(num);
+			dto.setOfile(dto.getOfile());
+			dto.setSfile(dto.getSfile());
+		}
 		// DAO객체 생성 및 insert 처리
 		BoardDAO dao = new BoardDAO();
 		dao.updateFileEdit(dto);

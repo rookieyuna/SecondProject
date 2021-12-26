@@ -16,31 +16,7 @@ BoardDTO dto = dao.selectView(num);
 
 dao.close();
 %>
-<script>
-function validateForm(form) {
-	if(form.title.value == ""){
-		alert("제목을 입력하세요.");
-		form.title.focus();
-		return false;
-	}
-	if(form.content.value == "") {
-		alert("내용을 입력하세요.");
-		form.content.focus();
-		return false;
-	}
-}
-$(function(){
-	var fileTarget = $('.filebox .upload-hidden'); 
-	fileTarget.on('change', function(){ 
-		if(window.FileReader){
-			var filename = $(this)[0].files[0].name;
-		} else { 
-			var filename = $(this).val().split('/').pop().split('\\').pop();
-		} 
-		$(this).siblings('.upload-name').val(filename); 
-	}); 
-});
-</script>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -72,6 +48,32 @@ $(function(){
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    
+<script type="text/javascript">
+	function validateForm(form) {
+		if(form.title.value == ""){
+			alert("제목을 입력하세요.");
+			form.title.focus();
+			return false;
+		}
+		if(form.content.value == "") {
+			alert("내용을 입력하세요.");
+			form.content.focus();
+			return false;
+		}
+	}
+	$(function(){
+		var fileTarget = $('.filebox .upload-hidden'); 
+		fileTarget.on('change', function(){ 
+			if(window.FileReader){
+				var filename = $(this)[0].files[0].name;
+			} else { 
+				var filename = $(this).val().split('/').pop().split('\\').pop();
+			} 
+			$(this).siblings('.upload-name').val(filename); 
+		}); 
+	});
+</script>
 </head>
 
 <body id="page-top">
@@ -403,9 +405,7 @@ $(function(){
 											<th class="text-center" 
 												style="vertical-align:middle;">첨부파일</th>
 											<td>
-												<!-- <input type="file" class="form-control" /> -->
-												<div class="file_area">
-													<input type="file" id="ex_filename" class="form-control upload-hidden" name="attachedFile" required />
+												<div class="filebox">
 													<%
 													if(dto.getOfile() != null){
 													%>
@@ -414,10 +414,12 @@ $(function(){
 													<%
 													}else{
 													%>
-													<label for="files">첨부파일이 없습니다</label>
+													<input type="text" class="upload-name" value="파일선택" disabled/>
+													<label for="ex_filename">업로드</label>
 													<%
 													}
 													%>
+													<input type="file" id="ex_filename" class="form-control upload-hidden" name="attachedFile" value="1111"  />
 												</div>
 											</td>
 										</tr>

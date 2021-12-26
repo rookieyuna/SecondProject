@@ -13,6 +13,7 @@
 String num = request.getParameter("num");
 String cate = request.getParameter("cate");
 String userid = session.getAttribute("UserId").toString();
+String pass = request.getParameter("pass");
 
 BoardDAO dao = new BoardDAO();
 BoardDTO dto = dao.getId(userid);
@@ -346,14 +347,14 @@ function validateForm(form) {
 										<th class="text-center" 
 											style="vertical-align:middle;">작성자</th>
 										<td>
-											<input type="text" class="form-control" style="width:100px;" name="name" value="<%= dto.getName() %>"/>
+											<input type="text" class="form-control" style="width:100px;" name="name" value="<%= dto.getName() %>" readonly/>
 										</td>
 									</tr>
 									<tr>
 										<th class="text-center" 
 											style="vertical-align:middle;">이메일</th>
 										<td>
-											<input type="text" class="form-control" style="width:400px;" name="email" value="<%= dto.getEmail() %>"/>
+											<input type="text" class="form-control" style="width:400px;" name="email" value="<%= dto.getEmail() %>" readonly/>
 										</td>
 									</tr>
 									<tr>
