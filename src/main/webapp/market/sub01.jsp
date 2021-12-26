@@ -8,13 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!--
 
-
-3. 페이징 처리 부분 이쁘게 
-4. 바로구매버튼 : basket2.jsp 구현 후에 연결
-
-  -->
 
 <!DOCTYPE html>
 <html>

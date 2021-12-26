@@ -328,7 +328,7 @@
 									            	<td class="numbering" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">${row.product_no }</td>
 									            	<!-- 상품 이미지 -->
 									            	<td class="boardwriter" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">
-									            		<img src="../adminpage/Uploads/${row.product_sfile }" width="100px" height="80px"/></td>
+									            		<img src="../images/market/${row.product_sfile}<%-- ../adminpage/Uploads/${row.product_sfile } --%>" width="100px" height="80px"/></td>
 									            	<!-- 상품명 -->
 									            	<td class="boardtitle" onclick="location.href='../adminpage/ad_suaView.do?product_no=${row.product_no}'">${row.product_name }</td>
 									            	<!-- 가격 -->
