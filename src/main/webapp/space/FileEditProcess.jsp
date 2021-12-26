@@ -32,7 +32,6 @@
 		
 		String userid = session.getAttribute("UserId").toString();
 		String num = mr.getParameter("num");
-		String pass = mr.getParameter("pass");
 		String title = mr.getParameter("title");
 		String content = mr.getParameter("content");
 		String cate = mr.getParameter("cate");
@@ -41,7 +40,6 @@
 		
 		dto.setNum(num);
 		dto.setId(userid);
-		dto.setPass(pass);
 		dto.setTitle(title);
 		dto.setContent(content);
 		dto.setCategory(cate);

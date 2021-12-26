@@ -23,11 +23,6 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
 			form.title.focus();
 			return false;
 		}
-		if(form.pass.value == ""){
-			alert("패스워드를 입력하세요.");
-			form.pass.focus();
-			return false;
-		}
 		if(form.content.value == "") {
 			alert("내용을 입력하세요.");
 			form.content.focus();
@@ -336,11 +331,7 @@ MemberDTO mDto = mDao.allMemberDTO(UserId, UserPwd);
                                     <!--------------프로그램 일정 작성하기 폼------------------>
                                     <tr>
 										<td>작성자</td>
-										<td><input type="text" name="id"  style="width: 30%;" value="<%= mDto.getId() %>" /></td>
-									</tr>
-									<tr>
-										<td>패스워드</td>
-										<td><input type="password" name="pass"  style="width: 30%;" /></td>
+										<td><input type="text" name="id"  style="width: 30%;" value="<%= mDto.getId() %>"  readonly/></td>
 									</tr>
 									<tr>
 										<td>제목</td>

@@ -13,7 +13,6 @@
 String num = request.getParameter("num");
 String cate = request.getParameter("cate");
 String userid = session.getAttribute("UserId").toString();
-String pass = request.getParameter("pass");
 
 BoardDAO dao = new BoardDAO();
 BoardDTO dto = dao.getId(userid);
@@ -21,16 +20,6 @@ BoardDTO dto = dao.getId(userid);
 %>
 <script type="text/javascript">
 function validateForm(form){
-	if(form.email.value==""){
-		alert("이메일을 입력하세요")
-		form.email.focus();
-		return false;
-	}
-	if(form.pass.value==""){
-		alert("패스워드을 입력하세요")
-		form.pass.focus();
-		return false;
-	}
 	if(form.title.value==""){
 		alert("제목을 입력하세요")
 		form.title.focus();
@@ -355,23 +344,23 @@ function validateForm(form){
 										<th class="text-center" 
 											style="vertical-align:middle;">작성자</th>
 										<td>
-											<input type="text" class="form-control" style="width:100px;" name="name" value="<%= dto.getName() %>"/>
+											<input type="text" class="form-control" style="width:100px;" name="name" value="<%= dto.getName() %>" readonly/>
 										</td>
 									</tr>
 									<tr>
 										<th class="text-center" 
 											style="vertical-align:middle;">이메일</th>
 										<td>
-											<input type="text" class="form-control" style="width:400px;" name="email" value="<%= dto.getEmail() %>"/>
+											<input type="text" class="form-control" style="width:400px;" name="email" value="<%= dto.getEmail() %>" readonly/>
 										</td>
 									</tr>
-									<tr>
+								<!-- 	<tr>
 										<th class="text-center" 
 											style="vertical-align:middle;">패스워드</th>
 										<td>
 											<input type="password" class="form-control" style="width:200px;" name="pass"/>
 										</td>
-									</tr>
+									</tr> -->
 									<tr>
 										<th class="text-center" 
 											style="vertical-align:middle;">제목</th>

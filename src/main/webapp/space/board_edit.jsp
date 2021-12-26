@@ -26,11 +26,6 @@
 %>
 <script type="text/javascript">
 function validateForm(form){
-	if(form.pass.value==""){
-		alert("패스워드을 입력하세요")
-		form.pass.focus();
-		return false;
-	}
 	if(form.title.value==""){
 		alert("제목을 입력하세요")
 		form.title.focus();
@@ -127,13 +122,6 @@ $(function(){
 								style="vertical-align:middle;">이메일</th>
 							<td>
 								<input type="text" class="form-control" style="width:400px;" name="email" value="<%= dto.getEmail() %>"/>
-							</td>
-						</tr>
-						<tr>
-							<th class="text-center" 
-								style="vertical-align:middle;">패스워드</th>
-							<td>
-								<input type="text" class="form-control" style="width:200px;" name="pass"/>
 							</td>
 						</tr>
 						<tr>

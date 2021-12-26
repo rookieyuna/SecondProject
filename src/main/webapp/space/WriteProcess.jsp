@@ -8,7 +8,6 @@
 <%
 String cate = request.getParameter("cate");
 String userid = session.getAttribute("UserId").toString();
-String pass = request.getParameter("pass");
 String name = request.getParameter("name");
 String email = request.getParameter("email");
 String title = request.getParameter("title");
@@ -17,7 +16,6 @@ String content = request.getParameter("content");
 
 BoardDTO dto = new BoardDTO();
 dto.setId(userid);
-dto.setPass(pass);
 dto.setName(name);
 dto.setEmail(email);
 dto.setTitle(title);

@@ -372,7 +372,7 @@ dao.close();
 												<%
 													if(cate.equals("photoB")){
 													%>
-														<img style="display:block;" src="../Uploads/<%= dto.getSfile() %>" alt="">
+														<img style="display:block;" src="../Uploads/<%= dto.getSfile() %>"  width=400 alt="">
 													<%
 													}
 												%>

@@ -79,7 +79,6 @@ public class BoardDAO extends JDBConnect {
 				dto.setOfile(rs.getString("ofile"));
 				dto.setSfile(rs.getString("sfile"));
 				dto.setDowncount(rs.getString("downcount"));
-				dto.setPass(rs.getString("pass"));
 				dto.setVisitcount(rs.getString("visitcount"));
 				dto.setCategory(rs.getString("category"));
 				dto.setName(rs.getString("name"));
@@ -113,7 +112,6 @@ public class BoardDAO extends JDBConnect {
 				dto.setOfile(rs.getString("ofile"));
 				dto.setSfile(rs.getString("sfile"));
 				dto.setDowncount(rs.getString("downcount"));
-				dto.setPass(rs.getString("pass"));
 				dto.setVisitcount(rs.getString("visitcount"));
 				dto.setCategory(rs.getString("category"));
 				dto.setName(rs.getString("name"));
@@ -159,7 +157,6 @@ public class BoardDAO extends JDBConnect {
 				dto.setOfile(rs.getString("ofile"));
 				dto.setSfile(rs.getString("sfile"));
 				dto.setDowncount(rs.getString("downcount"));
-				dto.setPass(rs.getString("pass"));
 				dto.setVisitcount(rs.getString("visitcount"));
 				dto.setCategory(rs.getString("category"));
 				dto.setName(rs.getString("name"));
@@ -176,22 +173,20 @@ public class BoardDAO extends JDBConnect {
 	public int insertWrite(BoardDTO dto) {
 		int result = 0;
 		try {
-			String query = "INSERT INTO board (num, id, pass, title, content, category) "
-					+ " VALUES ( seq_board_num.NEXTVAL, ?, ?, ?, ?, ?)";
+			String query = "INSERT INTO board (num, id, title, content, category) "
+					+ " VALUES ( seq_board_num.NEXTVAL, ?, ?, ?, ?)";
 
 			psmt = con.prepareStatement(query);
 			System.out.println("아이디 : " + dto.getId());
-			System.out.println("비밀번호 : " + dto.getPass());
 			System.out.println("제목 : " + dto.getTitle());
 			System.out.println("내용 : " + dto.getContent());
 			System.out.println("카테 : " + dto.getCategory());
 
 
 			psmt.setString(1, dto.getId());
-			psmt.setString(2, dto.getPass());
-			psmt.setString(3, dto.getTitle());
-			psmt.setString(4, dto.getContent());
-			psmt.setString(5, dto.getCategory());
+			psmt.setString(2, dto.getTitle());
+			psmt.setString(3, dto.getContent());
+			psmt.setString(4, dto.getCategory());
 
 
 			result = psmt.executeUpdate();
@@ -279,9 +274,9 @@ public class BoardDAO extends JDBConnect {
 		try {
 			// 1. 쿼리문 작성
 			String query = "INSERT INTO BOARD ( "
-					+ " num, id, title, content, ofile, sfile, downcount, pass, category) " 
+					+ " num, id, title, content, ofile, sfile,category) " 
 					+ " VALUES ( "
-					+ " seq_board_num.nextval, ?, ?, ?, ?, ?, 0, ?, ?) ";
+					+ " seq_board_num.nextval, ?, ?, ?, ?, ?, ?) ";
 
 			// 2. prepared객체 생성 및 인파라미터 설정
 			psmt = con.prepareStatement(query);
@@ -291,8 +286,8 @@ public class BoardDAO extends JDBConnect {
 			psmt.setString(3, dto.getContent());
 			psmt.setString(4, dto.getOfile());
 			psmt.setString(5, dto.getSfile());
-			psmt.setString(6, dto.getPass());
-			psmt.setString(7, dto.getCategory());
+			psmt.setString(6, dto.getCategory());
+			
 			// 3. 쿼리실행
 			applyResult = psmt.executeUpdate();
 		} catch (Exception e) {
@@ -331,23 +326,21 @@ public class BoardDAO extends JDBConnect {
 		int result = 0;
 		try {
 			String query = "INSERT INTO board ( " 
-					+ " num, id, pass, title, content, postdate, visitcount, category) "
-					+ " VALUES ( " + " seq_board_num.NEXTVAL, ?, ?, ?, ?, ?, 0, ?)";
+					+ " num, id, title, content, postdate, category) "
+					+ " VALUES ( " + " seq_board_num.NEXTVAL, ?, ?, ?, ?, ?)";
 
 			psmt = con.prepareStatement(query);
 			System.out.println("아이디 : " + dto.getId());
-			System.out.println("비번 : " + dto.getPass());
 			System.out.println("제목 : " + dto.getTitle());
 			System.out.println("날짜 : " + dto.getPostdate());
 			System.out.println("내용 : " + dto.getContent());
 			System.out.println("카테 : " + dto.getCategory());
 
 			psmt.setString(1, dto.getId());
-			psmt.setString(2, dto.getPass());
-			psmt.setString(3, dto.getTitle());
-			psmt.setString(4, dto.getContent());
-			psmt.setString(5, dto.getPostdate());
-			psmt.setString(6, dto.getCategory());
+			psmt.setString(2, dto.getTitle());
+			psmt.setString(3, dto.getContent());
+			psmt.setString(4, dto.getPostdate());
+			psmt.setString(5, dto.getCategory());
 
 			result = psmt.executeUpdate();
 		} catch (Exception e) {
