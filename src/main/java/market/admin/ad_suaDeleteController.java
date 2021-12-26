@@ -32,7 +32,7 @@ public class ad_suaDeleteController extends HttpServlet{
 		if(product_no != null) {
 			dto = dao.selectView(product_no);
 			saveFileName = dto.getProduct_sfile();
-			FileUtil.deleteFile(req, "/adminpage/Uploads", saveFileName);
+			FileUtil.deleteFile(req, "/images/market", saveFileName);
 			
 			//상품 데이터 삭제
 			delResult = dao.deleteProduct(product_no);
@@ -47,7 +47,7 @@ public class ad_suaDeleteController extends HttpServlet{
 				//첨부 파일 먼저 삭제 후
 				dto = dao.selectView(val);
 				saveFileName = dto.getProduct_sfile();
-				FileUtil.deleteFile(req, "/adminpage/Uploads", saveFileName);
+				FileUtil.deleteFile(req, "/images/market", saveFileName);
 				
 				//상품 데이터 삭제
 				delResult = dao.deleteProduct(val);

@@ -22,6 +22,6 @@ public class ad_board2DownloadController extends HttpServlet
 		String sfile = req.getParameter("sfile"); //서버에 저장된 파일명
 		
 		//파일 다운로드 처리
-		FileUtil.download(req, resp, "/adminpage/Uploads", sfile, ofile);
+		FileUtil.download(req, resp, "/Uploads", sfile, ofile);
 	}
 }

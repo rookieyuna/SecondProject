@@ -16,7 +16,7 @@ dto = dao.selectView(num);
 
 String sessionId = session.getAttribute("UserId").toString();
 
-String saveDirectory = application.getRealPath("/Uploads/");
+String saveDirectory = application.getRealPath("/Uploads");
 String sFile = dto.getSfile();
 File delFile = new File(saveDirectory + sFile);
 delFile.delete();
