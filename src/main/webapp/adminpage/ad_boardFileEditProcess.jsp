@@ -33,7 +33,7 @@ System.out.println("여기까진 들어오늕지 확인");
 		oldFile.renameTo(newFile);
 		
 		String userid = session.getAttribute("UserId").toString();
-		String pass = mr.getParameter("pass");
+		/* String pass = mr.getParameter("pass"); */
 		String title = mr.getParameter("title");
 		String content = mr.getParameter("content");
 		String cate = mr.getParameter("cate");
@@ -42,7 +42,7 @@ System.out.println("여기까진 들어오늕지 확인");
 		BoardDTO dto = new BoardDTO();
 		
 		dto.setId(userid);
-		dto.setPass(pass);
+		/* dto.setPass(pass); */
 		dto.setTitle(title);
 		dto.setContent(content);
 		dto.setCategory(cate);
