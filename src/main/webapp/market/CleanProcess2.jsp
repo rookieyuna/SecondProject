@@ -15,7 +15,14 @@ String phone1 = request.getParameter("cel1")+request.getParameter("cel2") + requ
 String phone2 = request.getParameter("eCel1") + request.getParameter("eCel2") + request.getParameter("eCel3");
 String email =  request.getParameter("email1") + request.getParameter("email2");
 String date = request.getParameter("date");
-String submit_type = request.getParameter("type");
+//접수 종류
+	String submit_type = null;
+	if((request.getParameter("type")).equals("rsvn")){
+		submit_type = "예약 신청";
+	}
+	else if((request.getParameter("type")).equals("estm")){
+		submit_type = "견적 문의";
+	}
 String clean_type = request.getParameter("clean_type");
 String clean_area = request.getParameter("area");
 String others = request.getParameter("others");

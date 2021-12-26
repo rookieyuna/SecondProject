@@ -369,7 +369,6 @@
                     <!-- 버튼 -->
                     <div class="board-btn-group01">
                         <ul>
-                        	<li align="center">${ map.pagingImg }</li>
                             <li class="d-flex justify-content-end">
                             	<button type="button" class="btn btn-outline-secondary" id="deletebtn" >삭제</button>
                             </li>
@@ -379,7 +378,15 @@
                 
                 
                 <!-- /.container-fluid -->
-
+                
+				<!-- 페이징 처리 -->
+				<div class="row mt-3">
+	                <div class="col">
+	                	<ul class="pagination justify-content-center">
+		                	${map.pagingImg }
+	                	</ul>
+	                </div>
+                </div>  
             </div>
             <!-- End of Main Content -->
 
