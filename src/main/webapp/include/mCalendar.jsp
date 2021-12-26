@@ -91,7 +91,7 @@ else {
     %>
      <th style="padding:0; color: black;"><%=a[i]%></th>
     <%
-    	}
+    	} 
     }
     %>		 
     </tr>
