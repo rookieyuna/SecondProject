@@ -26,7 +26,8 @@ BoardDAO dao = new BoardDAO();
 
 // DB 1개씩 동시 입력(본기능)
 int iResult = dao.insertWrite(dto);
-/* DB 여러개 동시 입력
+//DB 여러개 동시 입력
+/*
 int iResult = 0;
 for(int i=1; i<=30; i++){
 	dto.setTitle(title + "-" + i);

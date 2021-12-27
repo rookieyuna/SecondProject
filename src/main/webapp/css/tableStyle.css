@@ -449,3 +449,9 @@ form[name=fileForm] tr:last-child input {
 
 input:-moz-read-only {background-color: #f0f0f0;}  /* Firefox */
 input:read-only {background-color: #f0f0f0;}
+
+
+.boardTool .tool_Paging li a:hover svg{
+	fill: #d73923;
+	transition: all 0.3s ease;
+}
