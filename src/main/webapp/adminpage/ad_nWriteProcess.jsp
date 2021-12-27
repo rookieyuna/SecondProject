@@ -11,7 +11,7 @@
     pageEncoding="UTF-8"%>
 <%
 String userid = session.getAttribute("UserId").toString();
-String pass = request.getParameter("pass");
+/* String pass = request.getParameter("pass"); */
 String name = request.getParameter("name");
 String email = request.getParameter("email");
 String title = request.getParameter("title");
@@ -21,7 +21,7 @@ String cate = request.getParameter("cate");
 
 BoardDTO dto = new BoardDTO();
 dto.setId(userid);
-dto.setPass(pass);
+/* dto.setPass(pass); */
 dto.setName(name);
 dto.setEmail(email);
 dto.setTitle(title);
